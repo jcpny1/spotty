@@ -29,5 +29,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Practice app to organize playlists.",
+  "main": "index.js",
+  "repository": "https://github.com/jcpny1/spotty.git",
+  "author": "jcpny1 <jpfingst@outlook.com>",
+  "license": "MIT"
 }

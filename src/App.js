@@ -5,10 +5,11 @@ import './App.css';
 
 import {Button, Dropdown, Grid, Header, Image, Menu, Table} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
+import PlaylistsPage from './containers/PlaylistsPage';
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 // Replace with your app's client ID, redirect URI and desired scopes
-const clientId = '';
+const clientId = 'f5946a8d80f7403dac7255815b38442f';
 const redirectUri = "http://localhost:3000";
 // const scopes = [
 //   "user-read-currently-playing",
@@ -67,7 +68,7 @@ class App extends Component {
         {this.state.access_token && (
           <span>
           <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Credentials' className='link' inverted size='medium'/>}/>
-          <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Playlists'   className='link' inverted size='medium'/>}/>
+          <PlaylistsPage   access_token={this.state.access_token} trigger={<Button content='Playlists'   className='link' inverted size='medium'/>}/>
           </span>
         )}
         </header>
