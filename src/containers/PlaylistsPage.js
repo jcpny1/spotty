@@ -41,10 +41,18 @@ export default class PlaylistsPage extends Component {
           this.setState({activeTrackList: data});
         }
       });
-  } else {
-    this.setState({activeTrackList: null});
+    } else {
+      this.setState({activeTrackList: null});
+    }
   }
+
+  sortActiveTrackList = (columnName) => {
+      var data = this.state.activeTrackList;
+if (data) {
+      data.items.sort((item1, item2) => (item1.track.name > item2.track.name) ? 1 : -1);
+      this.setState({activeTrackList: data});
 }
+  }
 
   handleClick = (e, playlistProps) => {
     const {active, index} = playlistProps;
@@ -60,7 +68,7 @@ export default class PlaylistsPage extends Component {
         <span>
         <Modal trigger={this.props.trigger} closeIcon='close'>
           <Modal.Header><Header content='Playlists' icon='info circle' size='small'/></Modal.Header>
-          <Modal.Content><Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} profileData={data}/></Modal.Content>
+          <Modal.Content><Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} profileData={data}/></Modal.Content>
           <Modal.Actions></Modal.Actions>
         </Modal>
         </span>

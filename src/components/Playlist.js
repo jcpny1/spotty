@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {TrackList} from './TrackList';
 
 export const Playlist = (props) => {
-  const {active, index, onClick, playlist, trackList} = props;
+  const {active, index, onClick, onSort, playlist, trackList} = props;
 
   return (
     <Accordion>
@@ -13,7 +13,7 @@ export const Playlist = (props) => {
       </Accordion.Title>
       <Accordion.Content active={active}>
         <Image src={playlist.images[0].url} size='small' />
-        <TrackList trackList={trackList}/>
+        <TrackList trackList={trackList} onSort={onSort}/>
       </Accordion.Content>
     </Accordion>
   );
