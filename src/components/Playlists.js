@@ -8,7 +8,7 @@ export const Playlists = (props) => {
   function listPlaylists(playlists) {
     return playlists.items.map(function(playlist, index) {
       return (
-        <span>
+        <span key={index}>
         <Accordion.Title
           active={activeIndex === index}
           index={index}
@@ -16,9 +16,13 @@ export const Playlists = (props) => {
         >
           <Icon name='dropdown' />
             {playlist.name}
+
+
+
         </Accordion.Title>
         <Accordion.Content active={activeIndex === index}>
-          <p>playlist details</p>
+          <Image src={playlist.images[0].url} size='small' />
+          <p>{playlist.tracks.href}</p>
         </Accordion.Content>
         </span>
       );

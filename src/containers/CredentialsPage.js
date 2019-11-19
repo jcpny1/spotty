@@ -29,15 +29,20 @@ export default class CredentialsPage extends Component {
   }
 
   render() {
-    return (
-      <span>
-      <Modal trigger={this.props.trigger} closeIcon='close'>
-        <Modal.Header><Header content='Credentials' icon='info circle' size='small'/></Modal.Header>
-        <Modal.Content><Credentials profile_data={this.state.data}/></Modal.Content>
-        <Modal.Actions></Modal.Actions>
-      </Modal>
-      </span>
-    );
+    const {data} = this.state;
+    if (data) {
+      return (
+        <span>
+        <Modal trigger={this.props.trigger} closeIcon='close'>
+          <Modal.Header><Header content='Credentials' icon='info circle' size='small'/></Modal.Header>
+          <Modal.Content><Credentials profile_data={data}/></Modal.Content>
+          <Modal.Actions></Modal.Actions>
+        </Modal>
+        </span>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
