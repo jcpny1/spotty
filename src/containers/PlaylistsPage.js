@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import * as $ from "jquery";
+import _ from 'lodash';
 import {Header, Modal} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {Playlists} from '../components/Playlists';
@@ -51,19 +52,23 @@ export default class PlaylistsPage extends Component {
       var data = this.state.activeTrackList;
       const dir = (this.state.sortDirection === 'a') ? 'd' : 'a';
       data.items = data.items.sort(function (item1, item2) {
+        // item1 = eval('item1.' + columnName);
+        // item2 = eval('item2.' + columnName);
+        item1 = _.get(item1, columnName);
+        item2 = _.get(item2, columnName);
         if (dir === 'a') {
-          if (item1.track.name < item2.track.name) {
+          if (item1 < item2) {
             return -1;
           }
-          if (item1.track.name > item2.track.name) {
+          if (item1 > item2) {
             return 1;
           }
           return 0;
         } else {
-          if (item1.track.name < item2.track.name) {
+          if (item1 < item2) {
             return 1;
           }
-          if (item1.track.name > item2.track.name) {
+          if (item1 > item2) {
             return -1;
           }
           return 0;
