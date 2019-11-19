@@ -16,7 +16,7 @@ export default class PlaylistsPage extends Component {
   componentDidMount() {
     // Make a call using the token
     $.ajax({
-      url: 'https://api.spotify.com/v1/users/22ktibc2flnvkjz3nhv2dlhji/playlists',
+      url: 'https://api.spotify.com/v1/me/playlists',
       type: "GET",
       beforeSend: (xhr) => {
         xhr.setRequestHeader("Authorization", "Bearer " + this.props.access_token);
