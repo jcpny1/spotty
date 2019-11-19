@@ -1,29 +1,41 @@
 import React from 'react';
-import {Image, Table} from 'semantic-ui-react';
+import {Accordion, Icon, Image, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 export const Playlists = (props) => {
-  const {profile_data} = props;
+  const {activeIndex, onClick, profileData} = props;
 
   function listPlaylists(playlists) {
-    return playlists.items.map(playlist => {
+    return playlists.items.map(function(playlist, index) {
       return (
-        <Table.Row>
-          <Table.Cell>{playlist.name}</Table.Cell>
-        </Table.Row>
+        <span>
+        <Accordion.Title
+          active={activeIndex === index}
+          index={index}
+          onClick={onClick}
+        >
+          <Icon name='dropdown' />
+            {playlist.name}
+        </Accordion.Title>
+        <Accordion.Content active={activeIndex === index}>
+          <p>playlist details</p>
+        </Accordion.Content>
+        </span>
       );
     });
   }
 
   return (
     <div>
-      <Table compact striped>
-        <Table.Body>{listPlaylists(profile_data)}</Table.Body>
-      </Table>
+      <Accordion>
+        {listPlaylists(profileData)}
+      </Accordion>
     </div>
   );
 }
 
 Playlists.propTypes = {
-  profile_data: PropTypes.object.isRequired,
+  activeIndex: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  profileData: PropTypes.object.isRequired,
 }

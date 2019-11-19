@@ -8,7 +8,8 @@ export default class PlaylistsPage extends Component {
   constructor() {
     super();
     this.state = {
-      data: null,
+      activeIndex: 0,
+      data: {},
     };
   }
 
@@ -28,16 +29,28 @@ export default class PlaylistsPage extends Component {
     });
   }
 
+  handleClick = (e, titleProps) => {
+    const {index} = titleProps;
+    const {activeIndex} = this.state;
+    const newIndex = activeIndex === index ? -1 : index;
+    this.setState({activeIndex: newIndex});
+  }
+
   render() {
-    return (
-      <span>
-      <Modal trigger={this.props.trigger} closeIcon='close'>
-        <Modal.Header><Header content='Playlists' icon='info circle' size='small'/></Modal.Header>
-        <Modal.Content><Playlists profile_data={this.state.data}/></Modal.Content>
-        <Modal.Actions></Modal.Actions>
-      </Modal>
-      </span>
-    );
+    const {activeIndex, data} = this.state;
+    if (data) {
+      return (
+        <span>
+        <Modal trigger={this.props.trigger} closeIcon='close'>
+          <Modal.Header><Header content='Playlists' icon='info circle' size='small'/></Modal.Header>
+          <Modal.Content><Playlists activeIndex={activeIndex} onClick={this.handleClick} profileData={data}/></Modal.Content>
+          <Modal.Actions></Modal.Actions>
+        </Modal>
+        </span>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
