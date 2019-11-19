@@ -8,9 +8,9 @@ export const TrackList = (props) => {
   function columnTitles() {
     return (
       <Table.Row>
-        <Table.HeaderCell onClick={() => onSort('name')}>Title</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('artist')}>Artist</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('duration')} textAlign='center'>Duration</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('added_at')} textAlign='center'>Added</Table.HeaderCell>
       </Table.Row>
     );

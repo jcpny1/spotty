@@ -11,6 +11,7 @@ export default class PlaylistsPage extends Component {
       activeIndex: -1,
       activeTrackList: null,
       data: {},
+      sortDirection: '',
     };
   }
 
@@ -38,20 +39,37 @@ export default class PlaylistsPage extends Component {
           xhr.setRequestHeader("Authorization", "Bearer " + this.props.access_token);
         },
         success: (data) => {
-          this.setState({activeTrackList: data});
+          this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
         }
       });
     } else {
-      this.setState({activeTrackList: null});
+      this.setState({activeTrackList: null, activeIndex: -1, sortDirection: ''});
     }
   }
 
   sortActiveTrackList = (columnName) => {
       var data = this.state.activeTrackList;
-if (data) {
-      data.items.sort((item1, item2) => (item1.track.name > item2.track.name) ? 1 : -1);
-      this.setState({activeTrackList: data});
-}
+      const dir = (this.state.sortDirection === 'a') ? 'd' : 'a';
+      data.items = data.items.sort(function (item1, item2) {
+        if (dir === 'a') {
+          if (item1.track.name < item2.track.name) {
+            return -1;
+          }
+          if (item1.track.name > item2.track.name) {
+            return 1;
+          }
+          return 0;
+        } else {
+          if (item1.track.name < item2.track.name) {
+            return 1;
+          }
+          if (item1.track.name > item2.track.name) {
+            return -1;
+          }
+          return 0;
+        }
+      });
+      this.setState({activeTrackList: data, sortDirection: dir});
   }
 
   handleClick = (e, playlistProps) => {
