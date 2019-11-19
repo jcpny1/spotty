@@ -8,7 +8,8 @@ export default class PlaylistsPage extends Component {
   constructor() {
     super();
     this.state = {
-      activeIndex: 0,
+      activeIndex: -1,
+      activeTrackList: null,
       data: {},
     };
   }
@@ -22,28 +23,44 @@ export default class PlaylistsPage extends Component {
         xhr.setRequestHeader("Authorization", "Bearer " + this.props.access_token);
       },
       success: (data) => {
-        this.setState({
-          data: data,
-        });
+        this.setState({data: data});
       }
     });
   }
 
-  handleClick = (e, titleProps) => {
-    const {index} = titleProps;
-    const {activeIndex} = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+  fetchTrackList(index) {
+    if (index > 0) {
+      // Make a call using the token
+      $.ajax({
+        url: this.state.data.items[index].tracks.href,
+        type: "GET",
+        beforeSend: (xhr) => {
+          xhr.setRequestHeader("Authorization", "Bearer " + this.props.access_token);
+        },
+        success: (data) => {
+          this.setState({activeTrackList: data});
+        }
+      });
+  } else {
+    this.setState({activeTrackList: null});
+  }
+}
+
+  handleClick = (e, playlistProps) => {
+    const {active, index} = playlistProps;
+    const newIndex = active ? -1 : index;  // toggle active
     this.setState({activeIndex: newIndex});
+    this.fetchTrackList(newIndex);
   }
 
   render() {
-    const {activeIndex, data} = this.state;
+    const {activeIndex, activeTrackList, data} = this.state;
     if (data) {
       return (
         <span>
         <Modal trigger={this.props.trigger} closeIcon='close'>
           <Modal.Header><Header content='Playlists' icon='info circle' size='small'/></Modal.Header>
-          <Modal.Content><Playlists activeIndex={activeIndex} onClick={this.handleClick} profileData={data}/></Modal.Content>
+          <Modal.Content><Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} profileData={data}/></Modal.Content>
           <Modal.Actions></Modal.Actions>
         </Modal>
         </span>

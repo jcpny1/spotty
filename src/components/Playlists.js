@@ -1,30 +1,17 @@
 import React from 'react';
 import {Accordion, Icon, Image, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import {Playlist} from './Playlist';
 
 export const Playlists = (props) => {
-  const {activeIndex, onClick, profileData} = props;
+  const {activeIndex, activeTrackList, onClick, profileData} = props;
 
   function listPlaylists(playlists) {
     return playlists.items.map(function(playlist, index) {
+      const active = activeIndex === index;
+      const trackList = active ? activeTrackList : null;
       return (
-        <span key={index}>
-        <Accordion.Title
-          active={activeIndex === index}
-          index={index}
-          onClick={onClick}
-        >
-          <Icon name='dropdown' />
-            {playlist.name}
-
-
-
-        </Accordion.Title>
-        <Accordion.Content active={activeIndex === index}>
-          <Image src={playlist.images[0].url} size='small' />
-          <p>{playlist.tracks.href}</p>
-        </Accordion.Content>
-        </span>
+        <Playlist key={index} active={active} index={index} onClick={onClick} playlist={playlist} trackList={trackList}/>
       );
     });
   }
