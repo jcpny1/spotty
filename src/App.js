@@ -117,7 +117,11 @@ class App extends Component {
               </a>
             )}
             {this.state.access_token && (
-              <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Credentials' className='link' inverted size='medium' loading={this.state.loading}/>}/>
+              <span>
+                <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Credentials' className='link' inverted size='medium' loading={this.state.loading}/>}/>
+                <p></p>
+                <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Duplicates'  className='link' inverted size='medium' loading={this.state.loading}/>}/>
+              </span>
             )}
             </header>
           </div>
