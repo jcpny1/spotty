@@ -1,5 +1,5 @@
 import React from 'react';
-import {Accordion, Icon, Image} from 'semantic-ui-react';
+import {Accordion, Button, Icon, Image, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {TrackList} from './TrackList';
 
@@ -12,8 +12,17 @@ export const Playlist = (props) => {
         <Icon name='dropdown' /> {playlist.name}
       </Accordion.Title>
       <Accordion.Content active={active}>
-        <Image src={playlist.images[0].url} size='small' />
-        <TrackList trackList={trackList} onSort={onSort}/>
+        <Table>
+          <Table.Row>
+            <Table.Cell width={1}>
+              <Image src={playlist.images[0].url} size='small' />
+            </Table.Cell>
+            <Table.Cell width={15} verticalAlign='bottom'>
+              <Button content='Edit Playlist' className='link' size='small'/>
+            </Table.Cell>
+          </Table.Row>
+        </Table>
+      <TrackList trackList={trackList} onSort={onSort}/>
       </Accordion.Content>
     </Accordion>
   );

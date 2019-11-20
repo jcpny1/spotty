@@ -60,7 +60,6 @@ class App extends Component {
           {this.state.access_token && (
             <Grid.Column>
               <PlaylistsPage   access_token={this.state.access_token}/>
-              <PlaylistPage    access_token={this.state.access_token} trigger={<Button content='Playlist'    className='link' inverted size='medium' loading={this.state.loading}/>}/>
             </Grid.Column>
           )}
       </Grid.Column>
