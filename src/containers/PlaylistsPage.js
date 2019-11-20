@@ -22,7 +22,7 @@ export default class PlaylistsPage extends Component {
   }
 
   fetchTrackList(index) {
-    if (index > 0) {
+    if (index >= 0) {
       // Make a call using the token
       $.ajax({
         url: this.state.data.items[index].tracks.href,

@@ -9,6 +9,15 @@ export function getPlaylists(caller, token) {
       xhr.setRequestHeader("Authorization", "Bearer " + token);
     },
     success: (data) => {
+      data.items = data.items.sort(function (item1, item2) {
+          if (item1.name < item2.name) {
+            return -1;
+          }
+          if (item1.name > item2.name) {
+            return 1;
+          }
+          return 0;
+      });
       caller.setState({data: data, loading: false});
     }
   });
