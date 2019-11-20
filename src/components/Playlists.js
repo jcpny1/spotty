@@ -1,13 +1,13 @@
 import React from 'react';
-import {Accordion, Icon, Image, Table} from 'semantic-ui-react';
+import {Accordion} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {Playlist} from './Playlist';
 
 export const Playlists = (props) => {
-  const {activeIndex, activeTrackList, onClick, onSort, profileData} = props;
+  const {activeIndex, activeTrackList, onClick, onSort, playlists} = props;
 
   function listPlaylists(playlists) {
-    return playlists.items.map(function(playlist, index) {
+    return playlists.map(function(playlist, index) {
       const active = activeIndex === index;
       const trackList = active ? activeTrackList : null;
       return (
@@ -16,17 +16,21 @@ export const Playlists = (props) => {
     });
   }
 
-  return (
-    <div>
-      <Accordion>
-        {listPlaylists(profileData)}
-      </Accordion>
-    </div>
-  );
+  if (playlists) {
+    return (
+        <Accordion>
+          {listPlaylists(playlists)}
+        </Accordion>
+    );
+  } else {
+    return null;
+  }
 }
 
 Playlists.propTypes = {
-  activeIndex: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-  profileData: PropTypes.object.isRequired,
+  activeIndex:     PropTypes.number.isRequired,
+  activeTrackList: PropTypes.number.isRequired,
+  onClick:         PropTypes.func.isRequired,
+  onSort:          PropTypes.func.isRequired,
+  playlists:       PropTypes.array.isRequired,
 }

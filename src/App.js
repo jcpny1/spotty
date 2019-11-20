@@ -5,7 +5,8 @@ import logo from './logo.svg';
 import './App.css';
 import {Button, Dropdown, Grid, Header, Image, Menu, Table} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
-import PlaylistsPage from './containers/PlaylistsPage';
+import PlaylistPage    from './containers/PlaylistPage';
+import PlaylistsPage   from './containers/PlaylistsPage';
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 // Replace with your app's client ID, redirect URI and desired scopes
@@ -39,6 +40,7 @@ class App extends Component {
     super();
     this.state = {
       access_token: null,
+      loading: false,
     };
   }
 
@@ -54,22 +56,22 @@ class App extends Component {
 
   pageBody() {
     return (
-      <Grid.Row columns={2}>
-        <Grid.Column width={11} style={{paddingRight:'5px'}}>
-        </Grid.Column>
-        <Grid.Column width={5} style={{paddingLeft:'5px'}}>
-        </Grid.Column>
-      </Grid.Row>
+      <Grid.Column width={12}>
+          {this.state.access_token && (
+            <Grid.Column>
+              <PlaylistsPage   access_token={this.state.access_token}/>
+              <PlaylistPage    access_token={this.state.access_token} trigger={<Button content='Playlist'    className='link' inverted size='medium' loading={this.state.loading}/>}/>
+            </Grid.Column>
+          )}
+      </Grid.Column>
     );
   }
 
   pageFooter() {
     return (
-      <Grid.Row columns={1}>
-        <Grid.Column>
-          {this.pageFooterRow()}
-        </Grid.Column>
-      </Grid.Row>
+      <Grid.Column>
+        {this.pageFooterRow()}
+      </Grid.Column>
     );
   }
 
@@ -95,18 +97,15 @@ class App extends Component {
 
   pageHeader() {
     return (
-      <Grid.Row columns={1}>
-        <Grid.Column stretched>
-          <Image src='/images/logo.jpg'/>
-        </Grid.Column>
-      </Grid.Row>
+      <Grid.Column stretched>
+        <Image src='/images/logo.jpg'/>
+      </Grid.Column>
     );
   }
 
   pageMenu() {
     return (
-      <Grid.Row columns={1}>
-        <Grid.Column>
+        <Grid.Column width={4} stretched>
           <div className="App">
             <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
@@ -119,31 +118,32 @@ class App extends Component {
               </a>
             )}
             {this.state.access_token && (
-              <span>
-              <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Credentials' className='link' inverted size='medium'/>}/>
-              <PlaylistsPage   access_token={this.state.access_token} trigger={<Button content='Playlists'   className='link' inverted size='medium'/>}/>
-              </span>
+              <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Credentials' className='link' inverted size='medium' loading={this.state.loading}/>}/>
             )}
             </header>
           </div>
           </Grid.Column>
-        </Grid.Row>
       );
     }
+
 
   render() {
     return (
       <Router>
         <Grid padded stackable>
-          {this.pageMenu()}
+          <Grid.Row columns={1}>
+            {this.pageHeader()}
+          </Grid.Row>
+          <Grid.Row columns={16}>
+            {this.pageMenu()}
+            {this.pageBody()}
+          </Grid.Row>
         </Grid>
       </Router>
     );
   }
 }
 
-// {this.pageHeader()}
-// {this.pageBody()}
 // {this.pageFooter()}
 
 export default App;

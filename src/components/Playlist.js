@@ -1,5 +1,5 @@
 import React from 'react';
-import {Accordion, Icon, Image, Table} from 'semantic-ui-react';
+import {Accordion, Icon, Image} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {TrackList} from './TrackList';
 

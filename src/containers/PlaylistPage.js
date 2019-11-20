@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {Playlists} from '../components/Playlists';
 import * as actions from '../actions/actions';
 
-export default class PlaylistsPage extends Component {
+export default class PlaylistPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -79,7 +79,13 @@ export default class PlaylistsPage extends Component {
     const {activeIndex, activeTrackList, data} = this.state;
     if (data) {
       return (
-        <Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={data.items}/>
+        <span>
+        <Modal trigger={this.props.trigger} closeIcon='close'>
+          <Modal.Header><Header content='Playlists' icon='info circle' size='small'/></Modal.Header>
+          <Modal.Content><Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} profileData={data}/></Modal.Content>
+          <Modal.Actions></Modal.Actions>
+        </Modal>
+        </span>
       );
     } else {
       return null;
@@ -87,7 +93,7 @@ export default class PlaylistsPage extends Component {
   }
 }
 
-PlaylistsPage.propTypes = {
+PlaylistPage.propTypes = {
   access_token: PropTypes.string.isRequired,
   trigger: PropTypes.object.isRequired,
 }

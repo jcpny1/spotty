@@ -1,6 +1,7 @@
 import * as $ from "jquery";
 
-export function getPlaylists(source, token) {
+export function getPlaylists(caller, token) {
+  caller.setState({loading: true});
   $.ajax({
     url: 'https://api.spotify.com/v1/me/playlists',
     type: "GET",
@@ -8,7 +9,7 @@ export function getPlaylists(source, token) {
       xhr.setRequestHeader("Authorization", "Bearer " + token);
     },
     success: (data) => {
-      source.setState({data: data});
+      caller.setState({data: data, loading: false});
     }
   });
 }
