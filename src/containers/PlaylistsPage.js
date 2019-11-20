@@ -4,6 +4,7 @@ import _ from 'lodash';
 import {Header, Modal} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {Playlists} from '../components/Playlists';
+import * as actions from '../actions/actions';
 
 export default class PlaylistsPage extends Component {
   constructor() {
@@ -17,17 +18,7 @@ export default class PlaylistsPage extends Component {
   }
 
   componentDidMount() {
-    // Make a call using the token
-    $.ajax({
-      url: 'https://api.spotify.com/v1/me/playlists',
-      type: "GET",
-      beforeSend: (xhr) => {
-        xhr.setRequestHeader("Authorization", "Bearer " + this.props.access_token);
-      },
-      success: (data) => {
-        this.setState({data: data});
-      }
-    });
+    actions.getPlaylists(this, this.props.access_token);
   }
 
   fetchTrackList(index) {
