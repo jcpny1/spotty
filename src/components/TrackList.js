@@ -11,6 +11,7 @@ export const TrackList = (props) => {
         <Table.HeaderCell onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('track.popularity')} textAlign='center'>Popularity</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('added_at')} textAlign='center'>Added</Table.HeaderCell>
       </Table.Row>
     );
@@ -32,6 +33,7 @@ export const TrackList = (props) => {
           <Table.Cell>{item.track.name}</Table.Cell>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
+          <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
           <Table.Cell textAlign='center'>{item.added_at}</Table.Cell>
         </Table.Row>
       );
