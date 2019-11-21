@@ -10,15 +10,15 @@ export default class PlaylistsPage extends Component {
   constructor() {
     super();
     this.state = {
-      activeIndex: -1,
+      activeIndex:     -1,
       activeTrackList: null,
-      data: {},
-      sortDirection: '',
+      data:            {},
+      sortDirection:   '',
     };
   }
 
   componentDidMount() {
-    actions.getPlaylists(this, this.props.access_token);
+    actions.getPlaylists(this, this.props.accessToken);
   }
 
   fetchTrackList(index) {
@@ -28,7 +28,7 @@ export default class PlaylistsPage extends Component {
         url: this.state.data.items[index].tracks.href,
         type: "GET",
         beforeSend: (xhr) => {
-          xhr.setRequestHeader("Authorization", "Bearer " + this.props.access_token);
+          xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
         },
         success: (data) => {
           this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
@@ -79,7 +79,7 @@ export default class PlaylistsPage extends Component {
     const {activeIndex, activeTrackList, data} = this.state;
     if (data) {
       return (
-        <Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={data.items}/>
+        <Playlists accessToken={this.props.accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={data.items}/>
       );
     } else {
       return null;
@@ -88,6 +88,6 @@ export default class PlaylistsPage extends Component {
 }
 
 PlaylistsPage.propTypes = {
-  access_token: PropTypes.string.isRequired,
-  trigger: PropTypes.object.isRequired,
+  accessToken: PropTypes.string.isRequired,
+  trigger:     PropTypes.object.isRequired,
 }

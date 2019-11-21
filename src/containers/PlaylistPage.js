@@ -18,7 +18,7 @@ export default class PlaylistPage extends Component {
   }
 
   componentDidMount() {
-    actions.getPlaylists(this, this.props.access_token);
+    actions.getPlaylists(this, this.props.accessToken);
   }
 
   fetchTrackList(index) {
@@ -28,7 +28,7 @@ export default class PlaylistPage extends Component {
         url: this.state.data.items[index].tracks.href,
         type: "GET",
         beforeSend: (xhr) => {
-          xhr.setRequestHeader("Authorization", "Bearer " + this.props.access_token);
+          xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
         },
         success: (data) => {
           this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
@@ -92,6 +92,6 @@ export default class PlaylistPage extends Component {
 }
 
 PlaylistPage.propTypes = {
-  access_token: PropTypes.string.isRequired,
-  trigger: PropTypes.object.isRequired,
+  accessToken: PropTypes.string.isRequired,
+  trigger:     PropTypes.object.isRequired,
 }

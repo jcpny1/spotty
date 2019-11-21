@@ -39,8 +39,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      access_token: null,
-      loading: false,
+      accessToken: null,
+      loading:     false,
     };
   }
 
@@ -49,7 +49,7 @@ class App extends Component {
     let _token = hash.access_token;
     if (_token) {
       this.setState({
-        access_token: _token
+        accessToken: _token
       });
     }
   }
@@ -57,9 +57,9 @@ class App extends Component {
   pageBody() {
     return (
       <Grid.Column width={12}>
-          {this.state.access_token && (
+          {this.state.accessToken && (
             <Grid.Column>
-              <PlaylistsPage   access_token={this.state.access_token}/>
+              <PlaylistsPage accessToken={this.state.accessToken}/>
             </Grid.Column>
           )}
       </Grid.Column>
@@ -108,7 +108,7 @@ class App extends Component {
           <div className="App">
             <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            {!this.state.access_token && (
+            {!this.state.accessToken && (
               <a
                 className="btn btn--loginApp-link"
                 href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`}
@@ -116,11 +116,11 @@ class App extends Component {
                 Login to Spotify
               </a>
             )}
-            {this.state.access_token && (
+            {this.state.accessToken && (
               <span>
-                <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Credentials' className='link' inverted size='medium' loading={this.state.loading}/>}/>
+                <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Credentials' className='link' inverted size='medium' loading={this.state.loading}/>}/>
                 <p></p>
-                <CredentialsPage access_token={this.state.access_token} trigger={<Button content='Duplicates'  className='link' inverted size='medium' loading={this.state.loading}/>}/>
+                <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Duplicates'  className='link' inverted size='medium' loading={this.state.loading}/>}/>
               </span>
             )}
             </header>

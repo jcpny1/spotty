@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {TrackList} from './TrackList';
 
 export const Playlist = (props) => {
-  const {active, index, onClick, onSort, playlist, trackList} = props;
+  const {accessToken, active, index, onClick, onSort, playlist, trackList} = props;
 
   return (
     <Accordion>
@@ -24,16 +24,17 @@ export const Playlist = (props) => {
             </Table.Cell>
           </Table.Row>
         </Table>
-      <TrackList trackList={trackList} onSort={onSort}/>
+      <TrackList accessToken={accessToken} trackList={trackList} onSort={onSort}/>
       </Accordion.Content>
     </Accordion>
   );
 }
 
 Playlist.propTypes = {
-  active: PropTypes.bool.isRequired,
-  index: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-  playlist: PropTypes.object.isRequired,
-  trackList: PropTypes.object.isRequired,
+  accessToken: PropTypes.string.isRequired,
+  active:      PropTypes.bool.isRequired,
+  index:       PropTypes.number.isRequired,
+  onClick:     PropTypes.func.isRequired,
+  playlist:    PropTypes.object.isRequired,
+  trackList:   PropTypes.object.isRequired,
 }

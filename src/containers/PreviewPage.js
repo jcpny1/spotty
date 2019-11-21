@@ -4,7 +4,7 @@ import {Header, Modal} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {Credentials} from '../components/Credentials';
 
-export default class CredentialsPage extends Component {
+export default class PreviewPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -44,7 +44,7 @@ export default class CredentialsPage extends Component {
   }
 }
 
-CredentialsPage.propTypes = {
+PreviewPage.propTypes = {
   accessToken: PropTypes.string.isRequired,
   trigger:     PropTypes.object.isRequired,
 }

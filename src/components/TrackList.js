@@ -1,9 +1,10 @@
 import React from 'react';
-import {Table} from 'semantic-ui-react';
+import {Button, Icon, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import PreviewPage from '../containers/PreviewPage';
 
 export const TrackList = (props) => {
-  const {trackList, onSort} = props;
+  const {accessToken, trackList, onSort} = props;
 
   function columnTitles() {
     return (
@@ -11,8 +12,9 @@ export const TrackList = (props) => {
         <Table.HeaderCell onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('track.popularity')} textAlign='center'>Popularity</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('added_at')} textAlign='center'>Added</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('added_at')}          textAlign='center'>Added</Table.HeaderCell>
       </Table.Row>
     );
   }
@@ -34,6 +36,7 @@ export const TrackList = (props) => {
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
+          <Table.Cell textAlign='center'><PreviewPage accessToken={accessToken} trigger={<Button icon><Icon name='play' link={true}/></Button>}/></Table.Cell>
           <Table.Cell textAlign='center'>{item.added_at}</Table.Cell>
         </Table.Row>
       );
