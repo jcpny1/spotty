@@ -118,9 +118,9 @@ class App extends Component {
             )}
             {this.state.accessToken && (
               <span>
-                <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Credentials' className='link' inverted size='medium' loading={this.state.loading}/>}/>
+                <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={this.state.loading}/>}/>
                 <p></p>
-                <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Duplicates'  className='link' inverted size='medium' loading={this.state.loading}/>}/>
+                <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Duplicates' title='Check for duplicate tracks across playlists' className='link' inverted size='medium' loading={this.state.loading}/>}/>
               </span>
             )}
             </header>

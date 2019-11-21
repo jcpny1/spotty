@@ -35,7 +35,7 @@ export const TrackList = (props) => {
       const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
       return (
         <Table.Row key={index}>
-          <Table.Cell>{item.track.name}</Table.Cell>
+          <Table.Cell draggable='true'>{item.track.name}</Table.Cell>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
@@ -50,7 +50,7 @@ export const TrackList = (props) => {
 
   if (trackList) {
     return (
-      <Table compact sortable striped style={{marginTop:0}}>
+      <Table compact selectable sortable striped style={{marginTop:0}}>
         <Table.Header>{columnTitles()}</Table.Header>
         <Table.Body>{listTracks(trackList)}</Table.Body>
         <Table.Footer></Table.Footer>
