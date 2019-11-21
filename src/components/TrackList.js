@@ -1,7 +1,6 @@
 import React from 'react';
 import {Button, Icon, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import PreviewPage from '../containers/PreviewPage';
 
 export const TrackList = (props) => {
   const {accessToken, trackList, onSort} = props;
@@ -36,7 +35,9 @@ export const TrackList = (props) => {
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
-          <Table.Cell textAlign='center'><PreviewPage accessToken={accessToken} trigger={<Button icon><Icon name='play' link={true}/></Button>}/></Table.Cell>
+          <Table.Cell textAlign='center'>
+            <a href='https://p.scdn.co/mp3-preview/3eb16018c2a700240e9dfb8817b6f2d041f15eb1?cid=774b29d4f13844c495f206cafdad9c86' target='_blank' rel='noopener noreferrer'><Icon name='play' title='Play' link/></a>
+          </Table.Cell>
           <Table.Cell textAlign='center'>{item.added_at}</Table.Cell>
         </Table.Row>
       );
@@ -57,5 +58,6 @@ export const TrackList = (props) => {
 }
 
 TrackList.propTypes = {
+  accessToken: PropTypes.string.isRequired,
   trackList: PropTypes.object.isRequired,
 }
