@@ -29,6 +29,10 @@ export const TrackList = (props) => {
 
   function listTracks(trackList) {
     return trackList.items.map(function(item, index) {
+      const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      const locale = 'en-US';
+      const dateFormat = new Intl.DateTimeFormat(locale, DATE_OPTIONS);
+      const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
       return (
         <Table.Row key={index}>
           <Table.Cell>{item.track.name}</Table.Cell>
@@ -38,7 +42,7 @@ export const TrackList = (props) => {
           <Table.Cell textAlign='center'>
             <a href='https://p.scdn.co/mp3-preview/3eb16018c2a700240e9dfb8817b6f2d041f15eb1?cid=774b29d4f13844c495f206cafdad9c86' target='_blank' rel='noopener noreferrer'><Icon name='play' title='Play' link/></a>
           </Table.Cell>
-          <Table.Cell textAlign='center'>{item.added_at}</Table.Cell>
+          <Table.Cell textAlign='center'>{addDate}</Table.Cell>
         </Table.Row>
       );
     });
