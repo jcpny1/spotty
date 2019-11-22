@@ -34,13 +34,13 @@ export const TrackList = (props) => {
       const dateFormat = new Intl.DateTimeFormat(locale, DATE_OPTIONS);
       const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
       return (
-        <Table.Row key={index}>
-          <Table.Cell draggable='true'>{item.track.name}</Table.Cell>
+        <Table.Row key={index} draggable='true'>
+          <Table.Cell>{item.track.name}</Table.Cell>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
           <Table.Cell textAlign='center'>
-            <a href='https://p.scdn.co/mp3-preview/3eb16018c2a700240e9dfb8817b6f2d041f15eb1?cid=774b29d4f13844c495f206cafdad9c86' target='_blank' rel='noopener noreferrer'><Icon name='play' title='Play' link/></a>
+            <a href={item.track.preview_url} target='_blank' rel='noopener noreferrer'><Icon name='play' title='Play' link/></a>
           </Table.Cell>
           <Table.Cell textAlign='center'>{addDate}</Table.Cell>
         </Table.Row>
