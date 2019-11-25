@@ -10,7 +10,8 @@ export const TrackList = (props) => {
     return (
       <Table.Row>
         <Table.HeaderCell onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('track.artists[0].name')} textAlign='center'>Artist</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
@@ -38,6 +39,7 @@ export const TrackList = (props) => {
         <Table.Row key={index} draggable='true'>
           <Table.Cell><TrackDetailsPage track={item.track} trigger={<Button content={item.track.name} title='Show track details' className='link'style={{background:'none'}} size='medium'/>}/></Table.Cell>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
+          <Table.Cell>{item.track.album.name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
           <Table.Cell textAlign='center'>
