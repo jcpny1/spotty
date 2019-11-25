@@ -41,7 +41,7 @@ export const TrackList = (props) => {
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
           <Table.Cell textAlign='center'>
-            <a href={item.track.preview_url} target='_blank' rel='noopener noreferrer'><Icon name='play' title='Play' link/></a>
+            <a href={item.track.preview_url} target='iframe_a'><Icon name='play' title='Play' link/></a>
           </Table.Cell>
           <Table.Cell textAlign='center'>{addDate}</Table.Cell>
         </Table.Row>

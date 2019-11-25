@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import * as $ from "jquery";
 import _ from 'lodash';
-import {Header, Modal} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {Playlists} from '../components/Playlists';
 import * as actions from '../actions/actions';

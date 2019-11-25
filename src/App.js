@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
-import * as $ from "jquery";
 import logo from './logo.svg';
 import './App.css';
 import {Button, Dropdown, Grid, Header, Image, Menu, Table} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
-import PlaylistPage    from './containers/PlaylistPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
@@ -57,11 +55,11 @@ class App extends Component {
   pageBody() {
     return (
       <Grid.Column width={12}>
-          {this.state.accessToken && (
-            <Grid.Column>
-              <PlaylistsPage accessToken={this.state.accessToken}/>
-            </Grid.Column>
-          )}
+        {this.state.accessToken && (
+          <Grid.Column>
+            <PlaylistsPage accessToken={this.state.accessToken}/>
+          </Grid.Column>
+        )}
       </Grid.Column>
     );
   }
@@ -104,9 +102,9 @@ class App extends Component {
 
   pageMenu() {
     return (
-        <Grid.Column width={4} stretched>
-          <div className="App">
-            <header className="App-header">
+      <Grid.Column width={4} stretched>
+        <div className="App">
+          <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             {!this.state.accessToken && (
               <a
@@ -123,12 +121,11 @@ class App extends Component {
                 <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Duplicates' title='Check for duplicate tracks across playlists' className='link' inverted size='medium' loading={this.state.loading}/>}/>
               </span>
             )}
-            </header>
-          </div>
-          </Grid.Column>
-      );
-    }
-
+          </header>
+        </div>
+      </Grid.Column>
+    );
+  }
 
   render() {
     return (
@@ -136,6 +133,9 @@ class App extends Component {
         <Grid padded stackable>
           <Grid.Row columns={1}>
             {this.pageHeader()}
+          </Grid.Row>
+          <Grid.Row columns={16}>
+            <iframe title='preview player' name='iframe_a' src='about:blank' height='300px' width='100%'></iframe>
           </Grid.Row>
           <Grid.Row columns={16}>
             {this.pageMenu()}
