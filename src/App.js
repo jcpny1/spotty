@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
-import {Button, Dropdown, Grid, Header, Image, Menu, Table} from 'semantic-ui-react';
+import {Button, Grid, Image, Table} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
 
