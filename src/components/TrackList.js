@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TrackDetailsPage from '../containers/TrackDetailsPage';
 
 export const TrackList = (props) => {
-  const {accessToken, trackList, onSort} = props;
+  const {trackList, onSort} = props;
 
   function columnTitles() {
     return (
@@ -36,7 +36,7 @@ export const TrackList = (props) => {
       const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
       return (
         <Table.Row key={index} draggable='true'>
-          <TrackDetailsPage accessToken={accessToken} trigger={<Button content={item.track.name} title='Show track details' className='link'style={{background:'none'}} size='medium'/>}/>
+          <TrackDetailsPage track={item.track} trigger={<Button content={item.track.name} title='Show track details' className='link'style={{background:'none'}} size='medium'/>}/>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
@@ -63,7 +63,6 @@ export const TrackList = (props) => {
 }
 
 TrackList.propTypes = {
-  accessToken: PropTypes.string.isRequired,
   onSort:      PropTypes.func.isRequired,
   trackList:   PropTypes.object,
 }
