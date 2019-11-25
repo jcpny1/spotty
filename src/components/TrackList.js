@@ -36,7 +36,7 @@ export const TrackList = (props) => {
       const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
       return (
         <Table.Row key={index} draggable='true'>
-          <TrackDetailsPage accessToken={accessToken} trigger={<Button content={item.track.name} title='Show track details' className='link' size='medium'/>}/>
+          <TrackDetailsPage accessToken={accessToken} trigger={<Button content={item.track.name} title='Show track details' className='link'style={{background:'none'}} size='medium'/>}/>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
