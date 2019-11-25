@@ -30,8 +30,8 @@ export const Playlists = (props) => {
 Playlists.propTypes = {
   accessToken:     PropTypes.string.isRequired,
   activeIndex:     PropTypes.number.isRequired,
-  activeTrackList: PropTypes.number.isRequired,
+  activeTrackList: PropTypes.object,
   onClick:         PropTypes.func.isRequired,
   onSort:          PropTypes.func.isRequired,
-  playlists:       PropTypes.array.isRequired,
+  playlists:       PropTypes.array,
 }

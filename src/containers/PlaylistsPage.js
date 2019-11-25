@@ -76,10 +76,11 @@ export default class PlaylistsPage extends Component {
   }
 
   render() {
+    const {accessToken} = this.props;
     const {activeIndex, activeTrackList, data} = this.state;
     if (data) {
       return (
-        <Playlists accessToken={this.props.accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={data.items}/>
+        <Playlists accessToken={accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={data.items}/>
       );
     } else {
       return null;
@@ -89,5 +90,4 @@ export default class PlaylistsPage extends Component {
 
 PlaylistsPage.propTypes = {
   accessToken: PropTypes.string.isRequired,
-  trigger:     PropTypes.object.isRequired,
 }

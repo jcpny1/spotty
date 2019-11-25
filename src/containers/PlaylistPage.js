@@ -76,10 +76,11 @@ export default class PlaylistPage extends Component {
   }
 
   render() {
+    const {trigger} = this.props;
     const {activeIndex, activeTrackList, data} = this.state;
     if (data) {
       return (
-        <Modal trigger={this.props.trigger} closeIcon='close'>
+        <Modal trigger={trigger} closeIcon='close'>
           <Modal.Header><Header content='Playlists' icon='info circle' size='small'/></Modal.Header>
           <Modal.Content><Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} profileData={data}/></Modal.Content>
           <Modal.Actions></Modal.Actions>

@@ -13,16 +13,18 @@ export const Playlist = (props) => {
       </Accordion.Title>
       <Accordion.Content active={active}>
         <Table>
-          <Table.Row>
-            <Table.Cell width={1}>
-              <Image src={playlist.images[0].url} size='small' />
-            </Table.Cell>
-            <Table.Cell width={15} verticalAlign='bottom'>
-              <Button content='Replace playlist photo' className='link' size='small'/>
-              <p></p>
-              <Button content='Download track list' className='link' size='small'/>
-            </Table.Cell>
-          </Table.Row>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell width={1}>
+                <Image src={playlist.images[0].url} size='small' />
+              </Table.Cell>
+              <Table.Cell width={15} verticalAlign='bottom'>
+                <Button content='Replace playlist photo' className='link' size='small'/>
+                <p></p>
+                <Button content='Download track list' className='link' size='small'/>
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
         </Table>
       <TrackList accessToken={accessToken} trackList={trackList} onSort={onSort}/>
       </Accordion.Content>
@@ -36,5 +38,5 @@ Playlist.propTypes = {
   index:       PropTypes.number.isRequired,
   onClick:     PropTypes.func.isRequired,
   playlist:    PropTypes.object.isRequired,
-  trackList:   PropTypes.object.isRequired,
+  trackList:   PropTypes.object,
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Icon, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import TrackDetailsPage from '../containers/TrackDetailsPage';
 
 export const TrackList = (props) => {
   const {accessToken, trackList, onSort} = props;
@@ -35,7 +36,7 @@ export const TrackList = (props) => {
       const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
       return (
         <Table.Row key={index} draggable='true'>
-          <Table.Cell>{item.track.name}</Table.Cell>
+          <TrackDetailsPage accessToken={accessToken} trigger={<Button content={item.track.name} title='Show track details' className='link' size='medium'/>}/>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
@@ -63,5 +64,6 @@ export const TrackList = (props) => {
 
 TrackList.propTypes = {
   accessToken: PropTypes.string.isRequired,
-  trackList: PropTypes.object.isRequired,
+  onSort:      PropTypes.func.isRequired,
+  trackList:   PropTypes.object,
 }
