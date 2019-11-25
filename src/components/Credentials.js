@@ -7,7 +7,7 @@ export const Credentials = (props) => {
 
   function listCredentials(profile_data) {
     return (
-      <span>
+      <Table.Body>
         <Table.Row>
           <Table.Cell>Profile Image</Table.Cell>
           <Table.Cell><Image src={profile_data.images[0].url} size='small' /></Table.Cell>
@@ -36,14 +36,14 @@ export const Credentials = (props) => {
           <Table.Cell>Country</Table.Cell>
           <Table.Cell>{profile_data.country}</Table.Cell>
         </Table.Row>
-      </span>
+      </Table.Body>
     );
   }
 
   return (
     <div>
       <Table compact striped>
-        <Table.Body>{listCredentials(profile_data)}</Table.Body>
+        {listCredentials(profile_data)}
       </Table>
     </div>
   );
