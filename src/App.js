@@ -135,9 +135,6 @@ class App extends Component {
             {this.pageHeader()}
           </Grid.Row>
           <Grid.Row columns={16}>
-            <iframe title='preview player' name='iframe_a' src='about:blank' height='300px' width='100%'></iframe>
-          </Grid.Row>
-          <Grid.Row columns={16}>
             {this.pageMenu()}
             {this.pageBody()}
           </Grid.Row>

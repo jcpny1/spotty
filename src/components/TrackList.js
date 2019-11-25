@@ -41,13 +41,16 @@ export const TrackList = (props) => {
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
           <Table.Cell textAlign='center'>
-            <a href={item.track.preview_url} target='iframe_a'><Icon name='play' title='Play' link/></a>
+            <a href={item.track.preview_url} target={`iframe_${index}`}><Icon name='play' title='Play' link/></a>
           </Table.Cell>
           <Table.Cell textAlign='center'>{addDate}</Table.Cell>
         </Table.Row>
       );
     });
   }
+  // <Table.Row>
+  //   <Table.Cell width={16}><iframe title='preview player' name={`iframe_${index}`} src='about:blank' height='50px' width='100%'></iframe></Table.Cell>
+  // </Table.Row>
 
   if (trackList) {
     return (
