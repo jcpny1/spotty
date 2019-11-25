@@ -22,6 +22,8 @@ export const Playlist = (props) => {
                 <Button content='Replace playlist photo' className='link' size='small'/>
                 <p></p>
                 <Button content='Download track list' className='link' size='small'/>
+                <p></p>
+                <Button content='Save track list changes' className='link' size='small'/>
               </Table.Cell>
             </Table.Row>
           </Table.Body>

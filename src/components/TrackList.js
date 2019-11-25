@@ -42,9 +42,7 @@ export const TrackList = (props) => {
           <Table.Cell>{item.track.album.name}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
-          <Table.Cell textAlign='center'>
-            <a href={item.track.preview_url} target={`iframe_${index}`}><Icon name='play' title='Play' link/></a>
-          </Table.Cell>
+          <Table.Cell textAlign='center'><a href={item.track.preview_url} target={`iframe_${index}`}><Icon name='play' title='Play' link/></a></Table.Cell>
           <Table.Cell textAlign='center'>{addDate}</Table.Cell>
         </Table.Row>
       );
