@@ -16,7 +16,7 @@ export const Playlist = (props) => {
           <Table.Body>
             <Table.Row>
               <Table.Cell width={1}>
-                <Image src={playlist.images[0].url} size='small' />
+                {playlist.images[0] && <Image src={playlist.images[0].url} size='small' />}
               </Table.Cell>
               <Table.Cell width={15} verticalAlign='bottom'>
                 <Button content='Replace playlist photo' className='link' size='small'/>
