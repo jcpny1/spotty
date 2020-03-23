@@ -11,7 +11,7 @@ export const authEndpoint = 'https://accounts.spotify.com/authorize';
 const clientId = 'f5946a8d80f7403dac7255815b38442f';
 // const redirectUri = "http://localhost:3000";
 // const redirectUri = "http://173.3.128.23:3000/";
-const redirectUri = "https://spotty-app.heroku.com/";
+const redirectUri = "https://spotty-app.herokuapp.com/";
 // const scopes = [
 //   "user-read-currently-playing",
 //   "user-read-playback-state",
