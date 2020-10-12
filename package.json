@@ -1,6 +1,10 @@
 {
   "name": "spotty",
+  "description": "Practice app to organize playlists.",
   "version": "0.1.0",
+  "engines": {
+    "node": "12.x"
+  },
   "private": true,
   "dependencies": {
     "lodash": "^4.17.20",
@@ -32,7 +36,6 @@
       "last 1 safari version"
     ]
   },
-  "description": "Practice app to organize playlists.",
   "main": "index.js",
   "repository": "https://github.com/jcpny1/spotty.git",
   "author": "jcpny1 <jpfingst@outlook.com>",
