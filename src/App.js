@@ -3,6 +3,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import {Button, Grid, Image, Table} from 'semantic-ui-react';
+import AllTracksPage   from './containers/AllTracksPage';
 import CredentialsPage from './containers/CredentialsPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
 
@@ -59,6 +60,7 @@ class App extends Component {
         {this.state.accessToken && (
           <Grid.Column>
             <PlaylistsPage accessToken={this.state.accessToken}/>
+            <AllTracksPage accessToken={this.state.accessToken}/>
           </Grid.Column>
         )}
       </Grid.Column>
