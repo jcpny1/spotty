@@ -7,11 +7,10 @@ import CredentialsPage from './containers/CredentialsPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
+
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = 'f5946a8d80f7403dac7255815b38442f';
-// const redirectUri = "http://localhost:3000";
-// const redirectUri = "http://173.3.128.23:3000";
-const redirectUri = "https://spotty-app.herokuapp.com";
+const redirectUri = process.env.NODE_ENV === 'production' ? 'https://spotty-app.herokuapp.com' : 'http://localhost:3000';
 // const scopes = [
 //   "user-read-currently-playing",
 //   "user-read-playback-state",
