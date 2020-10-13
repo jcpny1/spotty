@@ -24,7 +24,8 @@ export default class PlaylistsPage extends Component {
     this.setState({activeTrackList: null, activeIndex: -1, sortDirection: ''});
     if (index >= 0) {
       // Make a call using the token
-      if (index < (this.state.data.items.length - 1)) {
+      if (index < (this.state.data.items.length - 2)) {
+        // Specified track.
         $.ajax({
           url: this.state.data.items[index].tracks.href,
           type: "GET",
@@ -35,7 +36,8 @@ export default class PlaylistsPage extends Component {
             this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
           }
         });
-      } else {
+      } else if (index === (this.state.data.items.length - 2)) {
+        // LIKED TRACKS
         $.ajax({
           url: "https://api.spotify.com/v1/me/tracks",
           type: "GET",
@@ -46,6 +48,8 @@ export default class PlaylistsPage extends Component {
             this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
           }
         });
+      } else if (index === (this.state.data.items.length - 1)) {
+        // ALL TRACKS
       }
     }
   }

@@ -18,9 +18,16 @@ export function getPlaylists(caller, token) {
           }
           return 0;
       });
-var copyItem = JSON.parse(JSON.stringify(data.items[0]));
-copyItem.name = 'ALL TRACKS';
-data.items.push(copyItem);
+
+  // protect against no playlists.
+  var copyItem = JSON.parse(JSON.stringify(data.items[0]));
+  copyItem.name = 'LIKED';
+  data.items.push(copyItem);
+  // protect against no playlists.
+  copyItem = JSON.parse(JSON.stringify(data.items[0]));
+  copyItem.name = 'ALL TRACKS';
+  data.items.push(copyItem);
+
       caller.setState({data: data, loading: false});
     }
   });
