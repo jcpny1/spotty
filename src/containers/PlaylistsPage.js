@@ -72,6 +72,7 @@ export default class PlaylistsPage extends Component {
     }
   }
 
+// clean this up a bit.
   sortActiveTrackList = (columnName) => {
       var data = this.state.activeTrackList;
       const dir = (this.state.sortDirection === 'a') ? 'd' : 'a';
@@ -80,22 +81,31 @@ export default class PlaylistsPage extends Component {
         // item2 = eval('item2.' + columnName);
         item1 = _.get(item1, columnName);
         item2 = _.get(item2, columnName);
-        if (dir === 'a') {
-          if (item1 < item2) {
-            return -1;
+
+        if (typeof item1 === 'string') {
+          if (dir === 'a') {
+            return item1.localeCompare(item2, 'en', { sensitivity: 'base' })
+          } else {
+            return item2.localeCompare(item1, 'en', { sensitivity: 'base' })
           }
-          if (item1 > item2) {
-            return 1;
-          }
-          return 0;
         } else {
-          if (item1 < item2) {
-            return 1;
+          if (dir === 'a') {
+            if (item1 < item2) {
+              return -1;
+            }
+            if (item1 > item2) {
+              return 1;
+            }
+            return 0;
+          } else {
+            if (item1 < item2) {
+              return 1;
+            }
+            if (item1 > item2) {
+              return -1;
+            }
+            return 0;
           }
-          if (item1 > item2) {
-            return -1;
-          }
-          return 0;
         }
       });
       this.setState({activeTrackList: data, sortDirection: dir});
