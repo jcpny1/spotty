@@ -69,13 +69,6 @@ export default class PlaylistPage extends Component {
       this.setState({activeTrackList: data, sortDirection: dir});
   }
 
-  handleClick = (e, playlistProps) => {
-    const {active, index} = playlistProps;
-    const newIndex = active ? -1 : index;  // toggle active
-    this.setState({activeIndex: newIndex});
-    this.fetchTrackList(newIndex);
-  }
-
   render() {
     const {trigger} = this.props;
     const {activeIndex, activeTrackList, data} = this.state;

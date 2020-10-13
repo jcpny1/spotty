@@ -50,6 +50,24 @@ export default class PlaylistsPage extends Component {
         });
       } else if (index === (this.state.data.items.length - 1)) {
         // ALL TRACKS
+        const playlists=this.state.data.items;
+        this.setState({activeTrackList: {items:[]}, activeIndex: index, sortDirection: ''});
+        for (var i = 0; i < (playlists.length - 2); i++) {
+          $.ajax({
+            url: playlists[i].tracks.href,
+            type: "GET",
+            beforeSend: (xhr) => {
+              xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
+            },
+            success: (data) => {
+              var xxx = this.state.activeTrackList;
+              for (var j = 0; j < data.items.length; j++) {
+                xxx.items.push(data.items[j]);
+              }
+              this.setState({activeTrackList: xxx, activeIndex: index, sortDirection: ''});
+            }
+          });
+        };
       }
     }
   }
