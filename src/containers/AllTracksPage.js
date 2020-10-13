@@ -84,7 +84,7 @@ export default class AllTracksPage extends Component {
     if (data) {
       return (
 //        <Playlists accessToken={accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={data.items}/>
-        <Playlist accessToken={accessToken} key={0} active={false} index={0} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlist={playlist} trackList={null}/>
+        <Playlist accessToken={accessToken} key={0} active={true} index={0} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlist={playlist} trackList={null}/>
       );
     } else {
       return null;

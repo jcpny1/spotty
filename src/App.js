@@ -3,7 +3,6 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import {Button, Grid, Image, Table} from 'semantic-ui-react';
-import AllTracksPage   from './containers/AllTracksPage';
 import CredentialsPage from './containers/CredentialsPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
 
@@ -17,6 +16,7 @@ const redirectUri = process.env.NODE_ENV === 'production' ? 'https://spotty-app.
 //   "user-read-playback-state",
 // ];
 const scopes = [
+  'user-library-read',
   'user-read-private',
   'user-read-email',
 ];
@@ -60,7 +60,6 @@ class App extends Component {
         {this.state.accessToken && (
           <Grid.Column>
             <PlaylistsPage accessToken={this.state.accessToken}/>
-            <AllTracksPage accessToken={this.state.accessToken}/>
           </Grid.Column>
         )}
       </Grid.Column>

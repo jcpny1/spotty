@@ -20,12 +20,13 @@ export default class PlaylistPage extends Component {
   componentDidMount() {
     actions.getPlaylists(this, this.props.accessToken);
   }
+  // url: this.state.data.items[index].tracks.href,
 
   fetchTrackList(index) {
     if (index > 0) {
       // Make a call using the token
       $.ajax({
-        url: this.state.data.items[index].tracks.href,
+        url: "https://api.spotify.com/v1/me/tracks",
         type: "GET",
         beforeSend: (xhr) => {
           xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
@@ -82,7 +83,7 @@ export default class PlaylistPage extends Component {
       return (
         <Modal trigger={trigger} closeIcon='close'>
           <Modal.Header><Header content='Playlists' icon='info circle' size='small'/></Modal.Header>
-          <Modal.Content><Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} profileData={data}/></Modal.Content>
+          <Modal.Content><Playlists activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.props.handleClick} onSort={this.sortActiveTrackList} profileData={data}/></Modal.Content>
           <Modal.Actions></Modal.Actions>
         </Modal>
       );

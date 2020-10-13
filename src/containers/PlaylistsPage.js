@@ -21,20 +21,32 @@ export default class PlaylistsPage extends Component {
   }
 
   fetchTrackList(index) {
+    this.setState({activeTrackList: null, activeIndex: -1, sortDirection: ''});
     if (index >= 0) {
       // Make a call using the token
-      $.ajax({
-        url: this.state.data.items[index].tracks.href,
-        type: "GET",
-        beforeSend: (xhr) => {
-          xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
-        },
-        success: (data) => {
-          this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
-        }
-      });
-    } else {
-      this.setState({activeTrackList: null, activeIndex: -1, sortDirection: ''});
+      if (index < (this.state.data.items.length - 1)) {
+        $.ajax({
+          url: this.state.data.items[index].tracks.href,
+          type: "GET",
+          beforeSend: (xhr) => {
+            xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
+          },
+          success: (data) => {
+            this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
+          }
+        });
+      } else {
+        $.ajax({
+          url: "https://api.spotify.com/v1/me/tracks",
+          type: "GET",
+          beforeSend: (xhr) => {
+            xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
+          },
+          success: (data) => {
+            this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
+          }
+        });
+      }
     }
   }
 
