@@ -13,6 +13,7 @@ export default class PlaylistsPage extends Component {
       activeTrackList: null,
       data:            {},
       sortDirection:   '',
+      sortColumn: '',
     };
   }
 
@@ -75,7 +76,8 @@ export default class PlaylistsPage extends Component {
 // clean this up a bit.
   sortActiveTrackList = (columnName) => {
       var data = this.state.activeTrackList;
-      const dir = (this.state.sortDirection === 'a') ? 'd' : 'a';
+      const dir = (this.state.sortColumn !== columnName) ? 'a' : (this.state.sortDirection === 'a') ? 'd' : 'a';
+
       data.items = data.items.sort(function (item1, item2) {
         // item1 = eval('item1.' + columnName);
         // item2 = eval('item2.' + columnName);
@@ -108,7 +110,7 @@ export default class PlaylistsPage extends Component {
           }
         }
       });
-      this.setState({activeTrackList: data, sortDirection: dir});
+      this.setState({activeTrackList: data, sortColumn: columnName, sortDirection: dir});
   }
 
   handleClick = (e, playlistProps) => {
