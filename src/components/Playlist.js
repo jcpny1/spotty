@@ -14,18 +14,20 @@ export const Playlist = (props) => {
       <Accordion.Content active={active}>
         <Table>
           <Table.Body>
-            <Table.Row>
-              <Table.Cell width={1}>
-                {playlist.images[0] && <Image src={playlist.images[0].url} size='small' />}
-              </Table.Cell>
-              <Table.Cell width={15} verticalAlign='bottom'>
-                <Button content='Replace playlist photo' className='link' size='small'/>
-                <p></p>
-                <Button content='Download track list' className='link' size='small'/>
-                <p></p>
-                <Button content='Save track list changes' className='link' size='small'/>
-              </Table.Cell>
-            </Table.Row>
+            {playlist.images[0] &&
+              <Table.Row>
+                <Table.Cell width={1}>
+                  {playlist.images[0] && <Image src={playlist.images[0].url} size='small' />}
+                </Table.Cell>
+                <Table.Cell width={15} verticalAlign='bottom'>
+                  <Button content='Replace playlist photo' className='link' size='small'/>
+                  <p></p>
+                  <Button content='Download track list' className='link' size='small'/>
+                  <p></p>
+                  <Button content='Save track list changes' className='link' size='small'/>
+                </Table.Cell>
+              </Table.Row>
+            }
           </Table.Body>
         </Table>
       <TrackList trackList={trackList} onSort={onSort}/>
