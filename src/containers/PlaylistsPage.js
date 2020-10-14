@@ -115,16 +115,12 @@ export default class PlaylistsPage extends Component {
   flagDuplicates = (xxx) => {
     // Look for duplicates
     var counts = _.groupBy(xxx.items, function(e) {return e.track.id})
-
     // Apply duplicate flag to duplicate items.
     for (const p in counts) {
       if (counts[p].length > 1) {
-        for (var i = 0; i < counts[p].length; ++i) {
-          counts[p][i].duplicate = true;
-        }
+        _.forEach(counts[p], function(value) { value.duplicate = true; });
       }
     }
-
     xxx.items = _.flatMapDepth(counts, null, 2);
     return xxx;
   }
