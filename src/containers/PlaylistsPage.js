@@ -50,7 +50,7 @@ export default class PlaylistsPage extends Component {
           },
           success: (data) => {
             if (this.state.activeIndex === (this.state.data.items.length - 2)) {  // are we still servicing this request?
-              this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
+              this.setState({activeTrackList: data});
             }
           }
         });
@@ -58,6 +58,7 @@ export default class PlaylistsPage extends Component {
         // ALL TRACKS
         const playlists=this.state.data.items;
         for (var i = 0; i < (playlists.length - 2); i++) {
+          // All playlists
           $.ajax({
             url: playlists[i].tracks.href,
             type: "GET",
@@ -76,20 +77,46 @@ export default class PlaylistsPage extends Component {
                   data.items[j].playlistName = playlist.name; // add playlist name as property to each item.
                   xxx.items.push(data.items[j]);
                 }
+                this.setState({sortColumn: ''});
                 this.sortActiveTrackList('track.name');
-                this.setState({activeTrackList: xxx, activeIndex: index, sortDirection: ''});
+                this.setState({activeTrackList: xxx});
               }
             }
           });
-        };
+        }
+        // LIKED TRACKS
+        $.ajax({
+          url: "https://api.spotify.com/v1/me/tracks",
+          type: "GET",
+          beforeSend: (xhr) => {
+            xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
+          },
+          success: (data) => {
+            if (this.state.activeIndex === (this.state.data.items.length - 1)) {  // are we still servicing this request?
+              var xxx = this.state.activeTrackList;
+
+              for (var j = 0; j < data.items.length; j++) {
+                data.items[j].playlistName = 'LIKED'; // add playlist name as property to each item.
+                xxx.items.push(data.items[j]);
+              }
+              this.setState({sortColumn: ''});
+              this.sortActiveTrackList('track.name');
+              this.setState({activeTrackList: xxx});
+            }
+          }
+        });
       }
     }
   }
 
 // clean this up a bit.
-  sortActiveTrackList = (columnName) => {
+  sortActiveTrackList = (columnName, direction = null) => {
       var data = this.state.activeTrackList;
-      const dir = (this.state.sortColumn !== columnName) ? 'a' : (this.state.sortDirection === 'a') ? 'd' : 'a';
+      var dir = direction;
+
+      if (dir === null) {
+        dir = (this.state.sortColumn !== columnName) ? 'a' : (this.state.sortDirection === 'a') ? 'd' : 'a';
+      }
 
       data.items = data.items.sort(function (item1, item2) {
         // item1 = eval('item1.' + columnName);

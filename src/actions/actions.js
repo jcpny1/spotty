@@ -22,11 +22,13 @@ export function getPlaylists(caller, token) {
   // protect against no playlists.
   var copyItem = JSON.parse(JSON.stringify(data.items[0]));
   copyItem.name = 'LIKED';
+  copyItem.id = 'LIKED';
   copyItem.images = [];
   data.items.push(copyItem);
   // protect against no playlists.
   copyItem = JSON.parse(JSON.stringify(copyItem));
   copyItem.name = 'ALL TRACKS';
+  copyItem.id = 'ALL TRACKS';
   data.items.push(copyItem);
 
       caller.setState({data: data, loading: false});
