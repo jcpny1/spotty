@@ -12,7 +12,7 @@ export const TrackList = (props) => {
         <Table.HeaderCell onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.artists[0].name')} textAlign='center'>Artist</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('track.playlistName')}>Playlist</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
