@@ -36,9 +36,9 @@ export default class PlaylistsPage extends Component {
             xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
           },
           success: (data) => {
-//            if (this.state.activeIndex === (playlists.length - 2)) {  // are we still servicing this request?
+            if (this.state.activeIndex === index) {  // are we still servicing this request?
               this.setState({activeTrackList: data});
-//            }
+            }
           }
         });
       } else if (index === (playlistsItems.length - 2)) {

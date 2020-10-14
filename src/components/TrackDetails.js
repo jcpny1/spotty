@@ -21,6 +21,10 @@ export const TrackDetails = (props) => {
           <Table.Cell>{track.artists[0].name}</Table.Cell>
         </Table.Row>
         <Table.Row>
+          <Table.Cell>Track ID</Table.Cell>
+          <Table.Cell>{track.id}</Table.Cell>
+        </Table.Row>
+        <Table.Row>
           <Table.Cell>Markets</Table.Cell>
           <Table.Cell>{track.available_markets}</Table.Cell>
         </Table.Row>
@@ -34,7 +38,7 @@ export const TrackDetails = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>Explicit</Table.Cell>
-          <Table.Cell>{track.explicit}</Table.Cell>
+          <Table.Cell>{track.explicit.toString()}</Table.Cell>
         </Table.Row>
       </Table.Body>
     );
