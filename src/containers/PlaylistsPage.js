@@ -9,9 +9,9 @@ export default class PlaylistsPage extends Component {
   constructor() {
     super();
     this.state = {
-      activeIndex:     -1,   // index into data
+      activeIndex:     -1,   // index into playlists.items
       activeTrackList: null,
-      data:            {},   // playlists
+      playlists:       null,   // Spotify playlists response
       sortDirection:   '',
       sortColumn: '',
     };
@@ -24,10 +24,11 @@ export default class PlaylistsPage extends Component {
   fetchTrackList(index) {
     this.setState({activeTrackList: {items:[]}, activeIndex: index, sortDirection: ''});
     if (index >= 0) {
+      const playlistsItems=this.state.playlists.items;
       // Make a call using the token
-      if (index < (this.state.data.items.length - 2)) {
+      if (index < (playlistsItems.length - 2)) {
         // Specified playlist.
-        const playlist = this.state.data.items[index];
+        const playlist = playlistsItems[index];
         $.ajax({
           url: playlist.tracks.href,
           type: "GET",
@@ -35,12 +36,12 @@ export default class PlaylistsPage extends Component {
             xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
           },
           success: (data) => {
-//            if (this.state.activeIndex === (this.state.data.items.length - 2)) {  // are we still servicing this request?
+//            if (this.state.activeIndex === (playlists.length - 2)) {  // are we still servicing this request?
               this.setState({activeTrackList: data});
 //            }
           }
         });
-      } else if (index === (this.state.data.items.length - 2)) {
+      } else if (index === (playlistsItems.length - 2)) {
         // LIKED TRACKS
         $.ajax({
           url: "https://api.spotify.com/v1/me/tracks",
@@ -49,29 +50,28 @@ export default class PlaylistsPage extends Component {
             xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
           },
           success: (data) => {
-            if (this.state.activeIndex === (this.state.data.items.length - 2)) {  // are we still servicing this request?
+            if (this.state.activeIndex === (playlistsItems.length - 2)) {  // are we still servicing this request?
               this.setState({activeTrackList: data});
             }
           }
         });
-      } else if (index === (this.state.data.items.length - 1)) {
+      } else if (index === (playlistsItems.length - 1)) {
         // ALL TRACKS
-        const playlists=this.state.data.items;
-        for (var i = 0; i < (playlists.length - 2); i++) {
+        for (var i = 0; i < (playlistsItems.length - 2); i++) {
           // All playlists
           $.ajax({
-            url: playlists[i].tracks.href,
+            url: playlistsItems[i].tracks.href,
             type: "GET",
             beforeSend: (xhr) => {
               xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
             },
             success: (data) => {
-              if (this.state.activeIndex === (this.state.data.items.length - 1)) {  // are we still servicing this request?
+              if (this.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
                 var xxx = this.state.activeTrackList;
 
                 // convert playlist id to playlist name.
                 const playlistId = data.href.split('/')[5];  // get playlist id
-                const playlist = this.state.data.items.find(o => o.id === playlistId);  // find playlist object
+                const playlist = playlistsItems.find(o => o.id === playlistId);  // find playlist object
 
                 for (var j = 0; j < data.items.length; j++) {
                   data.items[j].playlistName = playlist.name; // add playlist name as property to each item.
@@ -91,7 +91,7 @@ export default class PlaylistsPage extends Component {
             xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
           },
           success: (data) => {
-            if (this.state.activeIndex === (this.state.data.items.length - 1)) {  // are we still servicing this request?
+            if (this.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
               var xxx = this.state.activeTrackList;
 
               for (var j = 0; j < data.items.length; j++) {
@@ -160,10 +160,10 @@ export default class PlaylistsPage extends Component {
 
   render() {
     const {accessToken} = this.props;
-    const {activeIndex, activeTrackList, data} = this.state;
-    if (data) {
+    const {activeIndex, activeTrackList, playlists} = this.state;
+    if (playlists) {
       return (
-        <Playlists accessToken={accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={data.items}/>
+        <Playlists accessToken={accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items}/>
       );
     } else {
       return null;
