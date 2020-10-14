@@ -77,7 +77,9 @@ export default class PlaylistsPage extends Component {
                   data.items[j].playlistName = playlist.name; // add playlist name as property to each item.
                   xxx.items.push(data.items[j]);
                 }
+
                 this.sortActiveTrackList('track.name', 'a');
+                this.flagDuplicates(xxx);
                 this.setState({activeTrackList: xxx});
               }
             }
@@ -98,13 +100,33 @@ export default class PlaylistsPage extends Component {
                 data.items[j].playlistName = 'LIKED'; // add playlist name as property to each item.
                 xxx.items.push(data.items[j]);
               }
+
               this.sortActiveTrackList('track.name', 'a');
+              this.flagDuplicates(xxx);
               this.setState({activeTrackList: xxx});
             }
           }
         });
       }
     }
+  }
+
+  // Mark tracklist duplicates.
+  flagDuplicates = (xxx) => {
+    // Look for duplicates
+    var counts = _.groupBy(xxx.items, function(e) {return e.track.id})
+
+    // Apply duplicate flag to duplicate items.
+    for (const p in counts) {
+      if (counts[p].length > 1) {
+        for (var i = 0; i < counts[p].length; ++i) {
+          counts[p][i].duplicate = true;
+        }
+      }
+    }
+
+    xxx.items = _.flatMapDepth(counts, null, 2);
+    return xxx;
   }
 
 // clean this up a bit.

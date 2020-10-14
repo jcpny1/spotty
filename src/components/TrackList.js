@@ -13,6 +13,7 @@ export const TrackList = (props) => {
         <Table.HeaderCell onClick={() => onSort('track.artists[0].name')} textAlign='center'>Artist</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>
+        <Table.HeaderCell onClick={() => onSort('duplicate')}>Duplicate</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
         <Table.HeaderCell onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
@@ -42,6 +43,7 @@ export const TrackList = (props) => {
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell>{item.track.album.name}</Table.Cell>
           <Table.Cell>{item.playlistName}</Table.Cell>
+          <Table.Cell>{item.duplicate  && 'true'}</Table.Cell>
           <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
           <Table.Cell textAlign='center'><a href={item.track.preview_url} target={`iframe_${index}`}><Icon name='play' title='Play' link/></a></Table.Cell>
