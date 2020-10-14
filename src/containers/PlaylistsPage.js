@@ -77,8 +77,7 @@ export default class PlaylistsPage extends Component {
                   data.items[j].playlistName = playlist.name; // add playlist name as property to each item.
                   xxx.items.push(data.items[j]);
                 }
-                this.setState({sortColumn: ''});
-                this.sortActiveTrackList('track.name');
+                this.sortActiveTrackList('track.name', 'a');
                 this.setState({activeTrackList: xxx});
               }
             }
@@ -99,8 +98,7 @@ export default class PlaylistsPage extends Component {
                 data.items[j].playlistName = 'LIKED'; // add playlist name as property to each item.
                 xxx.items.push(data.items[j]);
               }
-              this.setState({sortColumn: ''});
-              this.sortActiveTrackList('track.name');
+              this.sortActiveTrackList('track.name', 'a');
               this.setState({activeTrackList: xxx});
             }
           }
@@ -126,9 +124,9 @@ export default class PlaylistsPage extends Component {
 
         if (typeof item1 === 'string') {
           if (dir === 'a') {
-            return item1.localeCompare(item2, 'en', { sensitivity: 'base' })
+            return item1.localeCompare(item2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
           } else {
-            return item2.localeCompare(item1, 'en', { sensitivity: 'base' })
+            return item2.localeCompare(item1, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
           }
         } else {
           if (dir === 'a') {
