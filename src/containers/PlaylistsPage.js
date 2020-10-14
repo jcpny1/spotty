@@ -62,9 +62,21 @@ export default class PlaylistsPage extends Component {
             },
             success: (data) => {
               var xxx = this.state.activeTrackList;
+
+// convert playlist id to playlist name.
+  // get playlist id
+  const playlistId = data.href.split('/')[5];
+
+  // find playlist object
+  const playlist = this.state.data.items.find(o => o.id === playlistId);
+
               for (var j = 0; j < data.items.length; j++) {
+                // add playlist name as property to each item.
+                data.items[j].playlistName = playlist.name;
+
                 xxx.items.push(data.items[j]);
               }
+              this.sortActiveTrackList('track.name');
               this.setState({activeTrackList: xxx, activeIndex: index, sortDirection: ''});
             }
           });
