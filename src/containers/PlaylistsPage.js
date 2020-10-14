@@ -9,9 +9,9 @@ export default class PlaylistsPage extends Component {
   constructor() {
     super();
     this.state = {
-      activeIndex:     -1,
+      activeIndex:     -1,   // index into data
       activeTrackList: null,
-      data:            {},
+      data:            {},   // playlists
       sortDirection:   '',
       sortColumn: '',
     };
@@ -22,19 +22,22 @@ export default class PlaylistsPage extends Component {
   }
 
   fetchTrackList(index) {
-    this.setState({activeTrackList: null, activeIndex: -1, sortDirection: ''});
+    this.setState({activeTrackList: {items:[]}, activeIndex: index, sortDirection: ''});
     if (index >= 0) {
       // Make a call using the token
       if (index < (this.state.data.items.length - 2)) {
-        // Specified track.
+        // Specified playlist.
+        const playlist = this.state.data.items[index];
         $.ajax({
-          url: this.state.data.items[index].tracks.href,
+          url: playlist.tracks.href,
           type: "GET",
           beforeSend: (xhr) => {
             xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
           },
           success: (data) => {
-            this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
+//            if (this.state.activeIndex === (this.state.data.items.length - 2)) {  // are we still servicing this request?
+              this.setState({activeTrackList: data});
+//            }
           }
         });
       } else if (index === (this.state.data.items.length - 2)) {
@@ -46,13 +49,14 @@ export default class PlaylistsPage extends Component {
             xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
           },
           success: (data) => {
-            this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
+            if (this.state.activeIndex === (this.state.data.items.length - 2)) {  // are we still servicing this request?
+              this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
+            }
           }
         });
       } else if (index === (this.state.data.items.length - 1)) {
         // ALL TRACKS
         const playlists=this.state.data.items;
-        this.setState({activeTrackList: {items:[]}, activeIndex: index, sortDirection: ''});
         for (var i = 0; i < (playlists.length - 2); i++) {
           $.ajax({
             url: playlists[i].tracks.href,
@@ -61,23 +65,20 @@ export default class PlaylistsPage extends Component {
               xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
             },
             success: (data) => {
-              var xxx = this.state.activeTrackList;
+              if (this.state.activeIndex === (this.state.data.items.length - 1)) {  // are we still servicing this request?
+                var xxx = this.state.activeTrackList;
 
-// convert playlist id to playlist name.
-  // get playlist id
-  const playlistId = data.href.split('/')[5];
+                // convert playlist id to playlist name.
+                const playlistId = data.href.split('/')[5];  // get playlist id
+                const playlist = this.state.data.items.find(o => o.id === playlistId);  // find playlist object
 
-  // find playlist object
-  const playlist = this.state.data.items.find(o => o.id === playlistId);
-
-              for (var j = 0; j < data.items.length; j++) {
-                // add playlist name as property to each item.
-                data.items[j].playlistName = playlist.name;
-
-                xxx.items.push(data.items[j]);
+                for (var j = 0; j < data.items.length; j++) {
+                  data.items[j].playlistName = playlist.name; // add playlist name as property to each item.
+                  xxx.items.push(data.items[j]);
+                }
+                this.sortActiveTrackList('track.name');
+                this.setState({activeTrackList: xxx, activeIndex: index, sortDirection: ''});
               }
-              this.sortActiveTrackList('track.name');
-              this.setState({activeTrackList: xxx, activeIndex: index, sortDirection: ''});
             }
           });
         };

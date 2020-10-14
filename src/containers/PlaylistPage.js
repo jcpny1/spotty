@@ -20,25 +20,6 @@ export default class PlaylistPage extends Component {
   componentDidMount() {
     actions.getPlaylists(this, this.props.accessToken);
   }
-  // url: this.state.data.items[index].tracks.href,
-
-  fetchTrackList(index) {
-    if (index > 0) {
-      // Make a call using the token
-      $.ajax({
-        url: "https://api.spotify.com/v1/me/tracks",
-        type: "GET",
-        beforeSend: (xhr) => {
-          xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
-        },
-        success: (data) => {
-          this.setState({activeTrackList: data, activeIndex: index, sortDirection: ''});
-        }
-      });
-    } else {
-      this.setState({activeTrackList: null, activeIndex: -1, sortDirection: ''});
-    }
-  }
 
   sortActiveTrackList = (columnName) => {
       var data = this.state.activeTrackList;
