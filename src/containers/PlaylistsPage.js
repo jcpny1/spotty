@@ -12,8 +12,6 @@ export default class PlaylistsPage extends Component {
       activeIndex:     -1,   // index into playlists.items
       activeTrackList: null,
       playlists:       null,   // Spotify playlists response
-      sortDirection:   '',
-      sortColumn:      '',
       listCombine:     null,
       responseCount:   0,
     };
@@ -86,7 +84,9 @@ export default class PlaylistsPage extends Component {
                 if (this.state.responseCount < (playlistsItems.length - 1)) {
                   this.setState({listCombine: atl});
                 } else {
-                  this.sortTrackList(atl, 'track.name', 'a');
+                  atl.sortColumnName = 'track.name';
+                  atl.sortDirection = 'a';
+                  this.sortTrackList(atl);
                   this.flagDuplicates(atl);
                   this.setState({activeTrackList: atl});
                 }
@@ -115,7 +115,9 @@ export default class PlaylistsPage extends Component {
               if (this.state.responseCount < (playlistsItems.length - 1)) {
                 this.setState({listCombine: atl});
               } else {
-                this.sortTrackList(atl, 'track.name', 'a');
+                atl.sortColumnName = 'track.name';
+                atl.sortDirection = 'a';
+                this.sortTrackList(atl);
                 this.flagDuplicates(atl);
                 this.setState({activeTrackList: atl});
               }
@@ -139,35 +141,28 @@ export default class PlaylistsPage extends Component {
     atl.items = _.flatMapDepth(counts, null, 2);
   }
 
-  sortActiveTrackList = (columnName, direction = null) => {
-    this.setState({activeTrackList: this.sortTrackList(this.state.activeTrackList, columnName, direction)});
+  sortActiveTrackList = (columnName) => {
+    var atl = this.state.activeTrackList;
+    atl.sortDirection = (atl.sortColumnName !== columnName) ? 'a' : (atl.sortDirection === 'a') ? 'd' : 'a';
+    atl.sortColumnName = columnName;
+    this.setState({activeTrackList: this.sortTrackList(atl)});
   }
 
 // make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
 // clean this up a bit.
-  sortTrackList = (data, columnName, direction = null) => {
-    var dir = direction;
-
-    if (dir === null) {
-      dir = (this.state.sortColumn !== columnName) ? 'a' : (this.state.sortDirection === 'a') ? 'd' : 'a';
-    }
-
-    this.setState({sortColumn: columnName, sortDirection: dir});
-
+  sortTrackList = (data) => {
     data.items = data.items.sort(function (item1, item2) {
-      // item1 = eval('item1.' + columnName);
-      // item2 = eval('item2.' + columnName);
-      item1 = _.get(item1, columnName);
-      item2 = _.get(item2, columnName);
+      item1 = _.get(item1, data.sortColumnName);
+      item2 = _.get(item2, data.sortColumnName);
 
       if (typeof item1 === 'string') {
-        if (dir === 'a') {
+        if (data.sortDirection === 'a') {
           return item1.localeCompare(item2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
         } else {
           return item2.localeCompare(item1, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
         }
       } else {
-        if (dir === 'a') {
+        if (data.sortDirection === 'a') {
           if (item1 < item2) {
             return -1;
           }
