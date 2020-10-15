@@ -4,22 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 import {Button, Grid, Image, Table} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
+import LoginPage from './containers/LoginPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
-
-export const authEndpoint = 'https://accounts.spotify.com/authorize';
-
-// Replace with your app's client ID, redirect URI and desired scopes
-const clientId = 'f5946a8d80f7403dac7255815b38442f';
-const redirectUri = process.env.NODE_ENV === 'production' ? 'https://spotty-app.herokuapp.com' : 'http://localhost:3000';
-// const scopes = [
-//   "user-read-currently-playing",
-//   "user-read-playback-state",
-// ];
-const scopes = [
-  'user-library-read',
-  'user-read-private',
-  'user-read-email',
-];
 
 // Get the hash of the url
 const hash = window.location.hash
@@ -57,6 +43,16 @@ class App extends Component {
   pageBody() {
     return (
       <Grid.Column width={12}>
+        {!this.state.accessToken && (
+          <Grid.Column>
+            <h4>NOTE:</h4>
+            <ul>
+              <li style={{margin:'10px 0'}}><h5>This app will request your permission to access your Spotify account profile, playlists, and saved tracks.</h5></li>
+              <li style={{margin:'10px 0'}}><h5>This data is only being accessed for display to you.</h5></li>
+              <li style={{margin:'10px 0'}}><h5>No information is being recorded, retained, or aggregated.</h5></li>
+            </ul>
+          </Grid.Column>
+        )}
         {this.state.accessToken && (
           <Grid.Column>
             <PlaylistsPage accessToken={this.state.accessToken}/>
@@ -109,12 +105,9 @@ class App extends Component {
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             {!this.state.accessToken && (
-              <a
-                className="btn btn--loginApp-link"
-                href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`}
-              >
-                Login to Spotify
-              </a>
+              <span>
+                <LoginPage/>
+              </span>
             )}
             {this.state.accessToken && (
               <span>

@@ -36,24 +36,3 @@ export function getPlaylists(caller, token) {
     }
   });
 }
-
-/* Fetch all tracks from all playlists. */
-export function fetchAllTracks() {
-  const playlists=this.state.data.items;
-  var allTracks = [];
-  for (var index = 0; index < playlists.length; index++) {
-    $.ajax({
-      url: playlists[index].tracks.href,
-      type: "GET",
-      beforeSend: (xhr) => {
-        xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
-      },
-      success: (data) => {
-        for (var index = 0; index < data.items.length; index++) {
-          allTracks.push(data.items[index]);
-        }
-        this.setState({activeTrackList: allTracks, activeIndex: -1, sortDirection: ''});
-      }
-    });
-  };
-}
