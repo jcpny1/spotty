@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 
-const clientId = 'f5946a8d80f7403dac7255815b38442f';
+const clientId = '0d56c2b343ee4c0fa5858db48164b435';
 const redirectUri = process.env.NODE_ENV === 'production' ? 'https://spotty-app.herokuapp.com' : 'http://localhost:3000';
 const scopes = [
   'user-library-read',
