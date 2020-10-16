@@ -47,7 +47,7 @@ class App extends Component {
           <Grid.Column>
             <h4>NOTE:</h4>
             <ul>
-              <li style={{margin:'10px 0'}}><h5>This app will request your permission to access your Spotify account profile, playlists, and saved tracks.</h5></li>
+              <li style={{margin:'10px 0'}}><h5>This app will request permission to access your Spotify account profile, playlists, and saved tracks.</h5></li>
               <li style={{margin:'10px 0'}}><h5>This data is only being accessed for display to you.</h5></li>
               <li style={{margin:'10px 0'}}><h5>No information is being recorded, retained, or aggregated.</h5></li>
             </ul>
