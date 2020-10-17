@@ -18,7 +18,7 @@ export const Playlists = (props) => {
 
   if (playlists) {
     return (
-        <Accordion>
+        <Accordion fluid styled>
           {listPlaylists(playlists)}
         </Accordion>
     );

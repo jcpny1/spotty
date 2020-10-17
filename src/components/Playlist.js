@@ -46,11 +46,16 @@ export const Playlist = (props) => {
     );
   }
 
-  return (
-    <Accordion>
+  function listTitle(name) {
+    return (
       <Accordion.Title active={active} index={index} onClick={onClick}>
-        <Icon name='dropdown' /> {playlist.name}
+        <Icon name='dropdown' />{name}
       </Accordion.Title>
+    );
+  }
+
+  function listContent() {
+    return (
       <Accordion.Content active={active}>
         <Table>
           <Table.Body>
@@ -62,7 +67,14 @@ export const Playlist = (props) => {
         </Table>
       <TrackList trackList={trackList} onSort={onSort}/>
       </Accordion.Content>
-    </Accordion>
+    );
+  }
+
+  return (
+    <span>
+      {listTitle(playlist.name)}
+      {listContent()}
+    </span>
   );
 }
 
