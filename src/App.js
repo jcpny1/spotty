@@ -100,7 +100,7 @@ class App extends Component {
 
   pageMenu() {
     return (
-      <Grid.Column width={4} stretched>
+      <Grid.Column width={4}>
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
@@ -110,11 +110,7 @@ class App extends Component {
               </span>
             )}
             {this.state.accessToken && (
-              <span>
-                <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={this.state.loading}/>}/>
-                <p></p>
-                <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Duplicates' title='Check for duplicate tracks across playlists' className='link' inverted size='medium' loading={this.state.loading}/>}/>
-              </span>
+              <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={this.state.loading}/>}/>
             )}
           </header>
         </div>
@@ -129,7 +125,7 @@ class App extends Component {
           <Grid.Row columns={1}>
             {this.pageHeader()}
           </Grid.Row>
-          <Grid.Row columns={16}>
+          <Grid.Row>
             {this.pageMenu()}
             {this.pageBody()}
           </Grid.Row>
