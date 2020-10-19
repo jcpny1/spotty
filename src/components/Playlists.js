@@ -4,23 +4,23 @@ import PropTypes from 'prop-types';
 import {Playlist} from './Playlist';
 
 export const Playlists = (props) => {
-  const {accessToken, activeIndex, activeTrackList, onClick, onSort, playlists} = props;
+  const {accessToken, activeIndex, activeTrackList, loading, onClick, onSort, playlists} = props;
 
   function listPlaylists(playlists) {
     return playlists.map(function(playlist, index) {
       const active = activeIndex === index;
       const trackList = active ? activeTrackList : null;
       return (
-        <Playlist accessToken={accessToken} key={index} active={active} index={index} onClick={onClick} onSort={onSort} playlist={playlist} trackList={trackList}/>
+        <Playlist accessToken={accessToken} key={index} active={active} index={index} onClick={onClick} onSort={onSort} playlist={playlist} trackList={trackList} loading={loading} />
       );
     });
   }
 
   if (playlists) {
     return (
-        <Accordion fluid styled>
-          {listPlaylists(playlists)}
-        </Accordion>
+      <Accordion fluid styled>
+        {listPlaylists(playlists)}
+      </Accordion>
     );
   } else {
     return null;

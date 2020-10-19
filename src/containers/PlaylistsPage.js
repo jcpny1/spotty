@@ -13,6 +13,7 @@ export default class PlaylistsPage extends Component {
       activeTrackList: null,
       playlists:       null,   // Spotify playlists response
       listCombine:     null,
+      loading:         false,
       responseCount:   0,
     };
   }
@@ -37,7 +38,7 @@ export default class PlaylistsPage extends Component {
           },
           success: (data) => {
             if (this.state.activeIndex === index) {  // are we still servicing this request?
-              this.setState({activeTrackList: data});
+              this.setState({activeTrackList: data, loading: false});
             }
           }
         });
@@ -51,7 +52,7 @@ export default class PlaylistsPage extends Component {
           },
           success: (data) => {
             if (this.state.activeIndex === (playlistsItems.length - 2)) {  // are we still servicing this request?
-              this.setState({activeTrackList: data});
+              this.setState({activeTrackList: data, loading: false});
             }
           }
         });
@@ -88,7 +89,7 @@ export default class PlaylistsPage extends Component {
                   atl.sortDirection = 'a';
                   this.sortTrackList(atl);
                   this.flagDuplicates(atl);
-                  this.setState({activeTrackList: atl});
+                  this.setState({activeTrackList: atl, loading: false});
                 }
               }
             }
@@ -119,7 +120,7 @@ export default class PlaylistsPage extends Component {
                 atl.sortDirection = 'a';
                 this.sortTrackList(atl);
                 this.flagDuplicates(atl);
-                this.setState({activeTrackList: atl});
+                this.setState({activeTrackList: atl, loading: false});
               }
             }
           }
@@ -188,16 +189,18 @@ export default class PlaylistsPage extends Component {
   handleClick = (e, playlistProps) => {
     const {active, index} = playlistProps;
     const newIndex = active ? -1 : index;  // toggle active
-    this.setState({activeIndex: newIndex});
-    this.fetchTrackList(newIndex);
+    this.setState({activeIndex: newIndex, loading: (newIndex !== -1)});
+    if (newIndex >= 0) {
+      this.fetchTrackList(newIndex);
+    }
   }
 
   render() {
     const {accessToken} = this.props;
-    const {activeIndex, activeTrackList, playlists} = this.state;
+    const {activeIndex, activeTrackList, loading, playlists} = this.state;
     if (playlists) {
       return (
-        <Playlists accessToken={accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items}/>
+        <Playlists accessToken={accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
       );
     } else {
       return null;

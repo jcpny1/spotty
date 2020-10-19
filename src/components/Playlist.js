@@ -1,10 +1,10 @@
 import React from 'react';
-import {Accordion, Button, Icon, Image, Table} from 'semantic-ui-react';
+import {Accordion, Button, Icon, Image, Loader, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {TrackList} from './TrackList';
 
 export const Playlist = (props) => {
-  const {active, index, onClick, onSort, playlist, trackList} = props;
+  const {active, index, loading, onClick, onSort, playlist, trackList} = props;
 
   function listButtons() {
     return (
@@ -49,6 +49,7 @@ export const Playlist = (props) => {
   function listTitle(name) {
     return (
       <Accordion.Title active={active} index={index} onClick={onClick}>
+        <Loader active={loading && active} inline />
         <Icon name='dropdown' />{name}
       </Accordion.Title>
     );
