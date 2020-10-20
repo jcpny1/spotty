@@ -14,7 +14,7 @@ export default class LoginPage extends Component {
     return (
       <a
         className="btn btn--loginApp-link"
-        href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`}
+        href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=false`}
       >
         Login to Spotify
       </a>
