@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "build": "cd client && npm install && npm run build && cd ..",
+    "build": "cd client && npm install && npm run build_tmp && cd ..",
     "deploy": "cp -a client/build/. public/",
     "postinstall": "npm run build && npm run deploy && echo 'Client built!'"
   },
