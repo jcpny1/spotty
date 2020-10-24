@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "build": "cd client && npm install && npm run build && cd .. && echo 'Client built!'",
-    "deploy": "cp -a client/build/. public/",
+    "deploy": "cp -a client/build/. public/"
   },
   "repository": "https://github.com/jcpny1/spotty.git",
   "author": "jcpny1 <jpfingst@outlook.com>",
