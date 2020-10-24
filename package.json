@@ -13,7 +13,8 @@
   },
   "scripts": {
     "start": "node ./bin/www",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "deploy": "cp -a client/build/. public/",
+    "postinstall": "cd client && npm run build && npm run deploy && echo 'Client built!'"
   },
   "repository": "https://github.com/jcpny1/spotty.git",
   "author": "jcpny1 <jpfingst@outlook.com>",
