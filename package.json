@@ -12,6 +12,7 @@
     "morgan": "~1.10.0"
   },
   "scripts": {
+    
     "start": "node ./bin/www",
     "build": "cd client && npm install && npm run build && cd ..",
     "deploy": "cp -a client/build/. public/",
