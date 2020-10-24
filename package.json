@@ -12,8 +12,9 @@
     "morgan": "~1.10.0"
   },
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node ./bin/www",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "repository": "https://github.com/jcpny1/spotty.git",
   "author": "jcpny1 <jpfingst@outlook.com>",
