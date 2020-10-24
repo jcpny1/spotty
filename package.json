@@ -2,9 +2,7 @@
   "name": "spotty",
   "description": "Practice app to organize playlists.",
   "version": "0.2.0",
-  "engines": {
-    "node": "12.x"
-  },
+  "private": true,
   "dependencies": {
     "cookie-parser": "~1.4.5",
     "debug": "~4.2.0",
@@ -13,9 +11,9 @@
     "pug": "~3.0.0",
     "morgan": "~1.10.0"
   },
-  "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": "https://github.com/jcpny1/spotty.git",
   "author": "jcpny1 <jpfingst@outlook.com>",
