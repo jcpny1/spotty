@@ -42,8 +42,13 @@ users:       []
     }
 
 fetch('/users')
-  .then(res => res.json())
-  .then(users => this.setState({ users }));
+  .then(res =>
+    console.log(res) &&
+    res.json()
+  )
+  .then(users =>
+    this.setState({ users })
+  );
   }
 
   pageBody() {
