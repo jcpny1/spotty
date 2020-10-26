@@ -8,42 +8,52 @@ import logo from './logo.svg';
 import "semantic-ui-css/semantic.min.css";
 import './App.css';
 
-// Get the hash of the url
-const hash = window.location.hash
-  .substring(1)
-  .split("&")
-  .reduce(function(initial, item) {
-    if (item) {
-      var parts = item.split("=");
-      initial[parts[0]] = decodeURIComponent(parts[1]);
-    }
-    return initial;
-  }, {});
 
-window.location.hash = "";
+// de dup this with LoginPage.
+const redirectUri  = process.env.NODE_ENV === 'production' ? 'https://spotty-app.herokuapp.com' : 'http://localhost:3000';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      accessToken: null,
-      loading:     false,
-users:       []
+      accessToken:  null,
+      expiresIn:    null,
+      loading:      false,
+      refreshToken: null,
+      users:        []
     };
   }
 
   componentDidMount() {
-    // Set token
-    let _token = hash.access_token;
-    if (_token) {
-      this.setState({
-        accessToken: _token
-      });
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const _code = urlParams.get('code');
+
+    if (_code) {
+      fetch('http://localhost:3001/get_tokens', {
+        method:  'POST',
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body:    JSON.stringify({code: _code, redirect_uri: redirectUri}),
+      })
+      // .then(statusCheck)
+      .then(response => response.json())
+      .then(tokens => {
+        this.setState({
+          accessToken:  tokens.access_token,
+          refreshToken: tokens.refresh_token,
+          expiresIn:    tokens.expires_in
+        });
+      })
+      // .catch(error => dispatch(PortfolioReducer.errorPortfolio({prefix: 'Add Portfolio: ', error: error.message})))
     }
 
-fetch('/users')
-  .then(res => res.json())
-  .then(users => this.setState({ users }));
+    // fetch('http://localhost:3001/users')
+    //   .then(res => res.json())
+    //   .then(users => {
+    //     this.setState({
+    //       users: users
+    //     })
+    //   });
   }
 
   pageBody() {
