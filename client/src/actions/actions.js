@@ -50,7 +50,7 @@ export function getAllTracks(playlistsItems, caller, token) {
       }
     })
     .catch(error => {
-      caller.setState({activeTrackList: null});
+      caller.setState({activeTrackList:  {items:[]}});
       console.error("getAllTracks Playlist FAIL " + error);
     });
     // .finally(() => {
@@ -90,7 +90,7 @@ export function getAllTracks(playlistsItems, caller, token) {
     }
   })
   .catch(error => {
-    caller.setState({activeTrackList: null});
+    caller.setState({activeTrackList:  {items:[]}});
     console.error("getAllTracks LIKED FAIL " + error);
   });
   // .finally(() => {
@@ -134,7 +134,7 @@ export function getLikedTracklist(listLength, caller, token) {
       }
     })
   .catch(error => {
-    caller.setState({activeTrackList: null});
+    caller.setState({activeTrackList:  {items:[]}});
     console.error("getLikedTracklist FAIL " + error);
   })
   .finally(() => {
@@ -199,7 +199,7 @@ export function getTracklist(playlist, index, caller, token) {
       }
     })
   .catch(error => {
-    caller.setState({activeTrackList: null});
+    caller.setState({activeTrackList:  {items:[]}});
     console.error("getTracklist FAIL " + error);
   })
   .finally(() => {

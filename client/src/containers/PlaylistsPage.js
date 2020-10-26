@@ -8,11 +8,12 @@ export default class PlaylistsPage extends Component {
     super();
     this.state = {
       activeIndex:     -1,   // index into playlists.items
-      activeTrackList: null,
+      activeTrackList:  {items:[]},
       playlists:       null,   // Spotify playlists response
       listCombine:     null,
       loading:         false,
       responseCount:   0,
+      sortDirection:   '',
     };
   }
 
