@@ -46,7 +46,9 @@ console.log("PLAYLIST FINISH: " + caller.state.responseCount);
           atl.sortColumnName = 'track.name';
           atl.sortDirection = 'a';
           this.sortTrackList(atl);
+console.log("PLAYLIST SORTED " + atl.items.length);
           this.flagDuplicates(atl);
+console.log("PLAYLIST DE-DUPED");
           caller.setState({activeTrackList: atl, loading: false});
         }
       }
@@ -88,8 +90,10 @@ console.log("LIKED FINISH: " + caller.state.responseCount);
         atl.sortColumnName = 'track.name';
         atl.sortDirection = 'a';
         this.sortTrackList(atl);
+console.log("LIKED SORTED: " + atl.items.length);
         this.flagDuplicates(atl);
-        caller.setState({activeTrackList: atl});
+console.log("LIKED DE-DUPED");
+        caller.setState({activeTrackList: atl, loading: false});
       }
     }
   })
