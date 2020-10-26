@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import * as $ from "jquery";
 import {Header, Modal} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {Credentials} from '../components/Credentials';
+import * as actions from '../actions/actions';
 
 export default class CredentialsPage extends Component {
   constructor() {
@@ -13,19 +13,7 @@ export default class CredentialsPage extends Component {
   }
 
   componentDidMount() {
-    // Make a call using the token
-    $.ajax({
-      url: "https://api.spotify.com/v1/me",
-      type: "GET",
-      beforeSend: (xhr) => {
-        xhr.setRequestHeader("Authorization", "Bearer " + this.props.accessToken);
-      },
-      success: (data) => {
-        this.setState({
-          data: data,
-        });
-      }
-    });
+    actions.getCredentials(this, this.props.accessToken);
   }
 
   render() {
