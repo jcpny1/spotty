@@ -26,6 +26,7 @@ export function getAllTracks(playlistsItems, caller, token) {
     .then(response => response.json())
     .then(data => {
       caller.setState({responseCount: caller.state.responseCount + 1});
+console.log("PLAYLIST RESPONSE_COUNT: " + caller.state.responseCount);
       if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
         var atl = caller.state.listCombine;
 
@@ -41,6 +42,7 @@ export function getAllTracks(playlistsItems, caller, token) {
         if (caller.state.responseCount < (playlistsItems.length - 1)) {
           caller.setState({listCombine: atl});
         } else {
+console.log("PLAYLIST FINISH: " + caller.state.responseCount);
           atl.sortColumnName = 'track.name';
           atl.sortDirection = 'a';
           this.sortTrackList(atl);
@@ -69,6 +71,7 @@ export function getAllTracks(playlistsItems, caller, token) {
   .then(response => response.json())
   .then(data => {
     caller.setState({responseCount: caller.state.responseCount + 1});
+console.log("LIKED RESPONSE_COUNT: " + caller.state.responseCount);
 
     if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
       var atl = caller.state.listCombine;
@@ -81,6 +84,7 @@ export function getAllTracks(playlistsItems, caller, token) {
       if (caller.state.responseCount < (playlistsItems.length - 1)) {
         caller.setState({listCombine: atl});
       } else {
+console.log("LIKED FINISH: " + caller.state.responseCount);
         atl.sortColumnName = 'track.name';
         atl.sortDirection = 'a';
         this.sortTrackList(atl);
