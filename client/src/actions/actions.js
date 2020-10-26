@@ -219,6 +219,7 @@ export function getTracklist(playlist, index, caller, token) {
 // make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
 // clean this up a bit.
 export function sortTrackList(data) {
+console.log("sortTrackList entered " + data.items.length);
   data.items = data.items.sort(function (item1, item2) {
     item1 = _.get(item1, data.sortColumnName);
     item2 = _.get(item2, data.sortColumnName);
@@ -241,6 +242,7 @@ export function sortTrackList(data) {
       }
     }
   });
+console.log("sortTrackList exiting " + data.items.length);
   return data;
 }
 
