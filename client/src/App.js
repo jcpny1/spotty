@@ -11,7 +11,6 @@ import './App.css';
 
 // de dup this with LoginPage.
 const redirectUri = process.env.NODE_ENV === 'production' ? 'https://spotty-app.herokuapp.com' : 'http://localhost:3000';
-const server_port = process.env.PORT || 3001;
 
 class App extends Component {
   constructor() {
@@ -29,7 +28,7 @@ class App extends Component {
     const urlParams = new URLSearchParams(queryString);
     const _code = urlParams.get('code');
     if (_code) {
-      actions.getTokens(this, _code, server_port, redirectUri);
+      actions.getTokens(this, _code, redirectUri);
     }
   }
 
