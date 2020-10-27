@@ -10,7 +10,7 @@ export const TrackDetails = (props) => {
       <Table.Body>
         <Table.Row>
           <Table.Cell>Album Image</Table.Cell>
-          <Table.Cell><Image src={track.album.images[0].url} size='small' /></Table.Cell>
+          <Table.Cell>{track.album.images[0] && <Image src={track.album.images[0].url} size='small'/>}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Album</Table.Cell>
