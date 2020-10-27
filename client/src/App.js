@@ -4,10 +4,10 @@ import {Button, Grid, Image, Table} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
 import LoginPage from './containers/LoginPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
+import * as actions from './actions/actions';
 import logo from './logo.svg';
 import "semantic-ui-css/semantic.min.css";
 import './App.css';
-
 
 // de dup this with LoginPage.
 const redirectUri  = process.env.NODE_ENV === 'production' ? 'https://spotty-app.herokuapp.com' : 'http://localhost:3000';
@@ -20,7 +20,6 @@ class App extends Component {
       expiresIn:    null,
       loading:      false,
       refreshToken: null,
-      users:        []
     };
   }
 
@@ -28,38 +27,15 @@ class App extends Component {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const _code = urlParams.get('code');
-
     if (_code) {
-      fetch('http://localhost:3001/get_tokens', {
-        method:  'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body:    JSON.stringify({code: _code, redirect_uri: redirectUri}),
-      })
-      // .then(statusCheck)
-      .then(response => response.json())
-      .then(tokens => {
-        this.setState({
-          accessToken:  tokens.access_token,
-          refreshToken: tokens.refresh_token,
-          expiresIn:    tokens.expires_in
-        });
-      })
-      // .catch(error => dispatch(PortfolioReducer.errorPortfolio({prefix: 'Add Portfolio: ', error: error.message})))
+      actions.getTokens(this, _code, redirectUri);
     }
-
-    // fetch('http://localhost:3001/users')
-    //   .then(res => res.json())
-    //   .then(users => {
-    //     this.setState({
-    //       users: users
-    //     })
-    //   });
   }
 
   pageBody() {
     return (
       <Grid.Column width={12}>
-        {!this.state.accessToken && (
+        {!this.state.accessToken && !this.state.loading && (
           <Grid.Column>
             <h4>NOTE:</h4>
             <ul>
@@ -106,12 +82,6 @@ class App extends Component {
     // &emsp;&emsp;&bull; See the <HelpPage trigger={<Button content='Help->Usage Notes' className='link' inverted size='medium'/>}/> page for more information.
   }
 
-  // <div className="App">
-  //   <h1>Users</h1>
-  //   {this.state.users.map(user =>
-  //     <div key={user.id}>{user.username}</div>
-  //   )}
-  // </div>
   pageHeader() {
     return (
       <Grid.Column stretched>

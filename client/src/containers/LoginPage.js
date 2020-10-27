@@ -12,7 +12,6 @@ export default class LoginPage extends Component {
     this.state = {
       accessToken: null,
       loading:     false,
-      users:       []
     };
   }
 

@@ -180,8 +180,37 @@ export function getPlaylists(caller, token) {
   })
   .finally(() => {
     caller.setState({loading: false});
-  })
+  });
 // {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
+}
+
+export function getTokens(caller, code, redirectUri) {
+  caller.setState({loading: true});
+  fetch('http://localhost:3001/get_tokens', {
+    method:  'POST',
+    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+    body:    JSON.stringify({code: code, redirect_uri: redirectUri}),
+  })
+  .then(statusCheck)
+  .then(response => response.json())
+  .then(tokens => {
+    caller.setState({
+      accessToken:  tokens.access_token,
+      refreshToken: tokens.refresh_token,
+      expiresIn:    tokens.expires_in
+    });
+  })
+  .catch(error => {
+    caller.setState({
+      accessToken:  null,
+      refreshToken: null,
+      expiresIn:    null
+    });
+    console.error("getTokens FAIL " + error);
+  })
+  .finally(() => {
+    caller.setState({loading: false});
+  });
 }
 
 export function getTracklist(playlist, index, caller, token) {
