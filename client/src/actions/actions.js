@@ -186,7 +186,8 @@ export function getPlaylists(caller, token) {
 
 export function getTokens(caller, code, redirectUri) {
   caller.setState({loading: true});
-  fetch('http://localhost:3001/get_tokens', {
+  const PORT = process.env.PORT || 3001;
+  fetch(`http://localhost:${PORT}/get_tokens`, {
     method:  'POST',
     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     body:    JSON.stringify({code: code, redirect_uri: redirectUri}),
