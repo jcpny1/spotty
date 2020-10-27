@@ -1,16 +1,16 @@
 import _ from 'lodash';
 
 // Mark tracklist duplicates.
-export function flagDuplicates(atl) {
-  // Look for duplicates
-  var counts = _.groupBy(atl.items, function(e) {return e.track.id})
-  // Apply duplicate flag to duplicate items.
-  for (const p in counts) {
-    if (counts[p].length > 1) {
-      _.forEach(counts[p], function(value) { value.duplicate = true; });
+export function flagDuplicates(tracklist) {
+  // Group tracks by track id.
+  var groupedItems= _.groupBy(tracklist.items, function(e) {return e.track.id})
+  // Look for duplicates and apply duplicate flag to duplicate items.
+  for (const trackId in groupedItems) {
+    if (trackId !== 'null' && groupedItems[trackId].length > 1) {
+      _.forEach(groupedItems[trackId], function(value) { value.duplicate = true; });
     }
   }
-  atl.items = _.flatMapDepth(counts, null, 2);
+  tracklist.items = _.flatMapDepth(groupedItems, null, 2);
 }
 
 export function getAllTracks(playlistsItems, caller, token) {

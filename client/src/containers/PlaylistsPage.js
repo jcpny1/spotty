@@ -14,6 +14,7 @@ export default class PlaylistsPage extends Component {
       loading:         false,
       responseCount:   0,
       sortDirection:   '',
+      fetchError:      null,
     };
   }
 

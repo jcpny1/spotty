@@ -62,8 +62,7 @@ export const Playlist = (props) => {
           <Table.Body>
             {listInfo()}
             {listDescription()}
-            {playlist.images[0] &&
-              listButtons()}
+            {playlist.images[0] && listButtons()}
           </Table.Body>
         </Table>
       <TrackList trackList={trackList} onSort={onSort}/>

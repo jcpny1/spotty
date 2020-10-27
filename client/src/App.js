@@ -20,15 +20,16 @@ class App extends Component {
       expiresIn:    null,
       loading:      false,
       refreshToken: null,
+      fetchError:   null,
     };
   }
 
   componentDidMount() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const _code = urlParams.get('code');
-    if (_code) {
-      actions.getTokens(this, _code, redirectUri);
+    const code = urlParams.get('code');
+    if (code) {
+      actions.getTokens(this, code, redirectUri);
     }
   }
 
