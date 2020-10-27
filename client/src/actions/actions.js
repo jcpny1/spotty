@@ -10,7 +10,6 @@ export function flagDuplicates(tracklist) {
       _.forEach(groupedItems[trackId], function(value) { value.duplicate = true; });
     }
   }
-  tracklist.items = _.flatMapDepth(groupedItems, null, 2);
 }
 
 export function getAllTracks(playlistsItems, caller, token) {
@@ -43,8 +42,8 @@ export function getAllTracks(playlistsItems, caller, token) {
         } else {
           atl.sortColumnName = 'track.name';
           atl.sortDirection = 'a';
-          sortTrackList(atl);
           flagDuplicates(atl);
+          sortTrackList(atl);
           caller.setState({activeTrackList: atl, loading: false});
         }
       }
@@ -83,8 +82,8 @@ export function getAllTracks(playlistsItems, caller, token) {
       } else {
         atl.sortColumnName = 'track.name';
         atl.sortDirection = 'a';
-        sortTrackList(atl);
         flagDuplicates(atl);
+        sortTrackList(atl);
         caller.setState({activeTrackList: atl, loading: false});
       }
     }
