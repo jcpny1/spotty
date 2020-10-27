@@ -184,9 +184,9 @@ export function getPlaylists(caller, token) {
 // {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
 }
 
-export function getTokens(caller, code, redirectUri) {
+export function getTokens(caller, code, server_port, redirectUri) {
   caller.setState({loading: true});
-  fetch('http://localhost:3001/get_tokens', {
+  fetch(`http://localhost:${server_port}/get_tokens`, {
     method:  'POST',
     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     body:    JSON.stringify({code: code, redirect_uri: redirectUri}),
