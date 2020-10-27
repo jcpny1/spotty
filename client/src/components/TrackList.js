@@ -39,7 +39,7 @@ export const TrackList = (props) => {
       const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
       return (
         <Table.Row key={index} draggable='true' disabled={item.track.id === null}>
-          <Table.Cell><TrackDetailsPage track={item.track} trigger={<Button content={item.track.name} title='Show track details' className='link'style={{background:'none'}} size='medium' disabled={item.track.id === null}/>}/></Table.Cell>
+          <Table.Cell><TrackDetailsPage track={item.track} trigger={<Button content={item.track.name} title='Show track details' className='link' style={{background:'none', textAlign:'left'}} size='medium' disabled={item.track.id === null}/>}/></Table.Cell>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell>{item.track.album.name}</Table.Cell>
           <Table.Cell>{item.playlistName}</Table.Cell>

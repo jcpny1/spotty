@@ -7,7 +7,7 @@ export function flagDuplicates(tracklist) {
   // Look for duplicates and apply duplicate flag to duplicate items.
   for (const trackId in groupedItems) {
     if (trackId !== 'null' && groupedItems[trackId].length > 1) {
-      _.forEach(groupedItems[trackId], function(value) { value.duplicate = true; });
+      _.forEach(groupedItems[trackId], function(value) { value.duplicate = true });
     }
   }
 }
