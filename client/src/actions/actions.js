@@ -26,7 +26,6 @@ export function getAllTracks(playlistsItems, caller, token) {
     .then(response => response.json())
     .then(data => {
       caller.setState({responseCount: caller.state.responseCount + 1});
-console.log("PLAYLIST RESPONSE_COUNT: " + caller.state.responseCount);
       if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
         var atl = caller.state.listCombine;
 
@@ -42,14 +41,10 @@ console.log("PLAYLIST RESPONSE_COUNT: " + caller.state.responseCount);
         if (caller.state.responseCount < (playlistsItems.length - 1)) {
           caller.setState({listCombine: atl});
         } else {
-console.log("PLAYLIST FINISH: " + caller.state.responseCount);
           atl.sortColumnName = 'track.name';
           atl.sortDirection = 'a';
-console.log("Calling PLAYLIST SORT");
           sortTrackList(atl);
-console.log("PLAYLIST SORTED " + atl.items.length);
-          this.flagDuplicates(atl);
-console.log("PLAYLIST DE-DUPED");
+          flagDuplicates(atl);
           caller.setState({activeTrackList: atl, loading: false});
         }
       }
@@ -74,7 +69,6 @@ console.log("PLAYLIST DE-DUPED");
   .then(response => response.json())
   .then(data => {
     caller.setState({responseCount: caller.state.responseCount + 1});
-console.log("LIKED RESPONSE_COUNT: " + caller.state.responseCount);
 
     if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
       var atl = caller.state.listCombine;
@@ -87,14 +81,10 @@ console.log("LIKED RESPONSE_COUNT: " + caller.state.responseCount);
       if (caller.state.responseCount < (playlistsItems.length - 1)) {
         caller.setState({listCombine: atl});
       } else {
-console.log("LIKED FINISH: " + caller.state.responseCount);
         atl.sortColumnName = 'track.name';
         atl.sortDirection = 'a';
-console.log("Calling LIKED SORT");
         sortTrackList(atl);
-console.log("LIKED SORTED: " + atl.items.length);
-        this.flagDuplicates(atl);
-console.log("LIKED DE-DUPED");
+        flagDuplicates(atl);
         caller.setState({activeTrackList: atl, loading: false});
       }
     }
@@ -221,7 +211,6 @@ export function getTracklist(playlist, index, caller, token) {
 // make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
 // clean this up a bit.
 export function sortTrackList(data) {
-console.log("sortTrackList entered " + data.items.length);
   data.items = data.items.sort(function (item1, item2) {
     item1 = _.get(item1, data.sortColumnName);
     item2 = _.get(item2, data.sortColumnName);
@@ -244,7 +233,6 @@ console.log("sortTrackList entered " + data.items.length);
       }
     }
   });
-console.log("sortTrackList exiting " + data.items.length);
   return data;
 }
 
