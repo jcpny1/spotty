@@ -41,7 +41,7 @@ export default class PlaylistsPage extends Component {
   }
 
   sortActiveTrackList = (columnName) => {
-    var atl = this.state.activeTrackList;
+    const atl = this.state.activeTrackList;
     atl.sortDirection = (atl.sortColumnName !== columnName) ? 'a' : (atl.sortDirection === 'a') ? 'd' : 'a';
     atl.sortColumnName = columnName;
     this.setState({activeTrackList: actions.sortTrackList(atl)});
@@ -57,8 +57,8 @@ export default class PlaylistsPage extends Component {
   }
 
   render() {
-    const {accessToken} = this.props;
     const {activeIndex, activeTrackList, loading, playlists} = this.state;
+    const {accessToken} = this.props;
     if (playlists) {
       return (
         <Playlists accessToken={accessToken} activeIndex={activeIndex} activeTrackList={activeTrackList} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />

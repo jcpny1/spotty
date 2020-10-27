@@ -26,17 +26,18 @@ class App extends Component {
 
   componentDidMount() {
     const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const code = urlParams.get('code');
+    const urlParams   = new URLSearchParams(queryString);
+    const code        = urlParams.get('code');
     if (code) {
       actions.getTokens(this, code, redirectUri);
     }
   }
 
   pageBody() {
+    const {accessToken, loading} = this.state;
     return (
       <Grid.Column width={12}>
-        {!this.state.accessToken && !this.state.loading && (
+        {!accessToken && !loading && (
           <Grid.Column>
             <h4>NOTE:</h4>
             <ul>
@@ -46,9 +47,9 @@ class App extends Component {
             </ul>
           </Grid.Column>
         )}
-        {this.state.accessToken && (
+        {accessToken && (
           <Grid.Column>
-            <PlaylistsPage accessToken={this.state.accessToken}/>
+            <PlaylistsPage accessToken={accessToken}/>
           </Grid.Column>
         )}
       </Grid.Column>
@@ -92,18 +93,19 @@ class App extends Component {
   }
 
   pageMenu() {
+    const {accessToken, loading} = this.state;
     return (
       <Grid.Column width={4}>
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            {!this.state.accessToken && (
+            {!accessToken && (
               <span>
                 <LoginPage/>
               </span>
             )}
-            {this.state.accessToken && (
-              <CredentialsPage accessToken={this.state.accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={this.state.loading}/>}/>
+            {accessToken && (
+              <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={loading}/>}/>
             )}
           </header>
         </div>

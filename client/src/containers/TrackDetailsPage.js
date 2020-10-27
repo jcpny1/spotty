@@ -5,10 +5,11 @@ import {TrackDetails} from '../components/TrackDetails';
 
 export default class TrackDetailsPage extends Component {
   render() {
+    const {track, trigger} = this.props;
     return (
-      <Modal trigger={this.props.trigger} closeIcon='close'>
+      <Modal trigger={trigger} closeIcon='close'>
         <Modal.Header><Header content='Track Details' icon='info circle' size='small'/></Modal.Header>
-        <Modal.Content><TrackDetails track={this.props.track}/></Modal.Content>
+        <Modal.Content><TrackDetails track={track}/></Modal.Content>
         <Modal.Actions></Modal.Actions>
       </Modal>
     );

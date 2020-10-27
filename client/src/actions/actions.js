@@ -3,7 +3,7 @@ import _ from 'lodash';
 // Mark tracklist duplicates.
 export function flagDuplicates(tracklist) {
   // Group tracks by track id.
-  var groupedItems= _.groupBy(tracklist.items, function(e) {return e.track.id})
+  let groupedItems= _.groupBy(tracklist.items, function(e) {return e.track.id})
   // Look for duplicates and apply duplicate flag to duplicate items.
   for (const trackId in groupedItems) {
     if (trackId !== 'null' && groupedItems[trackId].length > 1) {
@@ -16,7 +16,7 @@ export function getAllTracks(playlistsItems, caller, token) {
   caller.setState({loading: true, responseCount: 0, listCombine: {items:[]}});
 
   // Load saved playlists
-  for (var i = 0; i < (playlistsItems.length - 2); i++) {
+  for (let i = 0; i < (playlistsItems.length - 2); i++) {
     fetch(playlistsItems[i].tracks.href, {
       method:  'GET',
       headers: {'Authorization': 'Bearer ' + token}
@@ -30,9 +30,9 @@ export function getAllTracks(playlistsItems, caller, token) {
 
         // convert playlist id to playlist name.
         const playlistId = data.href.split('/')[5];  // get playlist id
-        const playlist = playlistsItems.find(o => o.id === playlistId);  // find playlist object
+        const playlist   = playlistsItems.find(o => o.id === playlistId);  // find playlist object
 
-        for (var j = 0; j < data.items.length; j++) {
+        for (let j = 0; j < data.items.length; j++) {
           data.items[j].playlistName = playlist.name; // add playlist name as property to each item.
           atl.items.push(data.items[j]);
         }
@@ -70,9 +70,9 @@ export function getAllTracks(playlistsItems, caller, token) {
     caller.setState({responseCount: caller.state.responseCount + 1});
 
     if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
-      var atl = caller.state.listCombine;
+      let atl = caller.state.listCombine;
 
-      for (var j = 0; j < data.items.length; j++) {
+      for (let j = 0; j < data.items.length; j++) {
         data.items[j].playlistName = 'LIKED'; // add playlist name as property to each item.
         atl.items.push(data.items[j]);
       }
@@ -161,7 +161,7 @@ export function getPlaylists(caller, token) {
         return 0;
       });
       // protect against no playlists.
-      var copyItem = JSON.parse(JSON.stringify(data.items[0]));
+      let copyItem = JSON.parse(JSON.stringify(data.items[0]));
       copyItem.name = 'LIKED';
       copyItem.id = 'LIKED';
       copyItem.images = [];
