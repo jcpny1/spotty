@@ -18,7 +18,7 @@ export default class LoginPage extends Component {
   render() {
     return (
       <a
-        className="btn btn--loginApp-link"
+        className='btn btn--loginApp-link'
         href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=code&show_dialog=false`}
       >
         Login

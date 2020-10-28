@@ -3,7 +3,7 @@ import _ from 'lodash';
 // Mark tracklist duplicates.
 export function flagDuplicates(tracklist) {
   // Group tracks by track id.
-  let groupedItems= _.groupBy(tracklist.items, function(e) {return e.track.id})
+  let groupedItems = _.groupBy(tracklist.items, function(e) {return e.track.id})
   // Look for duplicates and apply duplicate flag to duplicate items.
   for (const trackId in groupedItems) {
     if (trackId !== 'null' && groupedItems[trackId].length > 1) {
@@ -19,7 +19,7 @@ export function getAllTracks(playlistsItems, caller, token) {
   for (let i = 0; i < (playlistsItems.length - 2); i++) {
     fetch(playlistsItems[i].tracks.href, {
       method:  'GET',
-      headers: {'Authorization': 'Bearer ' + token}
+      headers: {'Authorization': `Bearer ${token}`}
     })
     .then(statusCheck)
     .then(response => response.json())
@@ -50,7 +50,7 @@ export function getAllTracks(playlistsItems, caller, token) {
     })
     .catch(error => {
       caller.setState({activeTrackList:  {items:[]}});
-      console.error("getAllTracks Playlist FAIL " + error);
+      console.error(`getAllTracks Playlist FAIL ${error}`);
     });
     // .finally(() => {
     //   caller.setState({loading: false});
@@ -62,7 +62,7 @@ export function getAllTracks(playlistsItems, caller, token) {
   // dedup this with call to getLikedTracklist
   fetch('https://api.spotify.com/v1/me/tracks', {
     method:  'GET',
-    headers: {'Authorization': 'Bearer ' + token}
+    headers: {'Authorization': `Bearer ${token}`}
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -90,7 +90,7 @@ export function getAllTracks(playlistsItems, caller, token) {
   })
   .catch(error => {
     caller.setState({activeTrackList:  {items:[]}});
-    console.error("getAllTracks LIKED FAIL " + error);
+    console.error(`getAllTracks LIKED FAIL ${error}`);
   });
   // .finally(() => {
   //   caller.setState({loading: false});
@@ -102,7 +102,7 @@ export function getCredentials(caller, token) {
   caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me', {
     method:  'GET',
-    headers: {'Authorization': 'Bearer ' + token}
+    headers: {'Authorization': `Bearer ${token}`}
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -111,7 +111,7 @@ export function getCredentials(caller, token) {
     })
   .catch(error => {
     caller.setState({data: null});
-    console.error("getCredentials FAIL " + error);
+    console.error(`getCredentials FAIL ${error}`);
   })
   .finally(() => {
     caller.setState({loading: false});
@@ -123,7 +123,7 @@ export function getLikedTracklist(listLength, caller, token) {
   caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me/tracks', {
     method:  'GET',
-    headers: {'Authorization': 'Bearer ' + token}
+    headers: {'Authorization': `Bearer ${token}`}
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -134,7 +134,7 @@ export function getLikedTracklist(listLength, caller, token) {
     })
   .catch(error => {
     caller.setState({activeTrackList:  {items:[]}});
-    console.error("getLikedTracklist FAIL " + error);
+    console.error(`getLikedTracklist FAIL ${error}`);
   })
   .finally(() => {
     caller.setState({loading: false});
@@ -146,7 +146,7 @@ export function getPlaylists(caller, token) {
   caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me/playlists', {
     method:  'GET',
-    headers: {'Authorization': 'Bearer ' + token}
+    headers: {'Authorization': `Bearer ${token}`}
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -175,7 +175,7 @@ export function getPlaylists(caller, token) {
     })
   .catch(error => {
     caller.setState({playlists: null});
-    console.error("getPlaylists FAIL " + error);
+    console.error(`getPlaylists FAIL ${error}`);
   })
   .finally(() => {
     caller.setState({loading: false});
@@ -205,7 +205,7 @@ export function getTokens(caller, code, redirectUri) {
       refreshToken: null,
       expiresIn:    null
     });
-    console.error("getTokens FAIL " + error);
+    console.error(`getTokens FAIL ${error}`);
   })
   .finally(() => {
     caller.setState({loading: false});
@@ -216,7 +216,7 @@ export function getTracklist(playlist, index, caller, token) {
   caller.setState({loading: true});
   fetch(playlist.tracks.href, {
     method:  'GET',
-    headers: {'Authorization': 'Bearer ' + token}
+    headers: {'Authorization': `Bearer ${token}`}
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -228,7 +228,7 @@ export function getTracklist(playlist, index, caller, token) {
     })
   .catch(error => {
     caller.setState({activeTrackList:  {items:[]}});
-    console.error("getTracklist FAIL " + error);
+    console.error(`getTracklist FAIL ${error}`);
   })
   .finally(() => {
     caller.setState({loading: false});
@@ -261,7 +261,7 @@ export function sortTrackList(data) {
       }
     }
   });
-  return data;
+  return;
 }
 
 // Check a fetch response status.

@@ -40,11 +40,13 @@ export default class PlaylistsPage extends Component {
     }
   }
 
+  // Sort ActiveTrackList in place.
   sortActiveTrackList = (columnName) => {
     const atl = this.state.activeTrackList;
     atl.sortDirection = (atl.sortColumnName !== columnName) ? 'a' : (atl.sortDirection === 'a') ? 'd' : 'a';
     atl.sortColumnName = columnName;
-    this.setState({activeTrackList: actions.sortTrackList(atl)});
+    actions.sortTrackList(atl);
+    this.setState({activeTrackList: atl});
   }
 
   handleClick = (e, playlistProps) => {

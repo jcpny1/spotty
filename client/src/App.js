@@ -6,7 +6,7 @@ import LoginPage from './containers/LoginPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
 import * as actions from './actions/actions';
 import logo from './logo.svg';
-import "semantic-ui-css/semantic.min.css";
+import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
 // de dup this with LoginPage.
@@ -96,9 +96,9 @@ class App extends Component {
     const {accessToken, loading} = this.state;
     return (
       <Grid.Column width={4}>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
+        <div className='App'>
+          <header className='App-header'>
+            <img src={logo} className='App-logo' alt='logo' />
             {!accessToken && (
               <span>
                 <LoginPage/>
