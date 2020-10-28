@@ -65,7 +65,7 @@ export const Playlist = (props) => {
             {playlist.images[0] && listButtons()}
           </Table.Body>
         </Table>
-      <TrackList trackList={trackList} onSort={onSort}/>
+      <TrackList trackList={trackList} playlistName={playlist.name} onSort={onSort}/>
       </Accordion.Content>
     );
   }

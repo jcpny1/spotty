@@ -40,6 +40,10 @@ export const TrackDetails = (props) => {
           <Table.Cell>Explicit</Table.Cell>
           <Table.Cell>{track.explicit.toString()}</Table.Cell>
         </Table.Row>
+        <Table.Row>
+          <Table.Cell>Local</Table.Cell>
+          <Table.Cell>{track.is_local && 'true'}</Table.Cell>
+        </Table.Row>
       </Table.Body>
     );
   }
