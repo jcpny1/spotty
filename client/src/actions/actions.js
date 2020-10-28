@@ -17,7 +17,7 @@ export function getAllTracks(playlistsItems, caller, token) {
 
   // Load saved playlists
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
-    fetch(`${playlistsItems[i].tracks.href}?offset=0`, {
+    fetch(playlistsItems[i].tracks.href, {
       method:  'GET',
       headers: { 'Authorization': `Bearer ${token}` }
     })
@@ -214,14 +214,14 @@ export function getTokens(caller, code, redirectUri) {
 
 export function getTracklist(playlist, index, caller, token) {
   caller.setState({loading: true});
-  fetch(`${playlist.tracks.href}?offset=0`, {
+  fetch(playlist.tracks.href, {
     method:  'GET',
     headers: {'Authorization': `Bearer ${token}`}
   })
   .then(statusCheck)
   .then(response => response.json())
   .then(data => {
-      caller.setState({data: data});
+      // caller.setState({data: data});
       if (caller.state.activeIndex === index) {  // are we still servicing this request?
         caller.setState({activeTrackList: data});
       }
