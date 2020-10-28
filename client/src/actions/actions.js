@@ -3,23 +3,23 @@ import _ from 'lodash';
 // Mark tracklist duplicates.
 export function flagDuplicates(tracklist) {
   // Group tracks by track id.
-  let groupedItems = _.groupBy(tracklist.items, function(e) {return e.track.id})
+  let groupedItems = _.groupBy(tracklist.items, function(item) { return item.track.id })
   // Look for duplicates and apply duplicate flag to duplicate items.
   for (const trackId in groupedItems) {
     if (trackId !== 'null' && groupedItems[trackId].length > 1) {
-      _.forEach(groupedItems[trackId], function(value) { value.duplicate = true });
+      _.forEach(groupedItems[trackId], function(item) { item.duplicate = true });
     }
   }
 }
 
 export function getAllTracks(playlistsItems, caller, token) {
-  caller.setState({loading: true, responseCount: 0, listCombine: {items:[]}});
+  caller.setState({ loading: true, responseCount: 0, listCombine: { items:[] } });
 
   // Load saved playlists
-  for (let i = 0; i < (playlistsItems.length - 2); i++) {
+  for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     fetch(playlistsItems[i].tracks.href, {
       method:  'GET',
-      headers: {'Authorization': `Bearer ${token}`}
+      headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(statusCheck)
     .then(response => response.json())
@@ -32,7 +32,7 @@ export function getAllTracks(playlistsItems, caller, token) {
         const playlistId = data.href.split('/')[5];  // get playlist id
         const playlist   = playlistsItems.find(o => o.id === playlistId);  // find playlist object
 
-        for (let j = 0; j < data.items.length; j++) {
+        for (let j = 0; j < data.items.length; ++j) {
           data.items[j].playlistName = playlist.name; // add playlist name as property to each item.
           atl.items.push(data.items[j]);
         }
@@ -72,7 +72,7 @@ export function getAllTracks(playlistsItems, caller, token) {
     if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
       let atl = caller.state.listCombine;
 
-      for (let j = 0; j < data.items.length; j++) {
+      for (let j = 0; j < data.items.length; ++j) {
         data.items[j].playlistName = 'LIKED'; // add playlist name as property to each item.
         atl.items.push(data.items[j]);
       }
@@ -242,6 +242,38 @@ export function sortTrackList(data) {
   data.items = data.items.sort(function (item1, item2) {
     item1 = _.get(item1, data.sortColumnName);
     item2 = _.get(item2, data.sortColumnName);
+
+if (data.sortColumnName === 'track.preview_url' ) {  // do a boolean sort of null vs not null.
+  if (data.sortDirection === 'a') {
+    if (!item1) {
+      if (!item2) {
+        return 0;
+      } else {
+        return -1;
+      }
+    } else {
+      if (!item2) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  } else {
+    if (!item2) {
+      if (!item1) {
+        return 0;
+      } else {
+        return -1;
+      }
+    } else {
+      if (!item1) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  }
+}
 
     if (typeof item1 === 'string') {
       if (data.sortDirection === 'a') {

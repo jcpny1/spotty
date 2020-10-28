@@ -7,7 +7,7 @@ export const Playlists = (props) => {
   const {accessToken, activeIndex, activeTrackList, loading, onClick, onSort, playlists} = props;
 
   function listPlaylists(playlists) {
-    return playlists.map(function(playlist, index) {
+    return playlists.map((playlist, index) => {
       const active = activeIndex === index;
       const trackList = active ? activeTrackList : null;
       return (
