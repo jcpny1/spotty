@@ -40,7 +40,7 @@ export const Playlist = (props) => {
           Owner: {playlist.owner.display_name}
         </Table.Cell>
         <Table.Cell width={12}>
-          Tracks: {trackList && trackList.items.length}
+          Tracks: {playlist.tracks.total}
         </Table.Cell>
       </Table.Row>
     );
