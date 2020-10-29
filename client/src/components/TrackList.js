@@ -31,7 +31,8 @@ export const TrackList = (props) => {
 
   function listTracks(trackList) {
     return trackList.items.map((item, index) => {
-      const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      // const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit' };
       const locale = 'en-US';
       const dateFormat = new Intl.DateTimeFormat(locale, DATE_OPTIONS);
       const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
@@ -56,7 +57,7 @@ export const TrackList = (props) => {
 
   if (trackList) {
     return (
-      <Table compact selectable sortable striped style={{marginTop:0}}>
+      <Table compact='very' selectable sortable striped style={{marginTop:0}}>
         <Table.Header>{columnTitles()}</Table.Header>
         <Table.Body>{listTracks(trackList)}</Table.Body>
         <Table.Footer></Table.Footer>
