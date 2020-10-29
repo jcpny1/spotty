@@ -28,13 +28,16 @@ export default class PlaylistsPage extends Component {
       const playlistsItems=this.state.playlists.items;
       if (index < (playlistsItems.length - 2)) {
         // Specific playlist
+        this.setState({ loading: true });
         const playlist = playlistsItems[index];
         actions.getTracklist(playlist.tracks.href, index, this, this.props.accessToken);
       } else if (index === (playlistsItems.length - 2)) {
         // LIKED TRACKS
+        this.setState({ loading: true });
         actions.getLikedTracklist(playlistsItems.length, this, this.props.accessToken);
       } else if (index === (playlistsItems.length - 1)) {
         // ALL TRACKS
+        this.setState({ loading: true, responseCount: 0, responseTarget: (playlistsItems.length - 2), listCombine: { items:[] } });
         actions.getAllTracks(playlistsItems, this, this.props.accessToken);
       }
     }

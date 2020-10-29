@@ -13,8 +13,6 @@ export function flagDuplicates(tracklist) {
 }
 
 export function getAllTracks(playlistsItems, caller, token) {
-  caller.setState({ loading: true, responseCount: 0, listCombine: { items:[] } });
-
   // Load saved playlists
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     fetch(playlistsItems[i].tracks.href, {
@@ -24,8 +22,13 @@ export function getAllTracks(playlistsItems, caller, token) {
     .then(statusCheck)
     .then(response => response.json())
     .then(data => {
-      caller.setState({responseCount: caller.state.responseCount + 1});
-      if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
+      const allIndex = caller.state.responseTarget + 1;
+
+      if (data.next === null) {  // this is the last call for this playlist.
+        caller.setState({responseCount: caller.state.responseCount + 1});
+      }
+
+      if (caller.state.activeIndex === allIndex) {  // are we still servicing this request?
         let atl = caller.state.listCombine;
 
         for (let j = 0; j < data.items.length; ++j) {
@@ -33,8 +36,17 @@ export function getAllTracks(playlistsItems, caller, token) {
           atl.items.push(data.items[j]);
         }
 
-        if (caller.state.responseCount < (playlistsItems.length - 1)) {
+        if (caller.state.responseCount < caller.state.responseTarget) {
           caller.setState({listCombine: atl});
+          if (data.next !== null) {
+            // initiate next fetch, if available.
+            const nextPlaylistsItems = [];
+            nextPlaylistsItems.push({name: playlistsItems[i].name, tracks: {href: data.next}});
+// we should probably call this function with the exect playlists to be loaded, not this -2 stuff.
+            nextPlaylistsItems.push({});
+            nextPlaylistsItems.push({});
+            getAllTracks(nextPlaylistsItems, caller, token);
+          }
         } else {
           atl.sortColumnName = 'track.name';
           atl.sortDirection = 'a';
@@ -63,7 +75,9 @@ export function getAllTracks(playlistsItems, caller, token) {
   .then(statusCheck)
   .then(response => response.json())
   .then(data => {
-    caller.setState({responseCount: caller.state.responseCount + 1});
+    if (data.next === null) {  // this is the last call for this playlist.
+      caller.setState({responseCount: caller.state.responseCount + 1});
+    }
 
     if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
       let atl = caller.state.listCombine;
@@ -73,7 +87,7 @@ export function getAllTracks(playlistsItems, caller, token) {
         atl.items.push(data.items[j]);
       }
 
-      if (caller.state.responseCount < (playlistsItems.length - 1)) {
+      if (caller.state.responseCount < caller.state.responseTarget) {
         caller.setState({listCombine: atl});
       } else {
         atl.sortColumnName = 'track.name';
@@ -95,7 +109,6 @@ export function getAllTracks(playlistsItems, caller, token) {
 }
 
 export function getCredentials(caller, token) {
-  caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me', {
     method:  'GET',
     headers: {'Authorization': `Bearer ${token}`}
@@ -116,7 +129,6 @@ export function getCredentials(caller, token) {
 }
 
 export function getLikedTracklist(listLength, caller, token) {
-  caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me/tracks', {
     method:  'GET',
     headers: {'Authorization': `Bearer ${token}`}
@@ -124,6 +136,7 @@ export function getLikedTracklist(listLength, caller, token) {
   .then(statusCheck)
   .then(response => response.json())
   .then(data => {
+// just pass in the active index when initially called.
       if (caller.state.activeIndex === (listLength - 2)) {  // are we still servicing this request?
         caller.setState({activeTrackList: data});
       }
@@ -209,7 +222,6 @@ export function getTokens(caller, code, redirectUri) {
 }
 
 export function getTracklist(href, index, caller, token) {
-  caller.setState({loading: true});
   fetch(href, {
     method:  'GET',
     headers: {'Authorization': `Bearer ${token}`}
