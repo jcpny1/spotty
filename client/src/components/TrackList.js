@@ -58,7 +58,7 @@ export const TrackList = (props) => {
   if (trackList) {
     return (
       <Table compact='very' selectable sortable striped style={{marginTop:0}}>
-        <Table.Header>{columnTitles()}</Table.Header>
+        <Table.Header style={{position: 'sticky', top: 0}}>{columnTitles()}</Table.Header>
         <Table.Body>{listTracks(trackList)}</Table.Body>
         <Table.Footer></Table.Footer>
       </Table>
