@@ -29,7 +29,7 @@ export default class PlaylistsPage extends Component {
       if (index < (playlistsItems.length - 2)) {
         // Specific playlist
         const playlist = playlistsItems[index];
-        actions.getTracklist(playlist, index, this, this.props.accessToken);
+        actions.getTracklist(playlist.tracks.href, index, this, this.props.accessToken);
       } else if (index === (playlistsItems.length - 2)) {
         // LIKED TRACKS
         actions.getLikedTracklist(playlistsItems.length, this, this.props.accessToken);

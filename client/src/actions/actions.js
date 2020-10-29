@@ -26,14 +26,10 @@ export function getAllTracks(playlistsItems, caller, token) {
     .then(data => {
       caller.setState({responseCount: caller.state.responseCount + 1});
       if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
-        var atl = caller.state.listCombine;
-
-        // convert playlist id to playlist name.
-        const playlistId = data.href.split('/')[5];  // get playlist id
-        const playlist   = playlistsItems.find(o => o.id === playlistId);  // find playlist object
+        let atl = caller.state.listCombine;
 
         for (let j = 0; j < data.items.length; ++j) {
-          data.items[j].playlistName = playlist.name; // add playlist name as property to each item.
+          data.items[j].playlistName = playlistsItems[i].name; // add playlist name as property to each item.
           atl.items.push(data.items[j]);
         }
 
@@ -49,7 +45,7 @@ export function getAllTracks(playlistsItems, caller, token) {
       }
     })
     .catch(error => {
-      caller.setState({activeTrackList:  {items:[]}});
+      caller.setState({activeTrackList: {items:[]}});
       console.error(`getAllTracks Playlist FAIL ${error}`);
     });
     // .finally(() => {
@@ -89,7 +85,7 @@ export function getAllTracks(playlistsItems, caller, token) {
     }
   })
   .catch(error => {
-    caller.setState({activeTrackList:  {items:[]}});
+    caller.setState({activeTrackList: {items:[]}});
     console.error(`getAllTracks LIKED FAIL ${error}`);
   });
   // .finally(() => {
@@ -133,7 +129,7 @@ export function getLikedTracklist(listLength, caller, token) {
       }
     })
   .catch(error => {
-    caller.setState({activeTrackList:  {items:[]}});
+    caller.setState({activeTrackList: {items:[]}});
     console.error(`getLikedTracklist FAIL ${error}`);
   })
   .finally(() => {
@@ -212,27 +208,39 @@ export function getTokens(caller, code, redirectUri) {
   });
 }
 
-export function getTracklist(playlist, index, caller, token) {
+export function getTracklist(href, index, caller, token) {
   caller.setState({loading: true});
-  fetch(playlist.tracks.href, {
+  fetch(href, {
     method:  'GET',
     headers: {'Authorization': `Bearer ${token}`}
   })
   .then(statusCheck)
   .then(response => response.json())
   .then(data => {
-      // caller.setState({data: data});
       if (caller.state.activeIndex === index) {  // are we still servicing this request?
-        caller.setState({activeTrackList: data});
+        if (data.offset === 0) {  // is first result.
+          caller.setState({activeTrackList: data});
+        } else {
+          let atl = caller.state.activeTrackList;
+          atl.items = atl.items.concat(data.items);
+          caller.setState({activeTrackList: atl});
+        }
+        // initiate next fetch, if available.
+        if (data.next !== null) {
+          getTracklist(data.next, index, caller, token);
+        } else {
+          caller.setState({loading: false});
+        }
       }
     })
   .catch(error => {
-    caller.setState({activeTrackList:  {items:[]}});
+    caller.setState({activeTrackList: {items:[]}});
     console.error(`getTracklist FAIL ${error}`);
-  })
-  .finally(() => {
     caller.setState({loading: false});
   })
+  // .finally(() => {
+  //   caller.setState({loading: false});
+  // })
 // {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
 }
 
@@ -243,6 +251,7 @@ export function sortTrackList(data) {
     item1 = _.get(item1, data.sortColumnName);
     item2 = _.get(item2, data.sortColumnName);
 
+// yuck
 if (data.sortColumnName === 'track.preview_url' ) {  // do a boolean sort of null vs not null.
   if (data.sortDirection === 'a') {
     if (!item1) {
