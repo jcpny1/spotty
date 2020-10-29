@@ -28,32 +28,29 @@ class App extends Component {
     const queryString = window.location.search;
     const urlParams   = new URLSearchParams(queryString);
     const code        = urlParams.get('code');
-    if (code) {
-      actions.getTokens(this, code, redirectUri);
-    }
+    code && actions.getTokens(this, code, redirectUri);
   }
 
   pageBody() {
     const {accessToken, loading} = this.state;
-    return (
-      <Grid.Column width={12}>
-        {!accessToken && !loading && (
-          <Grid.Column>
-            <h4>NOTE:</h4>
-            <ul>
-              <li style={{margin:'10px 0'}}><h5>This app will request permission to access your Spotify account profile, playlists, and saved tracks.</h5></li>
-              <li style={{margin:'10px 0'}}><h5>This data is only being accessed for display to you.</h5></li>
-              <li style={{margin:'10px 0'}}><h5>No information is being recorded, retained, or aggregated.</h5></li>
-            </ul>
-          </Grid.Column>
-        )}
-        {accessToken && (
-          <Grid.Column>
-            <PlaylistsPage accessToken={accessToken}/>
-          </Grid.Column>
-        )}
-      </Grid.Column>
-    );
+    if (!accessToken && !loading) {
+      return (
+        <Grid.Row>
+          <h4>NOTE:</h4>
+          <ul>
+            <li style={{margin:'10px 0'}}><h5>This app will request permission to access your Spotify account profile, playlists, and saved tracks.</h5></li>
+            <li style={{margin:'10px 0'}}><h5>This data is only being accessed for display to you.</h5></li>
+            <li style={{margin:'10px 0'}}><h5>No information is being recorded, retained, or aggregated.</h5></li>
+          </ul>
+        </Grid.Row>
+      );
+    } else if (accessToken) {
+      return (
+        <Grid.Row>
+          <PlaylistsPage accessToken={accessToken}/>
+        </Grid.Row>
+      );
+    }
   }
 
   pageFooter() {
@@ -95,21 +92,17 @@ class App extends Component {
   pageMenu() {
     const {accessToken, loading} = this.state;
     return (
-      <Grid.Column width={4}>
-        <div className='App'>
-          <header className='App-header'>
-            <img src={logo} className='App-logo' alt='logo' />
-            {!accessToken && (
-              <span>
-                <LoginPage/>
-              </span>
-            )}
-            {accessToken && (
-              <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={loading}/>}/>
-            )}
-          </header>
-        </div>
-      </Grid.Column>
+      <Grid.Row centered>
+        <br/><br/>
+        <Image src={logo} className='App-logo' alt='logo' />
+        <br/><br/>
+        {!accessToken &&
+          <LoginPage/>
+        }
+        {accessToken &&
+          <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={loading}/>}/>
+        }
+      </Grid.Row>
     );
   }
 
@@ -121,8 +114,12 @@ class App extends Component {
             {this.pageHeader()}
           </Grid.Row>
           <Grid.Row>
-            {this.pageMenu()}
-            {this.pageBody()}
+            <Grid.Column className='App App-header' width={3}>
+              {this.pageMenu()}
+            </Grid.Column>
+            <Grid.Column width={13}>
+              {this.pageBody()}
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </Router>
