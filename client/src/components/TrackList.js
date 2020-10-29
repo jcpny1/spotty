@@ -9,15 +9,15 @@ export const TrackList = (props) => {
   function columnTitles() {
     return (
       <Table.Row>
-        <Table.HeaderCell onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
-        {playlistName === 'ALL TRACKS' && <Table.HeaderCell onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>}
-        <Table.HeaderCell onClick={() => onSort('duplicate')}>Duplicate</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
-        <Table.HeaderCell onClick={() => onSort('added_at')}          textAlign='center'>Added</Table.HeaderCell>
+        <Table.HeaderCell className='sticky' onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
+        <Table.HeaderCell className='sticky' onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
+        <Table.HeaderCell className='sticky' onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
+        {playlistName === 'ALL TRACKS' && <Table.HeaderCell className='sticky' onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>}
+        <Table.HeaderCell className='sticky' onClick={() => onSort('duplicate')}>Duplicate</Table.HeaderCell>
+        <Table.HeaderCell className='sticky' onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
+        <Table.HeaderCell className='sticky' onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
+        <Table.HeaderCell className='sticky' onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
+        <Table.HeaderCell className='sticky' onClick={() => onSort('added_at')}          textAlign='center'>Added</Table.HeaderCell>
       </Table.Row>
     );
   }
@@ -58,7 +58,7 @@ export const TrackList = (props) => {
   if (trackList) {
     return (
       <Table compact='very' selectable sortable striped style={{marginTop:0}}>
-        <Table.Header style={{position: 'sticky', top: 0}}>{columnTitles()}</Table.Header>
+        <Table.Header>{columnTitles()}</Table.Header>
         <Table.Body>{listTracks(trackList)}</Table.Body>
         <Table.Footer></Table.Footer>
       </Table>
