@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 export const TrackDetails = (props) => {
   const {track} = props;
 
+  // <Table.Cell width={2}>Album Image</Table.Cell>
   function listTrackDetails(track) {
     return (
       <Table.Body>
         <Table.Row>
-          <Table.Cell width={2}>Album Image</Table.Cell>
-          <Table.Cell width={14}>{track.album.images[0] && <Image src={track.album.images[0].url} size='small'/>}</Table.Cell>
+          <Table.Cell width={2}>{track.album.images[0] && <Image src={track.album.images[0].url} size='small'/>}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Album</Table.Cell>
