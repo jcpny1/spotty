@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Icon, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import TrackDetailsPage from '../containers/TrackDetailsPage';
+import * as actions from '../actions/actions';
 
 export const TrackList = (props) => {
   const {playlistName, trackList, onSort} = props;
@@ -22,13 +23,6 @@ export const TrackList = (props) => {
     );
   }
 
-  function msToHms(ms) {
-    const seconds = Math.floor((ms/1000) % 60);
-    const minutes = Math.floor((ms/(1000*60)) % 60);
-    const hours   = Math.floor((ms/(1000*60*60)) % 24);
-    return `${hours.toLocaleString('en-US', {minimumIntegerDigits:2})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits:2})}:${seconds.toLocaleString('en-US', {minimumIntegerDigits:2})}`;
-  }
-
   function listTracks(trackList) {
     return trackList.items.map((item, index) => {
       // const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
@@ -43,7 +37,7 @@ export const TrackList = (props) => {
           <Table.Cell>{item.track.album.name}</Table.Cell>
           {playlistName === 'ALL TRACKS' && <Table.Cell>{item.playlistName}</Table.Cell>}
           <Table.Cell>{item.duplicate  && 'true'}</Table.Cell>
-          <Table.Cell textAlign='center'>{msToHms(item.track.duration_ms)}</Table.Cell>
+          <Table.Cell textAlign='center'>{actions.msToHMS(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.preview_url && <a href={item.track.preview_url} target='_blank' rel='noopener noreferrer'><Icon name='play' title='Play' /></a>}</Table.Cell>
           <Table.Cell textAlign='center'>{addDate}</Table.Cell>

@@ -1,5 +1,12 @@
 import _ from 'lodash';
 
+export function msToHMS(ms) {
+  const seconds = Math.floor((ms/1000) % 60);
+  const minutes = Math.floor((ms/(1000*60)) % 60);
+  const hours   = Math.floor((ms/(1000*60*60)) % 24);
+  return `${hours.toLocaleString('en-US', {minimumIntegerDigits:2})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits:2})}:${seconds.toLocaleString('en-US', {minimumIntegerDigits:2})}`;
+}
+
 // Mark tracklist duplicates.
 export function flagDuplicates(tracklist) {
   // Group tracks by track id.
