@@ -9,8 +9,8 @@ export const TrackDetails = (props) => {
     return (
       <Table.Body>
         <Table.Row>
-          <Table.Cell>Album Image</Table.Cell>
-          <Table.Cell>{track.album.images[0] && <Image src={track.album.images[0].url} size='small'/>}</Table.Cell>
+          <Table.Cell width={2}>Album Image</Table.Cell>
+          <Table.Cell width={14}>{track.album.images[0] && <Image src={track.album.images[0].url} size='small'/>}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Album</Table.Cell>
@@ -26,7 +26,7 @@ export const TrackDetails = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>Markets</Table.Cell>
-          <Table.Cell>{track.available_markets}</Table.Cell>
+          <Table.Cell>{track.available_markets.join(', ')}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Disc Number</Table.Cell>
@@ -38,11 +38,11 @@ export const TrackDetails = (props) => {
         </Table.Row>
         <Table.Row>
           <Table.Cell>Explicit</Table.Cell>
-          <Table.Cell>{track.explicit.toString()}</Table.Cell>
+          <Table.Cell>{track.explicit && 'yes'.toString()}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Local</Table.Cell>
-          <Table.Cell>{track.is_local && 'true'}</Table.Cell>
+          <Table.Cell>{track.is_local && 'yes'}</Table.Cell>
         </Table.Row>
       </Table.Body>
     );
