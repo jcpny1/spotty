@@ -92,16 +92,18 @@ class App extends Component {
   pageMenu() {
     const {accessToken, loading} = this.state;
     return (
-      <Grid.Row centered>
-        <br/><br/>
-        <Image src={logo} className='App-logo' alt='logo' />
-        <br/><br/>
-        {!accessToken &&
-          <LoginPage/>
-        }
-        {accessToken &&
-          <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={loading}/>}/>
-        }
+      <Grid.Row>
+        <Grid.Column>
+          <Image src={logo} className='App-logo' alt='logo' />
+        </Grid.Column>
+        <Grid.Column>
+          {!accessToken &&
+            <LoginPage/>
+          }
+          {accessToken &&
+            <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={loading}/>}/>
+          }
+        </Grid.Column>
       </Grid.Row>
     );
   }
@@ -113,11 +115,11 @@ class App extends Component {
           <Grid.Row columns={1}>
             {this.pageHeader()}
           </Grid.Row>
-          <Grid.Row>
-            <Grid.Column className='App App-header' width={3}>
+          <Grid.Row columns={2}>
+            <Grid.Column className='App App-header' width={2}>
               {this.pageMenu()}
             </Grid.Column>
-            <Grid.Column width={13}>
+            <Grid.Column width={14}>
               {this.pageBody()}
             </Grid.Column>
           </Grid.Row>

@@ -9,13 +9,18 @@ export const TrackDetails = (props) => {
   // <Table.Cell width={2}>Album Image</Table.Cell>
   function listTrackDetails(track) {
     return (
+      <span>
+      <Table.Header>
+        <Table.HeaderCell>{track.album.images[0] && <Image src={track.album.images[0].url} size='small'/>}</Table.HeaderCell>
+      </Table.Header>
       <Table.Body>
         <Table.Row>
-          <Table.Cell width={2}>{track.album.images[0] && <Image src={track.album.images[0].url} size='small'/>}</Table.Cell>
+          <Table.Cell width={1}>Track</Table.Cell>
+          <Table.Cell>{track.name}</Table.Cell>
         </Table.Row>
         <Table.Row>
-          <Table.Cell>Track</Table.Cell>
-          <Table.Cell>{track.name}</Table.Cell>
+          <Table.Cell>ID</Table.Cell>
+          <Table.Cell>{track.id}</Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Album</Table.Cell>
@@ -26,19 +31,15 @@ export const TrackDetails = (props) => {
           <Table.Cell>{track.artists.map(a => a.name).join(', ')}</Table.Cell>
         </Table.Row>
         <Table.Row>
-          <Table.Cell>Track ID</Table.Cell>
-          <Table.Cell>{track.id}</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>Disc Number</Table.Cell>
+          <Table.Cell>Disc</Table.Cell>
           <Table.Cell>{track.disc_number}</Table.Cell>
         </Table.Row>
         <Table.Row>
-          <Table.Cell>Track Number</Table.Cell>
+          <Table.Cell>Track</Table.Cell>
           <Table.Cell>{track.track_number}</Table.Cell>
         </Table.Row>
         <Table.Row>
-          <Table.Cell>Duration (ms)</Table.Cell>
+          <Table.Cell>Duration</Table.Cell>
           <Table.Cell>{actions.msToHMS(track.duration_ms)}</Table.Cell>
         </Table.Row>
         <Table.Row>
@@ -54,6 +55,7 @@ export const TrackDetails = (props) => {
           <Table.Cell>{track.available_markets.join(', ')}</Table.Cell>
         </Table.Row>
       </Table.Body>
+      </span>
     );
   }
 
