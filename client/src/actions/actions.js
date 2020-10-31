@@ -209,14 +209,13 @@ export function getTokens(caller, code, redirectUri) {
 
 export function getAllMyTracks(playlistsItems, name, index, caller, token) {
 // move to PLaylists Page
-  caller.setState({responseTarget: playlistsItems.length - 1 - 1});
+  caller.setState({responseTarget: playlistsItems.length - 1});
   // Load users playlists' tracks.
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
     getTracklist(playlist.tracks.href, playlist.name, index, caller, token, true);
   }
-
-  // then get liked tracks, append
+  getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', index, caller, token, true);
 }
 
 export function getTracklist(href, name, index, caller, token, sort=false) {
