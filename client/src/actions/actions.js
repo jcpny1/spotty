@@ -240,7 +240,7 @@ export function getTracklist(href, name, index, caller, token, sort=false) {
         caller.setState({listCombine: atl});
 
         if (data.next !== null) {
-          getTracklist(data.next, name, index, caller, token);
+          getTracklist(data.next, name, index, caller, token, sort);
         } else {
           const responseTarget = caller.state.responseTarget - 1;
           caller.setState({responseTarget: responseTarget});
