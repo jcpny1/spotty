@@ -141,6 +141,8 @@ export function getTracklist(href, name, listCombine, requestCount, caller, sort
 
           let pLists = caller.state.playlists;
           pLists.items[caller.state.loadIndex].tracks.items = listCombine.items;
+          pLists.items[caller.state.loadIndex].tracks.sortColumnName = listCombine.sortColumnName;
+          pLists.items[caller.state.loadIndex].tracks.sortDirection  = listCombine.sortDirection;
           caller.setState({playlists: pLists, loading: false});
         }
       }
