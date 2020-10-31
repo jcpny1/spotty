@@ -2,17 +2,17 @@ import React from 'react';
 import {Button, Icon, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import TrackDetailsPage from '../containers/TrackDetailsPage';
-import TrackMenu from './TrackMenu';
+// import {TrackMenu} from './TrackMenu';
 import * as actions from '../actions/actions';
 
 export const TrackList = (props) => {
   const {playlistName, trackList, onSort} = props;
 
-  function menuItemAdmin(trackName) {
-    return (
-      <TrackMenu trackName={trackName}>
-      </TrackMenu>
-    );
+  // function menuItemAdmin(trackName) {
+  //   return (
+  //     <TrackMenu trackName={trackName}>
+  //     </TrackMenu>
+  //   );
     // return (
     //   <Dropdown>
     //     <Dropdown.Menu>
@@ -21,7 +21,7 @@ export const TrackList = (props) => {
     //     </Dropdown.Menu>
     //   </Dropdown>
     // );
-  }
+  // }
 
   function columnTitles() {
     return (

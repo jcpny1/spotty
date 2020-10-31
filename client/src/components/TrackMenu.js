@@ -1,9 +1,8 @@
 import React from "react";
-import { Button, Icon, Menu, Popup, Ref } from "semantic-ui-react";
+import { Button, Menu, Popup, Ref } from "semantic-ui-react";
 import PropTypes from 'prop-types';
 
-
-const PopupExample = (props) => {
+export const TrackMenu = (props) => {
   const {trackName} = props;
   const [open, setOpen] = React.useState(false);
   const buttonRef = React.useRef(null);
@@ -25,9 +24,7 @@ const PopupExample = (props) => {
   return (
     <React.Fragment>
       <Ref innerRef={buttonRef}>
-
-      <a ><Icon name='dropdown' title={trackName} onContextMenu={handleContextMenu}/></a>
-
+        <Button content='Refresh' icon='dropdown' title={trackName} compact inverted size='tiny' style={{paddingRight:'3px'}}  onContextMenu={handleContextMenu}/>
       </Ref>
       <Popup context={buttonRef} onClose={handlePopupClose} open={open}>
         <Menu
@@ -43,4 +40,6 @@ const PopupExample = (props) => {
   );
 };
 
-export default PopupExample;
+TrackMenu.propTypes = {
+  trackName: PropTypes.string.isRequired,
+}

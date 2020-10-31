@@ -35,7 +35,6 @@ export default class PlaylistsPage extends Component {
         actions.getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', index, this, this.props.accessToken);
       } else if (index === (playlistsItems.length - 1)) {
         // ALL TRACKS
-        // actions.getAllTracks(playlistsItems, this, this.props.accessToken);
         actions.getAllMyTracks(playlistsItems, 'ALL TRACKS', index, this, this.props.accessToken, playlistsItems.length - 1);
       }
     }
