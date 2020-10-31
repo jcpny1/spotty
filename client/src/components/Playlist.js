@@ -5,8 +5,10 @@ import {TrackList} from './TrackList';
 
 export const Playlist = (props) => {
   const {active, index, loading, onClick, onSort, playlist, trackList} = props;
+  const tList = playlist.tracks.items;
 
   function listButtons() {
+// fixup index numbers, they're not unique.
     return (
       <Table.Row key={index} draggable='true'>
         <Table.Cell width={1}>
@@ -40,7 +42,7 @@ export const Playlist = (props) => {
           Owner: {playlist.owner.display_name}
         </Table.Cell>
         <Table.Cell width={12}>
-          Tracks: {trackList && trackList.items.length}
+          Tracks: {tList && tList.length}
         </Table.Cell>
       </Table.Row>
     );
@@ -65,7 +67,7 @@ export const Playlist = (props) => {
             {playlist.images[0] && listButtons()}
           </Table.Body>
         </Table>
-      <TrackList trackList={trackList} playlistName={playlist.name} onSort={onSort}/>
+      <TrackList trackList={playlist.tracks} playlistName={playlist.name} onSort={onSort}/>
       </Accordion.Content>
     );
   }

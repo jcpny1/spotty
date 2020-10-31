@@ -10,11 +10,12 @@ export default class TokenRefreshPage extends Component {
     this.state = {
       data:       null,
       fetchError: null,
+      loading:    false,
     };
   }
 
   componentDidMount() {
-    actions.getCredentials(this, this.props.accessToken);
+    actions.getCredentials(this);
   }
 
   render() {

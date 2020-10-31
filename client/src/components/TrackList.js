@@ -24,19 +24,34 @@ export const TrackList = (props) => {
   // }
 
   function columnTitles() {
-    return (
-      <Table.Row>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('duplicate')}>Duplicate</Table.HeaderCell>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
-        <Table.HeaderCell className='sticky' onClick={() => onSort('added_at')}          textAlign='center'>Added</Table.HeaderCell>
-      </Table.Row>
-    );
+    if (playlistName === 'ALL TRACKS') {
+      return (
+        <Table.Row>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('duplicate')}>Duplicate</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' onClick={() => onSort('added_at')}          textAlign='center'>Added</Table.HeaderCell>
+        </Table.Row>
+      );
+    } else {
+      return (
+        <Table.Row>
+          <Table.HeaderCell className='sticky'>Title</Table.HeaderCell>
+          <Table.HeaderCell className='sticky'>Artist</Table.HeaderCell>
+          <Table.HeaderCell className='sticky'>Album</Table.HeaderCell>
+          <Table.HeaderCell className='sticky'>Duplicate</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' textAlign='center'>Duration</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' textAlign='center'>Popularity</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' textAlign='center'>Preview</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' textAlign='center'>Added</Table.HeaderCell>
+        </Table.Row>
+      );
+    }
   }
 
   function listTracks(trackList) {
@@ -65,9 +80,11 @@ export const TrackList = (props) => {
   //   <Table.Cell width={16}><iframe title='preview player' name={`iframe_${index}`} src='about:blank' height='50px' width='100%'></iframe></Table.Cell>
   // </Table.Row>
 
-  if (trackList) {
+  if (trackList && trackList.items) {
+    const isSortable = (playlistName === 'ALL TRACKS') ? 'sortable' : '';
+
     return (
-      <Table compact='very' selectable sortable striped style={{marginTop:0}}>
+      <Table compact='very' selectable className={isSortable} striped style={{marginTop:0}}>
         <Table.Header>{columnTitles()}</Table.Header>
         <Table.Body>{listTracks(trackList)}</Table.Body>
         <Table.Footer></Table.Footer>

@@ -14,7 +14,7 @@ export default class CredentialsPage extends Component {
   }
 
   componentDidMount() {
-    actions.getCredentials(this, this.props.accessToken);
+    actions.getCredentials(this);
   }
 
   render() {

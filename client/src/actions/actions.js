@@ -12,19 +12,20 @@ export function flagDuplicates(tracklist) {
   }
 }
 
-export function getAllTracks(playlistsItems, name, index, caller, token) {
+export function getAllTracks(playlistsItems, name, listCombine, requestCount, caller) {
   // Load users playlists' tracks.
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
-    getTracklist(playlist.tracks.href, playlist.name, index, caller, token, true);
+    getTracklist(playlist.tracks.href, playlist.name, listCombine, requestCount, caller, true);
   }
-  getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', index, caller, token, true);
+  getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', listCombine, requestCount, caller, true);
 }
 
-export function getCredentials(caller, token) {
+export function getCredentials(caller) {
+  caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me', {
     method:  'GET',
-    headers: {'Authorization': `Bearer ${token}`}
+    headers: {'Authorization': `Bearer ${caller.props.accessToken}`}
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -41,11 +42,11 @@ export function getCredentials(caller, token) {
 // {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
 }
 
-export function getPlaylists(caller, token) {
+export function getPlaylists(caller) {
   caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me/playlists', {
     method:  'GET',
-    headers: {'Authorization': `Bearer ${token}`}
+    headers: {'Authorization': `Bearer ${caller.props.accessToken}`}
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -70,6 +71,7 @@ export function getPlaylists(caller, token) {
       copyItem.name = 'ALL TRACKS';
       copyItem.id = 'ALL TRACKS';
       data.items.push(copyItem);
+      data.items.forEach(playlistItem => playlistItem.tracks.items = null);
       caller.setState({playlists: data});
     })
   .catch(error => {
@@ -111,48 +113,45 @@ export function getTokens(caller, code, redirectUri) {
   });
 }
 
-export function getTracklist(href, name, index, caller, token, sort=false) {
+export function getTracklist(href, name, listCombine, requestCount, caller, sort=false) {
+// pass in fetch error?
+  caller.setState({fetchError: null, loading: true});
+
   fetch(href, {
     method:  'GET',
-    headers: {'Authorization': `Bearer ${token}`}
+    headers: {'Authorization': `Bearer ${caller.props.accessToken}`}
   })
   .then(statusCheck)
   .then(response => response.json())
   .then(data => {
-      if (caller.state.activeIndex === index) {  // are we still servicing this request?
+    if (caller.state.loadIndex === caller.state.activeIndex) {  // are we still servicing this request?
+      for (let j = 0; j < data.items.length; ++j) {
+        data.items[j].playlistName = name; // add playlist name as property to each item.
+        listCombine.items.push(data.items[j]);
+      }
 
-// don't need listCombine as a state var.
-        let atl = caller.state.listCombine;
+      if (data.next !== null) {
+        getTracklist(data.next, name, listCombine, requestCount, caller, sort);
+      } else {
+        requestCount.count = requestCount.count - 1;
+        if (requestCount.count === 0) {
+          flagDuplicates(listCombine);
 
-        for (let j = 0; j < data.items.length; ++j) {
-// only need to set this for ALL TRACKS
-          data.items[j].playlistName = name; // add playlist name as property to each item.
-          atl.items.push(data.items[j]);
-        }
-        caller.setState({listCombine: atl});
+          sort && sortTrackList(listCombine, 'track.name');
 
-        if (data.next !== null) {
-          getTracklist(data.next, name, index, caller, token, sort);
-        } else {
-          const requestCount = caller.state.requestCount - 1;
-          caller.setState({requestCount: requestCount});
-
-          if (requestCount === 0) {
-// unhide dup col for single playlists
-            flagDuplicates(atl);
-            if (sort) {
-              sortTrackList(atl, 'track.name');
-            }
-            caller.setState({activeTrackList: atl, loading: false});
-          }
+          let pLists = caller.state.playlists;
+          pLists.items[caller.state.loadIndex].tracks.items = listCombine.items;
+          caller.setState({playlists: pLists, loading: false});
         }
       }
-    })
+    }
+  })
   .catch(error => {
 // we zero out atl here, but what about other successfull calls?
-    caller.setState({activeTrackList: {items:[]}});
+    let pLists = caller.state.playlists;
+    pLists.items[caller.state.loadIndex].tracks.items = listCombine.items;
+    caller.setState({playlists: pLists, loading: false});
     console.error(`getTracklist FAIL ${error}`);
-    caller.setState({loading: false});
   })
   // .finally(() => {
   //   caller.setState({loading: false});
