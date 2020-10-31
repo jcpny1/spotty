@@ -7,14 +7,13 @@ export default class PlaylistsPage extends Component {
   constructor() {
     super();
     this.state = {
-      activeIndex:     -1,   // index into playlists.items
-      activeTrackList:  {items:[]},
-      playlists:       null,   // Spotify playlists response
-      listCombine:     null,
-      loading:         false,
-      responseCount:   0,
-      sortDirection:   '',
+      activeIndex:     null,   // index into playlists.items
+      activeTrackList: null,
       fetchError:      null,
+      listCombine:     null,
+      loading:         null,
+      playlists:       null,   // Spotify playlists response
+      requestCount:    null,
     };
   }
 
@@ -24,7 +23,7 @@ export default class PlaylistsPage extends Component {
 
   fetchTrackList(index) {
     const playlistsItems=this.state.playlists.items;
-    this.setState({ loading: true, activeTrackList: {items:[]}, activeIndex: index, sortDirection: 'a', responseCount: 0, responseTarget: 1, listCombine: { items:[] } });
+    this.setState({ activeIndex: index, activeTrackList: {items:[]}, fetchError: null, listCombine: { items:[] }, loading: true, requestCount: 1 });
     if (index >= 0) {
       if (index < (playlistsItems.length - 2)) {
         // Specific playlist
@@ -35,7 +34,8 @@ export default class PlaylistsPage extends Component {
         actions.getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', index, this, this.props.accessToken);
       } else if (index === (playlistsItems.length - 1)) {
         // ALL TRACKS
-        actions.getAllMyTracks(playlistsItems, 'ALL TRACKS', index, this, this.props.accessToken, playlistsItems.length - 1);
+        this.setState({requestCount: playlistsItems.length - 1});
+        actions.getAllTracks(playlistsItems, 'ALL TRACKS', index, this, this.props.accessToken);
       }
     }
   }

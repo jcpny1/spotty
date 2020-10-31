@@ -1,12 +1,5 @@
 import _ from 'lodash';
 
-export function msToHMS(ms) {
-  const seconds = Math.floor((ms/1000) % 60);
-  const minutes = Math.floor((ms/(1000*60)) % 60);
-  const hours   = Math.floor((ms/(1000*60*60)) % 24);
-  return `${hours.toLocaleString('en-US', {minimumIntegerDigits:2})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits:2})}:${seconds.toLocaleString('en-US', {minimumIntegerDigits:2})}`;
-}
-
 // Mark tracklist duplicates.
 export function flagDuplicates(tracklist) {
   // Group tracks by track id.
@@ -17,6 +10,15 @@ export function flagDuplicates(tracklist) {
       _.forEach(groupedItems[trackId], function(item) { item.duplicate = true });
     }
   }
+}
+
+export function getAllTracks(playlistsItems, name, index, caller, token) {
+  // Load users playlists' tracks.
+  for (let i = 0; i < (playlistsItems.length - 2); ++i) {
+    const playlist = playlistsItems[i];
+    getTracklist(playlist.tracks.href, playlist.name, index, caller, token, true);
+  }
+  getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', index, caller, token, true);
 }
 
 export function getCredentials(caller, token) {
@@ -109,17 +111,6 @@ export function getTokens(caller, code, redirectUri) {
   });
 }
 
-export function getAllMyTracks(playlistsItems, name, index, caller, token) {
-// move to PLaylists Page
-  caller.setState({responseTarget: playlistsItems.length - 1});
-  // Load users playlists' tracks.
-  for (let i = 0; i < (playlistsItems.length - 2); ++i) {
-    const playlist = playlistsItems[i];
-    getTracklist(playlist.tracks.href, playlist.name, index, caller, token, true);
-  }
-  getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', index, caller, token, true);
-}
-
 export function getTracklist(href, name, index, caller, token, sort=false) {
   fetch(href, {
     method:  'GET',
@@ -143,10 +134,10 @@ export function getTracklist(href, name, index, caller, token, sort=false) {
         if (data.next !== null) {
           getTracklist(data.next, name, index, caller, token, sort);
         } else {
-          const responseTarget = caller.state.responseTarget - 1;
-          caller.setState({responseTarget: responseTarget});
+          const requestCount = caller.state.requestCount - 1;
+          caller.setState({requestCount: requestCount});
 
-          if (responseTarget === 0) {
+          if (requestCount === 0) {
 // unhide dup col for single playlists
             flagDuplicates(atl);
             if (sort) {
@@ -167,6 +158,13 @@ export function getTracklist(href, name, index, caller, token, sort=false) {
   //   caller.setState({loading: false});
   // })
 // {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
+}
+
+export function msToHMS(ms) {
+  const seconds = Math.floor((ms/1000) % 60);
+  const minutes = Math.floor((ms/(1000*60)) % 60);
+  const hours   = Math.floor((ms/(1000*60*60)) % 24);
+  return `${hours.toLocaleString('en-US', {minimumIntegerDigits:2})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits:2})}:${seconds.toLocaleString('en-US', {minimumIntegerDigits:2})}`;
 }
 
 // make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
