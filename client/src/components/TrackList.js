@@ -2,10 +2,26 @@ import React from 'react';
 import {Button, Icon, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import TrackDetailsPage from '../containers/TrackDetailsPage';
+import TrackMenu from './TrackMenu';
 import * as actions from '../actions/actions';
 
 export const TrackList = (props) => {
   const {playlistName, trackList, onSort} = props;
+
+  function menuItemAdmin(trackName) {
+    return (
+      <TrackMenu trackName={trackName}>
+      </TrackMenu>
+    );
+    // return (
+    //   <Dropdown>
+    //     <Dropdown.Menu>
+    //       <Dropdown.Item text='Add to playlist' />
+    //       <Dropdown.Item text='Remove from playlist' />
+    //     </Dropdown.Menu>
+    //   </Dropdown>
+    // );
+  }
 
   function columnTitles() {
     return (
@@ -13,7 +29,7 @@ export const TrackList = (props) => {
         <Table.HeaderCell className='sticky' onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
         <Table.HeaderCell className='sticky' onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
         <Table.HeaderCell className='sticky' onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
-        {playlistName === 'ALL TRACKS' && <Table.HeaderCell className='sticky' onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>}
+        <Table.HeaderCell className='sticky' onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>
         <Table.HeaderCell className='sticky' onClick={() => onSort('duplicate')}>Duplicate</Table.HeaderCell>
         <Table.HeaderCell className='sticky' onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
         <Table.HeaderCell className='sticky' onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>

@@ -74,7 +74,7 @@ export function getAllTracks(playlistsItems, caller, token) {
   }
 
   // Load LIKED TRACKS
-  // dedup this with call to getLikedTracklist
+  // dedup this with call to getTracklist?
   fetch('https://api.spotify.com/v1/me/tracks', {
     method:  'GET',
     headers: {'Authorization': `Bearer ${token}`}
@@ -82,11 +82,13 @@ export function getAllTracks(playlistsItems, caller, token) {
   .then(statusCheck)
   .then(response => response.json())
   .then(data => {
+    const allIndex = caller.state.responseTarget + 1;
+
     if (data.next === null) {  // this is the last call for this playlist.
       caller.setState({responseCount: caller.state.responseCount + 1});
     }
 
-    if (caller.state.activeIndex === (playlistsItems.length - 1)) {  // are we still servicing this request?
+    if (caller.state.activeIndex === allIndex) {  // are we still servicing this request?
       let atl = caller.state.listCombine;
 
       for (let j = 0; j < data.items.length; ++j) {
@@ -128,29 +130,6 @@ export function getCredentials(caller, token) {
   .catch(error => {
     caller.setState({data: null});
     console.error(`getCredentials FAIL ${error}`);
-  })
-  .finally(() => {
-    caller.setState({loading: false});
-  })
-// {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
-}
-
-export function getLikedTracklist(listLength, caller, token) {
-  fetch('https://api.spotify.com/v1/me/tracks', {
-    method:  'GET',
-    headers: {'Authorization': `Bearer ${token}`}
-  })
-  .then(statusCheck)
-  .then(response => response.json())
-  .then(data => {
-// just pass in the active index when initially called.
-      if (caller.state.activeIndex === (listLength - 2)) {  // are we still servicing this request?
-        caller.setState({activeTrackList: data});
-      }
-    })
-  .catch(error => {
-    caller.setState({activeTrackList: {items:[]}});
-    console.error(`getLikedTracklist FAIL ${error}`);
   })
   .finally(() => {
     caller.setState({loading: false});
@@ -228,7 +207,19 @@ export function getTokens(caller, code, redirectUri) {
   });
 }
 
-export function getTracklist(href, index, caller, token) {
+export function getAllMyTracks(playlistsItems, name, index, caller, token) {
+// move to PLaylists Page
+  caller.setState({responseTarget: playlistsItems.length - 1 - 1});
+  // Load users playlists' tracks.
+  for (let i = 0; i < (playlistsItems.length - 2); ++i) {
+    const playlist = playlistsItems[i];
+    getTracklist(playlist.tracks.href, playlist.name, index, caller, token, true);
+  }
+
+  // then get liked tracks, append
+}
+
+export function getTracklist(href, name, index, caller, token, sort=false) {
   fetch(href, {
     method:  'GET',
     headers: {'Authorization': `Bearer ${token}`}
@@ -237,22 +228,36 @@ export function getTracklist(href, index, caller, token) {
   .then(response => response.json())
   .then(data => {
       if (caller.state.activeIndex === index) {  // are we still servicing this request?
-        if (data.offset === 0) {  // is first result.
-          caller.setState({activeTrackList: data});
-        } else {
-          let atl = caller.state.activeTrackList;
-          atl.items = atl.items.concat(data.items);
-          caller.setState({activeTrackList: atl});
+
+// don't need listCombine as a state var.
+        let atl = caller.state.listCombine;
+
+        for (let j = 0; j < data.items.length; ++j) {
+// only need to set this for ALL TRACKS
+          data.items[j].playlistName = name; // add playlist name as property to each item.
+          atl.items.push(data.items[j]);
         }
-        // initiate next fetch, if available.
+        caller.setState({listCombine: atl});
+
         if (data.next !== null) {
-          getTracklist(data.next, index, caller, token);
+          getTracklist(data.next, name, index, caller, token);
         } else {
-          caller.setState({loading: false});
+          const responseTarget = caller.state.responseTarget - 1;
+          caller.setState({responseTarget: responseTarget});
+
+          if (responseTarget === 0) {
+// unhide dup col for single playlists
+            flagDuplicates(atl);
+            if (sort) {
+              sortTrackList(atl, 'track.name');
+            }
+            caller.setState({activeTrackList: atl, loading: false});
+          }
         }
       }
     })
   .catch(error => {
+// we zero out atl here, but what about other successfull calls?
     caller.setState({activeTrackList: {items:[]}});
     console.error(`getTracklist FAIL ${error}`);
     caller.setState({loading: false});
@@ -265,36 +270,45 @@ export function getTracklist(href, index, caller, token) {
 
 // make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
 // clean this up a bit.
-export function sortTrackList(data) {
+export function sortTrackList(data, sortColumnName) {
+  let sortDirection = 'a';
+
+  if ((data.sortColumnName === sortColumnName) && (data.sortDirection === 'a')) {
+    sortDirection = 'd';
+  }
+
+  data.sortColumnName = sortColumnName;
+  data.sortDirection  = sortDirection;
+
   data.items = data.items.sort(function (item1, item2) {
-    item1 = _.get(item1, data.sortColumnName);
-    item2 = _.get(item2, data.sortColumnName);
+    const columnData1 = _.get(item1, sortColumnName);
+    const columnData2 = _.get(item2, sortColumnName);
 
 // yuck
-if (data.sortColumnName === 'track.preview_url' ) {  // do a boolean sort of null vs not null.
-  if (data.sortDirection === 'a') {
-    if (!item1) {
-      if (!item2) {
+if (sortColumnName === 'track.preview_url' ) {  // do a boolean sort of null vs not null.
+  if (sortDirection === 'a') {
+    if (!columnData1) {
+      if (!columnData2) {
         return 0;
       } else {
         return -1;
       }
     } else {
-      if (!item2) {
+      if (!columnData2) {
         return 1;
       } else {
         return 0;
       }
     }
   } else {
-    if (!item2) {
-      if (!item1) {
+    if (!columnData2) {
+      if (!columnData1) {
         return 0;
       } else {
         return -1;
       }
     } else {
-      if (!item1) {
+      if (!columnData1) {
         return 1;
       } else {
         return 0;
@@ -303,20 +317,20 @@ if (data.sortColumnName === 'track.preview_url' ) {  // do a boolean sort of nul
   }
 }
 
-    if (typeof item1 === 'string') {
-      if (data.sortDirection === 'a') {
-        return item1.localeCompare(item2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
+    if (typeof columnData1 === 'string') {
+      if (sortDirection === 'a') {
+        return columnData1.localeCompare(columnData2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
       } else {
-        return item2.localeCompare(item1, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
+        return columnData2.localeCompare(columnData1, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
       }
     } else {
-      if (data.sortDirection === 'a') {
-        if (item1 < item2) {return -1;}
-        if (item1 > item2) {return 1;}
+      if (sortDirection === 'a') {
+        if (columnData1 < columnData2) {return -1;}
+        if (columnData1 > columnData2) {return 1;}
         return 0;
       } else {
-        if (item1 < item2) {return 1;}
-        if (item1 > item2) {return -1;}
+        if (columnData1 < columnData2) {return 1;}
+        if (columnData1 > columnData2) {return -1;}
         return 0;
       }
     }

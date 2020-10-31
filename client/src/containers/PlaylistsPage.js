@@ -23,22 +23,20 @@ export default class PlaylistsPage extends Component {
   }
 
   fetchTrackList(index) {
-    this.setState({activeTrackList: {items:[]}, activeIndex: index, sortDirection: ''});
+    const playlistsItems=this.state.playlists.items;
+    this.setState({ loading: true, activeTrackList: {items:[]}, activeIndex: index, sortDirection: 'a', responseCount: 0, responseTarget: 1, listCombine: { items:[] } });
     if (index >= 0) {
-      const playlistsItems=this.state.playlists.items;
       if (index < (playlistsItems.length - 2)) {
         // Specific playlist
-        this.setState({ loading: true });
         const playlist = playlistsItems[index];
-        actions.getTracklist(playlist.tracks.href, index, this, this.props.accessToken);
+        actions.getTracklist(playlist.tracks.href, playlist.name, index, this, this.props.accessToken);
       } else if (index === (playlistsItems.length - 2)) {
         // LIKED TRACKS
-        this.setState({ loading: true });
-        actions.getLikedTracklist(playlistsItems.length, this, this.props.accessToken);
+        actions.getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', index, this, this.props.accessToken);
       } else if (index === (playlistsItems.length - 1)) {
         // ALL TRACKS
-        this.setState({ loading: true, responseCount: 0, responseTarget: (playlistsItems.length - 2), listCombine: { items:[] } });
-        actions.getAllTracks(playlistsItems, this, this.props.accessToken);
+        // actions.getAllTracks(playlistsItems, this, this.props.accessToken);
+        actions.getAllMyTracks(playlistsItems, 'ALL TRACKS', index, this, this.props.accessToken, playlistsItems.length - 1);
       }
     }
   }
@@ -46,9 +44,7 @@ export default class PlaylistsPage extends Component {
   // Sort ActiveTrackList in place.
   sortActiveTrackList = (columnName) => {
     const atl = this.state.activeTrackList;
-    atl.sortDirection = (atl.sortColumnName !== columnName) ? 'a' : (atl.sortDirection === 'a') ? 'd' : 'a';
-    atl.sortColumnName = columnName;
-    actions.sortTrackList(atl);
+    actions.sortTrackList(atl, columnName);
     this.setState({activeTrackList: atl});
   }
 
