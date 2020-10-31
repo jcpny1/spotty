@@ -9,9 +9,8 @@ export const Playlists = (props) => {
   function listPlaylists(playlists) {
     return playlists.map((playlist, index) => {
       const active = activeIndex === index;
-      const trackList = active && playlists.items ? playlists.items[index] : null;
       return (
-        <Playlist accessToken={accessToken} key={index} active={active} index={index} onClick={onClick} onSort={onSort} playlist={playlist} trackList={trackList} loading={loading} />
+        <Playlist accessToken={accessToken} key={index} active={active} index={index} onClick={onClick} onSort={onSort} playlist={playlist} loading={loading} />
       );
     });
   }

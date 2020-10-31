@@ -68,7 +68,6 @@ export default class PlaylistsPage extends Component {
     const {activeIndex, loading, playlists} = this.state;
     const {accessToken} = this.props;
     if (playlists) {
-      const pList = playlists.items[activeIndex];
       return (
         <Playlists accessToken={accessToken} activeIndex={activeIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
       );

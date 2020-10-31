@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {TrackList} from './TrackList';
 
 export const Playlist = (props) => {
-  const {active, index, loading, onClick, onSort, playlist, trackList} = props;
+  const {active, index, loading, onClick, onSort, playlist} = props;
   const tList = playlist.tracks.items;
 
   function listButtons() {
@@ -85,5 +85,4 @@ Playlist.propTypes = {
   index:       PropTypes.number.isRequired,
   onClick:     PropTypes.func.isRequired,
   playlist:    PropTypes.object.isRequired,
-  trackList:   PropTypes.object,
 }
