@@ -167,6 +167,8 @@ export function sortTrackList(data, sortColumnName) {
   data.sortColumnName = sortColumnName;
   data.sortDirection  = sortDirection;
 
+  const columnData1 = _.get(data.items[0], data.sortColumnName);
+
   if (typeof columnData1 === 'string') {
     return sortTrackListString(data);
   } else if (sortColumnName === 'track.preview_url') {
