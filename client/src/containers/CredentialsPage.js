@@ -10,7 +10,6 @@ export default class TokenRefreshPage extends Component {
     this.state = {
       data:       null,
       fetchError: null,
-      loading:    false,
     };
   }
 

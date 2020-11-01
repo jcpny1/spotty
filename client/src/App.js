@@ -18,7 +18,6 @@ class App extends Component {
     this.state = {
       accessToken:  null,
       expiresIn:    null,
-      loading:      false,
       refreshToken: null,
       fetchError:   null,
     };
@@ -32,8 +31,8 @@ class App extends Component {
   }
 
   pageBody() {
-    const {accessToken, loading} = this.state;
-    if (!accessToken && !loading) {
+    const {accessToken} = this.state;
+    if (!accessToken) {
       return (
         <Grid.Row>
           <h4>NOTE:</h4>
@@ -44,7 +43,7 @@ class App extends Component {
           </ul>
         </Grid.Row>
       );
-    } else if (accessToken) {
+    } else {
       return (
         <Grid.Row>
           <PlaylistsPage accessToken={accessToken}/>
@@ -90,7 +89,7 @@ class App extends Component {
   }
 
   pageMenu() {
-    const {accessToken, loading} = this.state;
+    const {accessToken} = this.state;
     return (
       <Grid.Row>
         <Grid.Column>
@@ -101,7 +100,7 @@ class App extends Component {
             <LoginPage/>
           }
           {accessToken &&
-            <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' loading={loading}/>}/>
+            <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' />}/>
           }
         </Grid.Column>
       </Grid.Row>

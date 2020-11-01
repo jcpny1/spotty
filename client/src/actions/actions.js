@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 // Mark tracklist duplicates.
-export function flagDuplicates(tracklist) {
+function flagDuplicates(tracklist) {
   // Group tracks by track id.
   let groupedItems = _.groupBy(tracklist.items, function(item) { return item.track.id })
   // Look for duplicates and apply duplicate flag to duplicate items.
@@ -12,17 +12,17 @@ export function flagDuplicates(tracklist) {
   }
 }
 
-export function getAllTracks(playlistsItems, name, listCombine, requestCount, caller) {
+export function getAllTracks(caller, playlistsItems, name, listCombine, requestCount) {
   // Load users playlists' tracks.
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
-    getTracklist(playlist.tracks.href, playlist.name, listCombine, requestCount, caller, true);
+    getTracklist(caller, playlist.tracks.href, playlist.name, listCombine, requestCount, true);
   }
-  getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', listCombine, requestCount, caller, true);
+  // Add in liked list, which don't show up in user's playlists.
+  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks', 'LIKED', listCombine, requestCount, true);
 }
 
 export function getCredentials(caller) {
-  caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me', {
     method:  'GET',
     headers: {'Authorization': `Bearer ${caller.props.accessToken}`}
@@ -35,15 +35,11 @@ export function getCredentials(caller) {
   .catch(error => {
     caller.setState({data: null});
     console.error(`getCredentials FAIL ${error}`);
-  })
-  .finally(() => {
-    caller.setState({loading: false});
-  })
+  });
 // {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
 }
 
 export function getPlaylists(caller) {
-  caller.setState({loading: true});
   fetch('https://api.spotify.com/v1/me/playlists', {
     method:  'GET',
     headers: {'Authorization': `Bearer ${caller.props.accessToken}`}
@@ -77,15 +73,11 @@ export function getPlaylists(caller) {
   .catch(error => {
     caller.setState({playlists: null});
     console.error(`getPlaylists FAIL ${error}`);
-  })
-  .finally(() => {
-    caller.setState({loading: false});
   });
 // {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
 }
 
 export function getTokens(caller, code, redirectUri) {
-  caller.setState({loading: true});
   fetch('/get_tokens', {
     method:  'POST',
     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
@@ -107,13 +99,10 @@ export function getTokens(caller, code, redirectUri) {
       expiresIn:    null
     });
     console.error(`getTokens FAIL ${error}`);
-  })
-  .finally(() => {
-    caller.setState({loading: false});
   });
 }
 
-export function getTracklist(href, name, listCombine, requestCount, caller, sort=false) {
+export function getTracklist(caller, href, name, listCombine, requestCount, sort=false) {
 // pass in fetch error?
   caller.setState({fetchError: null, loading: true});
 
@@ -131,7 +120,7 @@ export function getTracklist(href, name, listCombine, requestCount, caller, sort
       }
 
       if (data.next !== null) {
-        getTracklist(data.next, name, listCombine, requestCount, caller, sort);
+        getTracklist(caller, data.next, name, listCombine, requestCount, sort);
       } else {
         requestCount.count = requestCount.count - 1;
         if (requestCount.count === 0) {
@@ -139,20 +128,20 @@ export function getTracklist(href, name, listCombine, requestCount, caller, sort
 
           sort && sortTrackList(listCombine, 'track.name');
 
-          let pLists = caller.state.playlists;
-          pLists.items[caller.state.loadIndex].tracks.items = listCombine.items;
-          pLists.items[caller.state.loadIndex].tracks.sortColumnName = listCombine.sortColumnName;
-          pLists.items[caller.state.loadIndex].tracks.sortDirection  = listCombine.sortDirection;
-          caller.setState({playlists: pLists, loading: false});
+          let tracks = caller.state.playlists.items[caller.state.loadIndex].tracks;
+          tracks.items = listCombine.items;
+          tracks.sortColumnName = listCombine.sortColumnName;
+          tracks.sortDirection  = listCombine.sortDirection;
+          caller.setState({playlists: caller.state.playlists, loading: false});
         }
       }
     }
   })
   .catch(error => {
 // we zero out atl here, but what about other successfull calls?
-    let pLists = caller.state.playlists;
-    pLists.items[caller.state.loadIndex].tracks.items = listCombine.items;
-    caller.setState({playlists: pLists, loading: false});
+    let tracks = caller.state.playlists.items[caller.state.loadIndex].tracks;
+    tracks.items = listCombine.items;
+    caller.setState({playlists: caller.state.playlists, loading: false});
     console.error(`getTracklist FAIL ${error}`);
   })
   // .finally(() => {
@@ -168,8 +157,6 @@ export function msToHMS(ms) {
   return `${hours.toLocaleString('en-US', {minimumIntegerDigits:2})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits:2})}:${seconds.toLocaleString('en-US', {minimumIntegerDigits:2})}`;
 }
 
-// make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
-// clean this up a bit.
 export function sortTrackList(data, sortColumnName) {
   let sortDirection = 'a';
 
@@ -180,66 +167,93 @@ export function sortTrackList(data, sortColumnName) {
   data.sortColumnName = sortColumnName;
   data.sortDirection  = sortDirection;
 
-  data.items = data.items.sort(function (item1, item2) {
-    const columnData1 = _.get(item1, sortColumnName);
-    const columnData2 = _.get(item2, sortColumnName);
-
-// yuck
-if (sortColumnName === 'track.preview_url' ) {  // do a boolean sort of null vs not null.
-  if (sortDirection === 'a') {
-    if (!columnData1) {
-      if (!columnData2) {
-        return 0;
-      } else {
-        return -1;
-      }
-    } else {
-      if (!columnData2) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
+  if (typeof columnData1 === 'string') {
+    return sortTrackListString(data);
+  } else if (sortColumnName === 'track.preview_url') {
+    return sortTrackListNull(data);
   } else {
-    if (!columnData2) {
-      if (!columnData1) {
-        return 0;
-      } else {
-        return -1;
-      }
-    } else {
-      if (!columnData1) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
+    return sortTrackListNumber(data);
   }
 }
 
-    if (typeof columnData1 === 'string') {
-      if (sortDirection === 'a') {
-        return columnData1.localeCompare(columnData2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
+// make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
+// clean this up a bit.
+function sortTrackListNull(data, sortColumnName) {
+  data.items = data.items.sort(function (item1, item2) {
+    const columnData1 = _.get(item1, data.sortColumnName);
+    const columnData2 = _.get(item2, data.sortColumnName);
+
+    if (data.sortDirection === 'a') {
+      if (!columnData1) {
+        if (!columnData2) {
+          return 0;
+        } else {
+          return -1;
+        }
       } else {
-        return columnData2.localeCompare(columnData1, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
+        if (!columnData2) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
     } else {
-      if (sortDirection === 'a') {
-        if (columnData1 < columnData2) {return -1;}
-        if (columnData1 > columnData2) {return 1;}
-        return 0;
+      if (!columnData2) {
+        if (!columnData1) {
+          return 0;
+        } else {
+          return -1;
+        }
       } else {
-        if (columnData1 < columnData2) {return 1;}
-        if (columnData1 > columnData2) {return -1;}
-        return 0;
+        if (!columnData1) {
+          return 1;
+        } else {
+          return 0;
+        }
       }
     }
   });
   return;
 }
 
+// make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
+// clean this up a bit.
+function sortTrackListNumber(data, sortColumnName) {
+  data.items = data.items.sort(function (item1, item2) {
+    const columnData1 = _.get(item1, data.sortColumnName);
+    const columnData2 = _.get(item2, data.sortColumnName);
+
+    if (data.sortDirection === 'a') {
+      if (columnData1 < columnData2) {return -1;}
+      if (columnData1 > columnData2) {return 1;}
+      return 0;
+    } else {
+      if (columnData1 < columnData2) {return 1;}
+      if (columnData1 > columnData2) {return -1;}
+      return 0;
+    }
+  });
+  return;
+}
+
+// make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
+// clean this up a bit.
+function sortTrackListString(data) {
+  data.items = data.items.sort(function (item1, item2) {
+    const columnData1 = _.get(item1, data.sortColumnName);
+    const columnData2 = _.get(item2, data.sortColumnName);
+
+    if (data.sortDirection === 'a') {
+      return columnData1.localeCompare(columnData2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
+    } else {
+      return columnData2.localeCompare(columnData1, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
+    }
+  });
+  return;
+}
+
 // Check a fetch response status.
-export function statusCheck(response) {
+function statusCheck(response) {
   if (response.status < 200 || response.status >= 300) {
     const error = new Error(`HTTP Error ${response.statusText}`);
     error.status = response.status;

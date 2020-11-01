@@ -30,18 +30,18 @@ export default class PlaylistsPage extends Component {
       if (index < (playlistsItems.length - 2)) {
         // Specific playlist
         if (playlist.tracks.items === null) {
-          actions.getTracklist(playlist.tracks.href, playlist.name, listCombine, requestCount, this);
+          actions.getTracklist(this, playlist.tracks.href, playlist.name, listCombine, requestCount);
         }
       } else if (index === (playlistsItems.length - 2)) {
         // LIKED TRACKS
         if (playlist.tracks.items === null) {
-          actions.getTracklist('https://api.spotify.com/v1/me/tracks', 'LIKED', listCombine, requestCount, this);
+          actions.getTracklist(this, 'https://api.spotify.com/v1/me/tracks', 'LIKED', listCombine, requestCount);
         }
       } else if (index === (playlistsItems.length - 1)) {
         // ALL TRACKS
         if (playlist.tracks.items === null) {
           requestCount.count = playlistsItems.length - 1;
-          actions.getAllTracks(playlistsItems, 'ALL TRACKS', listCombine, requestCount, this);
+          actions.getAllTracks(this, playlistsItems, 'ALL TRACKS', listCombine, requestCount);
         }
       }
     }
