@@ -5,6 +5,11 @@ import TrackDetailsPage from '../containers/TrackDetailsPage';
 // import {TrackMenu} from './TrackMenu';
 import * as actions from '../actions/actions';
 
+// const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit' };
+const LOCALE       = 'en-US';
+const DATE_FORMAT  = new Intl.DateTimeFormat(LOCALE, DATE_OPTIONS);
+
 export const TrackList = (props) => {
   const {playlistName, trackList, onSort} = props;
 
@@ -56,18 +61,15 @@ export const TrackList = (props) => {
 
   function listTracks(trackList) {
     return trackList.items.map((item, index) => {
-      // const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-      const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit' };
-      const locale = 'en-US';
-      const dateFormat = new Intl.DateTimeFormat(locale, DATE_OPTIONS);
-      const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
-console.log("Tracklist track render");
+      // const addDate = DATE_FORMAT.format(new Date(item.added_at)).replace(',', '');
+      const addDate = DATE_FORMAT.format(new Date(item.added_at));
+      const allTracks = playlistName === 'ALL TRACKS';
       return (
         <Table.Row key={index} draggable='true'>
           <Table.Cell><TrackDetailsPage track={item.track} trigger={<Button content={item.track.name} title='Show track details' className='link' style={{background:'none', textAlign:'left'}} size='medium'/>}/></Table.Cell>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell>{item.track.album.name}</Table.Cell>
-          {playlistName === 'ALL TRACKS' && <Table.Cell>{item.playlistName}</Table.Cell>}
+          {allTracks && <Table.Cell>{item.playlistName}</Table.Cell>}
           <Table.Cell>{item.duplicate  && 'true'}</Table.Cell>
           <Table.Cell textAlign='center'>{actions.msToHMS(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
@@ -83,7 +85,6 @@ console.log("Tracklist track render");
 
   if (trackList && trackList.items) {
     const isSortable = (playlistName === 'ALL TRACKS') ? 'sortable' : '';
-console.log("TrackList render");
     return (
       <Table compact='very' selectable className={isSortable} striped style={{marginTop:0}}>
         <Table.Header>{columnTitles()}</Table.Header>

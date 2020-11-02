@@ -14,7 +14,6 @@ export const Playlists = (props) => {
       );
     });
   }
-console.log("Plalists render");
   if (playlists) {
     return (
       <Accordion fluid styled>

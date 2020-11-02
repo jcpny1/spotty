@@ -26,7 +26,6 @@ export const Playlist = (props) => {
   }
 
   function listDescription() {
-console.log("listDescription render");
     return (
       <Table.Row key={index+2} draggable='true'>
         <Table.Cell width={16}>
