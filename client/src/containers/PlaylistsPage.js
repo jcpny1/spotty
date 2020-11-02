@@ -35,7 +35,7 @@ export default class PlaylistsPage extends Component {
       } else if (index === (playlistsItems.length - 2)) {
         // LIKED TRACKS
         if (playlist.tracks.items === null) {
-          actions.getTracklist(this, 'https://api.spotify.com/v1/me/tracks', 'LIKED', listCombine, requestCount);
+          actions.getTracklist(this, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', listCombine, requestCount);
         }
       } else if (index === (playlistsItems.length - 1)) {
         // ALL TRACKS

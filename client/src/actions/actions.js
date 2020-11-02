@@ -25,7 +25,7 @@ export function getAllTracks(caller, playlistsItems, name, listCombine, requestC
 export function getCredentials(caller) {
   fetch('https://api.spotify.com/v1/me', {
     method:  'GET',
-    headers: {'Authorization': `Bearer ${caller.props.accessToken}`}
+    headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -42,7 +42,7 @@ export function getCredentials(caller) {
 export function getPlaylists(caller) {
   fetch('https://api.spotify.com/v1/me/playlists', {
     method:  'GET',
-    headers: {'Authorization': `Bearer ${caller.props.accessToken}`}
+    headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -82,13 +82,19 @@ export function getPlaylists(caller) {
 export function getTokens(caller, code, redirectUri) {
   fetch('/get_tokens', {
     method:  'POST',
-    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     body:    JSON.stringify({code: code, redirect_uri: redirectUri}),
   })
   .then(statusCheck)
-  .then(response => response.json())
+  .then(response => {
+    // for some reason, if we refresh after a code has been obtained, we get back html, not tokens.
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      return response.json();
+    }
+  })
   .then(tokens => {
-    caller.setState({ accessToken: tokens.access_token, refreshToken: tokens.refresh_token, expiresIn: tokens.expires_in });
+    tokens && caller.setState({ accessToken: tokens.access_token, refreshToken: tokens.refresh_token, expiresIn: tokens.expires_in });
   })
   .catch(error => {
     caller.setState({ accessToken: null, refreshToken: null, expiresIn: null, fetchError: error });
@@ -103,7 +109,7 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
 
   fetch(href, {
     method:  'GET',
-    headers: {'Authorization': `Bearer ${caller.props.accessToken}`}
+    headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
   })
   .then(statusCheck)
   .then(response => response.json())
