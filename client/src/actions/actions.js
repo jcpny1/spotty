@@ -19,7 +19,7 @@ export function getAllTracks(caller, playlistsItems, name, listCombine, requestC
     getTracklist(caller, playlist.tracks.href, playlist.name, listCombine, requestCount, true);
   }
   // Add in liked list, which don't show up in user's playlists.
-  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks', 'LIKED', listCombine, requestCount, true);
+  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', listCombine, requestCount, true);
 }
 
 export function getCredentials(caller) {
