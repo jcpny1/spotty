@@ -61,6 +61,7 @@ export const TrackList = (props) => {
       const locale = 'en-US';
       const dateFormat = new Intl.DateTimeFormat(locale, DATE_OPTIONS);
       const addDate = dateFormat.format(new Date(item.added_at)).replace(',', '');
+console.log("Tracklist track render");
       return (
         <Table.Row key={index} draggable='true'>
           <Table.Cell><TrackDetailsPage track={item.track} trigger={<Button content={item.track.name} title='Show track details' className='link' style={{background:'none', textAlign:'left'}} size='medium'/>}/></Table.Cell>
@@ -82,7 +83,7 @@ export const TrackList = (props) => {
 
   if (trackList && trackList.items) {
     const isSortable = (playlistName === 'ALL TRACKS') ? 'sortable' : '';
-
+console.log("TrackList render");
     return (
       <Table compact='very' selectable className={isSortable} striped style={{marginTop:0}}>
         <Table.Header>{columnTitles()}</Table.Header>

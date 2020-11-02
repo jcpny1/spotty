@@ -26,6 +26,7 @@ export const Playlist = (props) => {
   }
 
   function listDescription() {
+console.log("listDescription render");
     return (
       <Table.Row key={index+2} draggable='true'>
         <Table.Cell width={16}>
@@ -58,18 +59,22 @@ export const Playlist = (props) => {
   }
 
   function listContent() {
-    return (
-      <Accordion.Content active={active}>
-        <Table>
-          <Table.Body>
-            {listInfo()}
-            {listDescription()}
-            {playlist.images[0] && listButtons()}
-          </Table.Body>
-        </Table>
-      <TrackList trackList={playlist.tracks} playlistName={playlist.name} onSort={onSort}/>
-      </Accordion.Content>
-    );
+    if (active) {
+      return (
+        <Accordion.Content active={active}>
+          <Table>
+            <Table.Body>
+              {listInfo()}
+              {listDescription()}
+              {playlist.images[0] && listButtons()}
+            </Table.Body>
+          </Table>
+        <TrackList trackList={playlist.tracks} playlistName={playlist.name} onSort={onSort}/>
+        </Accordion.Content>
+      );
+    } else {
+      return null;
+    }
   }
 
   return (
