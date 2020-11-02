@@ -35,6 +35,7 @@ export function getCredentials(caller) {
   .catch(error => {
     caller.setState({ data: null, fetchError: error });
     console.error(`getCredentials FAIL ${error}`);
+    alert(error.message);
   });
 }
 
@@ -74,6 +75,7 @@ export function getPlaylists(caller) {
   .catch(error => {
     caller.setState({ playlists: null, fetchError: error });
     console.error(`getPlaylists FAIL ${error}`);
+    alert(error.message);
   });
 }
 
@@ -91,6 +93,7 @@ export function getTokens(caller, code, redirectUri) {
   .catch(error => {
     caller.setState({ accessToken: null, refreshToken: null, expiresIn: null, fetchError: error });
     console.error(`getTokens FAIL ${error}`);
+    alert(error.message);
   });
 }
 
@@ -137,6 +140,7 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
     }
     caller.setState({ playlists: caller.state.playlists, fetchError: error, loading: false });
     console.error(`getTracklist FAIL ${error}`);
+    alert(error.message);
   })
 }
 
