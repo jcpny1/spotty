@@ -33,10 +33,9 @@ export function getCredentials(caller) {
       caller.setState({data: data});
     })
   .catch(error => {
-    caller.setState({data: null});
+    caller.setState({ data: null, fetchError: error });
     console.error(`getCredentials FAIL ${error}`);
   });
-// {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
 }
 
 export function getPlaylists(caller) {
@@ -56,25 +55,26 @@ export function getPlaylists(caller) {
         }
         return 0;
       });
+
       // protect against no playlists.
       let copyItem = JSON.parse(JSON.stringify(data.items[0]));
       copyItem.name = 'LIKED';
       copyItem.id = 'LIKED';
       copyItem.images = [];
       data.items.push(copyItem);
+
       // protect against no playlists.
       copyItem = JSON.parse(JSON.stringify(copyItem));
       copyItem.name = 'ALL TRACKS';
       copyItem.id = 'ALL TRACKS';
       data.items.push(copyItem);
       data.items.forEach(playlistItem => playlistItem.tracks.items = null);
-      caller.setState({playlists: data});
+      caller.setState({ playlists: data });
     })
   .catch(error => {
-    caller.setState({playlists: null});
+    caller.setState({ playlists: null, fetchError: error });
     console.error(`getPlaylists FAIL ${error}`);
   });
-// {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
 }
 
 export function getTokens(caller, code, redirectUri) {
@@ -86,25 +86,17 @@ export function getTokens(caller, code, redirectUri) {
   .then(statusCheck)
   .then(response => response.json())
   .then(tokens => {
-    caller.setState({
-      accessToken:  tokens.access_token,
-      refreshToken: tokens.refresh_token,
-      expiresIn:    tokens.expires_in
-    });
+    caller.setState({ accessToken: tokens.access_token, refreshToken: tokens.refresh_token, expiresIn: tokens.expires_in });
   })
   .catch(error => {
-    caller.setState({
-      accessToken:  null,
-      refreshToken: null,
-      expiresIn:    null
-    });
+    caller.setState({ accessToken: null, refreshToken: null, expiresIn: null, fetchError: error });
     console.error(`getTokens FAIL ${error}`);
   });
 }
 
 export function getTracklist(caller, href, name, listCombine, requestCount, sort=false) {
 // pass in fetch error?
-  caller.setState({fetchError: null, loading: true});
+  caller.setState({ fetchError: null, loading: true });
 
   fetch(href, {
     method:  'GET',
@@ -132,7 +124,7 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
           tracks.items = listCombine.items;
           tracks.sortColumnName = listCombine.sortColumnName;
           tracks.sortDirection  = listCombine.sortDirection;
-          caller.setState({playlists: caller.state.playlists, loading: false});
+          caller.setState({ playlists: caller.state.playlists, loading: false });
         }
       }
     }
@@ -140,14 +132,12 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
   .catch(error => {
 // we zero out atl here, but what about other successfull calls?
     let tracks = caller.state.playlists.items[caller.state.loadIndex].tracks;
-    tracks.items = listCombine.items;
-    caller.setState({playlists: caller.state.playlists, loading: false});
+    if (tracks.items && tracks.items.length === 0) {
+      tracks.items = null;
+    }
+    caller.setState({ playlists: caller.state.playlists, fetchError: error, loading: false });
     console.error(`getTracklist FAIL ${error}`);
   })
-  // .finally(() => {
-  //   caller.setState({loading: false});
-  // })
-// {"status":401,"message":"Invalid access token"}},"status":401,"statusText":"Unauthorized"}
 }
 
 export function msToHMS(ms) {
@@ -260,7 +250,7 @@ function statusCheck(response) {
     const error = new Error(`HTTP Error ${response.statusText}`);
     error.status = response.status;
     error.response = response;
-    // console.error(error);
+    console.error(error);
     throw error;
   }
   return response;
