@@ -12,6 +12,7 @@ const DATE_FORMAT  = new Intl.DateTimeFormat(LOCALE, DATE_OPTIONS);
 
 export const TrackList = (props) => {
   const {playlistName, trackList, onSort} = props;
+  const allTracks = playlistName === 'ALL TRACKS';
 
   // function menuItemAdmin(trackName) {
   //   return (
@@ -61,9 +62,7 @@ export const TrackList = (props) => {
 
   function listTracks(trackList) {
     return trackList.items.map((item, index) => {
-      // const addDate = DATE_FORMAT.format(new Date(item.added_at)).replace(',', '');
-      const addDate = DATE_FORMAT.format(new Date(item.added_at));
-      const allTracks = playlistName === 'ALL TRACKS';
+      const addDate = DATE_FORMAT.format(new Date(item.added_at));  // const addDate = DATE_FORMAT.format(new Date(item.added_at)).replace(',', '');
       return (
         <Table.Row key={index} draggable='true'>
           <Table.Cell><TrackDetailsPage track={item.track} trigger={<Button content={item.track.name} title='Show track details' className='link' style={{background:'none', textAlign:'left'}} size='medium'/>}/></Table.Cell>

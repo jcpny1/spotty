@@ -14,6 +14,7 @@ function flagDuplicates(tracklist) {
 
 export function getAllTracks(caller, playlistsItems, name, listCombine, requestCount) {
   // Load users playlists' tracks.
+  caller.setState({ fetchError: null, loading: true });
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
     getTracklist(caller, playlist.tracks.href, playlist.name, listCombine, requestCount, true);
@@ -33,9 +34,9 @@ export function getCredentials(caller) {
       caller.setState({data: data});
     })
   .catch(error => {
-    caller.setState({ data: null, fetchError: error });
     console.error(`getCredentials FAIL ${error}`);
     alert(error.message);
+    caller.setState({ data: null, fetchError: error });
   });
 }
 
@@ -73,9 +74,9 @@ export function getPlaylists(caller) {
       caller.setState({ playlists: data });
     })
   .catch(error => {
-    caller.setState({ playlists: null, fetchError: error });
     console.error(`getPlaylists FAIL ${error}`);
     alert(error.message);
+    caller.setState({ playlists: null, fetchError: error });
   });
 }
 
@@ -97,16 +98,13 @@ export function getTokens(caller, code, redirectUri) {
     tokens && caller.setState({ accessToken: tokens.access_token, refreshToken: tokens.refresh_token, expiresIn: tokens.expires_in });
   })
   .catch(error => {
-    caller.setState({ accessToken: null, refreshToken: null, expiresIn: null, fetchError: error });
     console.error(`getTokens FAIL ${error}`);
     alert(error.message);
+    caller.setState({ accessToken: null, refreshToken: null, expiresIn: null, fetchError: error });
   });
 }
 
 export function getTracklist(caller, href, name, listCombine, requestCount, sort=false) {
-// pass in fetch error?
-  caller.setState({ fetchError: null, loading: true });
-
   fetch(href, {
     method:  'GET',
     headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
@@ -144,9 +142,11 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
     if (tracks.items && tracks.items.length === 0) {
       tracks.items = null;
     }
-    caller.setState({ playlists: caller.state.playlists, fetchError: error, loading: false });
     console.error(`getTracklist FAIL ${error}`);
-    alert(error.message);
+    if (caller.state.fetchError === null) {
+      alert(error.message);
+      caller.setState({ playlists: caller.state.playlists, fetchError: error, loading: false });
+    }
   })
 }
 
@@ -159,7 +159,6 @@ export function msToHMS(ms) {
 
 export function sortTrackList(data, sortColumnName) {
   let sortDirection = 'a';
-
   if ((data.sortColumnName === sortColumnName) && (data.sortDirection === 'a')) {
     sortDirection = 'd';
   }

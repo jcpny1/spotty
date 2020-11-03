@@ -68,7 +68,7 @@ export const Playlist = (props) => {
               {playlist.images[0] && listButtons()}
             </Table.Body>
           </Table>
-        <TrackList trackList={playlist.tracks} playlistName={playlist.name} onSort={onSort}/>
+        <TrackList trackList={playlist.tracks} playlistName={playlist.name} onSort={onSort} />
         </Accordion.Content>
       );
     } else {
@@ -85,8 +85,10 @@ export const Playlist = (props) => {
 }
 
 Playlist.propTypes = {
-  active:      PropTypes.bool.isRequired,
-  index:       PropTypes.number.isRequired,
-  onClick:     PropTypes.func.isRequired,
-  playlist:    PropTypes.object.isRequired,
+  active:   PropTypes.bool.isRequired,
+  index:    PropTypes.number.isRequired,
+  loading:  PropTypes.bool,
+  onClick:  PropTypes.func.isRequired,
+  onSort:   PropTypes.func.isRequired,
+  playlist: PropTypes.object.isRequired,
 }

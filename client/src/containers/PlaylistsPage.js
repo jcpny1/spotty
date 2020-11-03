@@ -25,7 +25,7 @@ export default class PlaylistsPage extends Component {
     const playlist = playlistsItems[index];
     let listCombine  = {items: []};
     let requestCount = {count: 1};
-    this.setState({ loadIndex: index });
+    this.setState({ fetchError: null, loading: true, loadIndex: index });
     if (index >= 0) {
       if (index < (playlistsItems.length - 2)) {
         // Specific playlist
@@ -49,10 +49,9 @@ export default class PlaylistsPage extends Component {
 
   // Sort ActiveTrackList in place.
   sortActiveTrackList = (columnName) => {
-    this.setState({ loading: true });
     const atl = this.state.playlists.items[this.state.activeIndex];
     actions.sortTrackList(atl.tracks, columnName);
-    this.setState({ playlists: this.state.playlists, loading: false });
+    this.setState({ playlists: this.state.playlists });
   }
 
   handleClick = (e, playlistProps) => {

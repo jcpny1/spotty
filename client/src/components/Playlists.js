@@ -26,9 +26,10 @@ export const Playlists = (props) => {
 }
 
 Playlists.propTypes = {
-  accessToken:     PropTypes.string.isRequired,
-  activeIndex:     PropTypes.number,
-  onClick:         PropTypes.func.isRequired,
-  onSort:          PropTypes.func.isRequired,
-  playlists:       PropTypes.array,
+  accessToken: PropTypes.string.isRequired,
+  activeIndex: PropTypes.number,
+  loading:     PropTypes.bool,
+  onClick:     PropTypes.func.isRequired,
+  onSort:      PropTypes.func.isRequired,
+  playlists:   PropTypes.array,
 }
