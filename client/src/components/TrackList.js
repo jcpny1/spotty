@@ -11,7 +11,7 @@ const LOCALE       = 'en-US';
 const DATE_FORMAT  = new Intl.DateTimeFormat(LOCALE, DATE_OPTIONS);
 
 export const TrackList = (props) => {
-  const {playlistName, trackList, onSort} = props;
+  const {onSort, playlistName, trackList} = props;
   const allTracks = playlistName === 'ALL TRACKS';
 
   // function menuItemAdmin(trackName) {
@@ -30,7 +30,7 @@ export const TrackList = (props) => {
   // }
 
   function columnTitles() {
-    if (playlistName === 'ALL TRACKS') {
+    if (allTracks) {
       return (
         <Table.Row>
           <Table.HeaderCell className='sticky' onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
@@ -83,7 +83,7 @@ export const TrackList = (props) => {
   // </Table.Row>
 
   if (trackList && trackList.items) {
-    const isSortable = (playlistName === 'ALL TRACKS') ? 'sortable' : '';
+    const isSortable = allTracks ? 'sortable' : '';
     return (
       <Table compact='very' selectable className={isSortable} striped style={{marginTop:0}}>
         <Table.Header>{columnTitles()}</Table.Header>

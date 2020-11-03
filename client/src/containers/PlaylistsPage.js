@@ -27,18 +27,15 @@ export default class PlaylistsPage extends Component {
     let requestCount = {count: 1};
     this.setState({ fetchError: null, loadIndex: index });
     if (index >= 0) {
-      if (index < (playlistsItems.length - 2)) {
-        // Specific playlist
+      if (index < (playlistsItems.length - 2)) {           // Specific playlist
         if (playlist.tracks.items === null) {
           actions.getTracklist(this, playlist.tracks.href, playlist.name, listCombine, requestCount);
         }
-      } else if (index === (playlistsItems.length - 2)) {
-        // LIKED TRACKS
+      } else if (index === (playlistsItems.length - 2)) {  // LIKED TRACKS
         if (playlist.tracks.items === null) {
           actions.getTracklist(this, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', listCombine, requestCount);
         }
-      } else if (index === (playlistsItems.length - 1)) {
-        // ALL TRACKS
+      } else if (index === (playlistsItems.length - 1)) {  // ALL TRACKS
         if (playlist.tracks.items === null) {
           requestCount.count = playlistsItems.length - 1;
           actions.getAllTracks(this, playlistsItems, 'ALL TRACKS', listCombine, requestCount);
@@ -67,9 +64,7 @@ export default class PlaylistsPage extends Component {
     const {activeIndex, loading, playlists} = this.state;
     const {accessToken} = this.props;
     if (playlists) {
-      return (
-        <Playlists accessToken={accessToken} activeIndex={activeIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
-      );
+      return <Playlists accessToken={accessToken} activeIndex={activeIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
     } else {
       return null;
     }
