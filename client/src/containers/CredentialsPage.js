@@ -35,6 +35,5 @@ export default class TokenRefreshPage extends Component {
 }
 
 TokenRefreshPage.propTypes = {
-  accessToken: PropTypes.string.isRequired,
-  trigger:     PropTypes.object.isRequired,
+  trigger: PropTypes.object.isRequired,
 }

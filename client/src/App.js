@@ -4,6 +4,7 @@ import {Button, Grid, Image, Table} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
 import LoginPage from './containers/LoginPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
+import TokenRefreshPage from './containers/TokenRefreshPage';
 import * as actions from './actions/actions';
 import logo from './logo.svg';
 import 'semantic-ui-css/semantic.min.css';
@@ -91,19 +92,27 @@ class App extends Component {
   pageMenu() {
     const {accessToken} = this.state;
     return (
+      <>
       <Grid.Row>
         <Grid.Column>
           <Image src={logo} className='App-logo' alt='logo' />
         </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
         <Grid.Column>
-          {!accessToken &&
-            <LoginPage/>
-          }
-          {accessToken &&
-            <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' />}/>
-          }
+          {!accessToken && <LoginPage accessToken={accessToken} />}
+          {accessToken && <CredentialsPage trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' />}/>}
         </Grid.Column>
       </Grid.Row>
+
+      <Grid.Row>
+        <Grid.Column>
+        <br/>
+          {accessToken && <TokenRefreshPage accessToken={accessToken} trigger={<Button content='New Token' title='Get a new Spotify access token' className='link' inverted size='medium' />}/>}
+        </Grid.Column>
+      </Grid.Row>
+      </>
     );
   }
 

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import {Button} from 'semantic-ui-react';
 
 const authEndpoint = 'https://accounts.spotify.com/authorize';
 const clientId     = process.env.REACT_APP_CLIENT_ID;

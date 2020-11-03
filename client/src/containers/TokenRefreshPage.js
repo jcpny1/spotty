@@ -18,8 +18,8 @@ export default class CredentialsPage extends Component {
   }
 
   render() {
-    const {trigger} = this.props;
     const {data} = this.state;
+    const {accessToken, trigger} = this.props;
     if (data) {
       return (
         <Modal trigger={trigger} closeIcon='close'>
