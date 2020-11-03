@@ -6,14 +6,6 @@ const redirectUri  = process.env.NODE_ENV === 'production' ? 'https://spotty-app
 const scopes       = 'user-library-read user-read-email user-read-private';
 
 export default class LoginPage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      accessToken: null,
-      loading:     false,
-    };
-  }
-
   render() {
     return (
       <a

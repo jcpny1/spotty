@@ -101,14 +101,14 @@ class App extends Component {
 
       <Grid.Row>
         <Grid.Column>
-          {!accessToken && <LoginPage accessToken={accessToken} />}
-          {accessToken && <CredentialsPage trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' />}/>}
+          {!accessToken && <LoginPage />}
+          {accessToken && <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' />}/>}
         </Grid.Column>
       </Grid.Row>
 
       <Grid.Row>
         <Grid.Column>
-        <br/>
+          <br/>
           {accessToken && <TokenRefreshPage accessToken={accessToken} trigger={<Button content='New Token' title='Get a new Spotify access token' className='link' inverted size='medium' />}/>}
         </Grid.Column>
       </Grid.Row>
