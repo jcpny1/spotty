@@ -112,7 +112,17 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
   .then(statusCheck)
   .then(response => response.json())
   .then(data => {
-    if (caller.state.loadIndex === caller.state.activeIndex) {  // are we still servicing this request?
+    if (data.error) {
+      let tracks = caller.state.playlists.items[caller.state.loadIndex].tracks;
+      if (tracks.items && tracks.items.length === 0) {
+        tracks.items = null;
+      }
+      console.error(`getTracklist FAIL ${data.error.message}`);
+      if (caller.state.fetchError === null) {
+        alert(`Operation failed: ${data.error.message}`);
+        caller.setState({ playlists: caller.state.playlists, fetchError: data.error, loading: false });
+      }
+    } else if (caller.state.loadIndex === caller.state.activeIndex) {  // are we still servicing this request?
       for (let j = 0; j < data.items.length; ++j) {
         data.items[j].playlistName = name; // add playlist name as property to each item.
         listCombine.items.push(data.items[j]);
@@ -186,34 +196,19 @@ function sortTrackListNull(data, sortColumnName) {
 
     if (data.sortDirection === 'a') {
       if (!columnData1) {
-        if (!columnData2) {
-          return 0;
-        } else {
-          return -1;
-        }
+        return !columnData2 ? 0 : -1;
       } else {
-        if (!columnData2) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return columnData2 ? 1 : 0;
       }
     } else {
       if (!columnData2) {
-        if (!columnData1) {
-          return 0;
-        } else {
-          return -1;
-        }
+        return !columnData1 ? 0 : -1;
       } else {
-        if (!columnData1) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return !columnData1 ? 1 : 0;
       }
     }
   });
+
   return;
 }
 
@@ -226,14 +221,15 @@ function sortTrackListNumber(data, sortColumnName) {
 
     if (data.sortDirection === 'a') {
       if (columnData1 < columnData2) {return -1;}
-      if (columnData1 > columnData2) {return 1;}
+      if (columnData1 > columnData2) {return  1;}
       return 0;
     } else {
-      if (columnData1 < columnData2) {return 1;}
+      if (columnData1 < columnData2) {return  1;}
       if (columnData1 > columnData2) {return -1;}
       return 0;
     }
   });
+
   return;
 }
 
@@ -250,11 +246,16 @@ function sortTrackListString(data) {
       return columnData2.localeCompare(columnData1, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
     }
   });
+
   return;
 }
 
 // Check a fetch response status.
 function statusCheck(response) {
+  if (response.status === 401) {
+    return response;
+  }
+
   if (response.status < 200 || response.status >= 300) {
     const error = new Error(`HTTP Error ${response.statusText}`);
     error.status = response.status;
@@ -262,5 +263,6 @@ function statusCheck(response) {
     console.error(error);
     throw error;
   }
+
   return response;
 }
