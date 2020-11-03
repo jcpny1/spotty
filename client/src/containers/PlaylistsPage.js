@@ -25,7 +25,7 @@ export default class PlaylistsPage extends Component {
     const playlist = playlistsItems[index];
     let listCombine  = {items: []};
     let requestCount = {count: 1};
-    this.setState({ fetchError: null, loading: true, loadIndex: index });
+    this.setState({ fetchError: null, loadIndex: index });
     if (index >= 0) {
       if (index < (playlistsItems.length - 2)) {
         // Specific playlist

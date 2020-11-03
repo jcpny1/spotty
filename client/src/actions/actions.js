@@ -14,13 +14,11 @@ function flagDuplicates(tracklist) {
 
 export function getAllTracks(caller, playlistsItems, name, listCombine, requestCount) {
   // Load users playlists' tracks.
-  caller.setState({ fetchError: null, loading: true });
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
     getTracklist(caller, playlist.tracks.href, playlist.name, listCombine, requestCount, true);
   }
-  // Add in liked list, which don't show up in user's playlists.
-  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', listCombine, requestCount, true);
+  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
 }
 
 export function getCredentials(caller) {
@@ -105,6 +103,7 @@ export function getTokens(caller, code, redirectUri) {
 }
 
 export function getTracklist(caller, href, name, listCombine, requestCount, sort=false) {
+  caller.setState({ loading: true });
   fetch(href, {
     method:  'GET',
     headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
