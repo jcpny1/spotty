@@ -166,6 +166,24 @@ export function msToHMS(ms) {
   return `${hours.toLocaleString('en-US', {minimumIntegerDigits:2})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits:2})}:${seconds.toLocaleString('en-US', {minimumIntegerDigits:2})}`;
 }
 
+export function refreshToken(caller, refresh_token) {
+  fetch(`/refresh_token?refresh_token=${refresh_token}`, {
+    method:  'GET',
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+  })
+  .then(statusCheck)
+  .then(response => response.json())
+  .then(tokens => {
+    tokens && caller.setState({ accessToken: tokens.access_token, tokenLoading: false });
+    alert('Token refreshed');
+  })
+  .catch(error => {
+    console.error(`refreshToken FAIL ${error}`);
+    alert(error.message);
+    caller.setState({ accessToken: null, fetchError: error, tokenLoading: false });
+  });
+}
+
 export function sortTrackList(data, sortColumnName) {
   let sortDirection = 'a';
   if ((data.sortColumnName === sortColumnName) && (data.sortDirection === 'a')) {

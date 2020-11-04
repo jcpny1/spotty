@@ -4,7 +4,6 @@ import {Button, Grid, Image, Table} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
 import LoginPage from './containers/LoginPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
-import TokenRefreshPage from './containers/TokenRefreshPage';
 import * as actions from './actions/actions';
 import logo from './logo.svg';
 import 'semantic-ui-css/semantic.min.css';
@@ -21,6 +20,7 @@ class App extends Component {
       expiresIn:    null,
       refreshToken: null,
       fetchError:   null,
+      tokenLoading: false,
     };
   }
 
@@ -90,7 +90,7 @@ class App extends Component {
   }
 
   pageMenu() {
-    const {accessToken} = this.state;
+    const {accessToken, refreshToken, tokenLoading} = this.state;
     return (
       <>
       <Grid.Row>
@@ -116,11 +116,16 @@ class App extends Component {
       <Grid.Row>
         <Grid.Column>
           <br/>
-          {accessToken && <TokenRefreshPage accessToken={accessToken} trigger={<Button content='New Token' title='Get a new Spotify access token' className='link' inverted size='medium' />}/>}
+          {accessToken && <Button refreshtoken={refreshToken} caller={this} loading={tokenLoading} content='New Token' title='Get a new Spotify access token' className='link' inverted size='medium' onClick={this.refreshSpotifyToken}/>}
         </Grid.Column>
       </Grid.Row>
       </>
     );
+  }
+
+  refreshSpotifyToken(event, data) {
+    data.caller.setState({ tokenLoading: true });
+    actions.refreshToken(data.caller, data.refreshtoken);
   }
 
   render() {
