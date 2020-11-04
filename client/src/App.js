@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
-import {Button, Grid, Image, Table} from 'semantic-ui-react';
+import {Button, Grid, Image} from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
-import LoginPage from './containers/LoginPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
 import * as actions from './actions/actions';
 import logo from './logo.svg';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
-// de dup this with LoginPage.
-const redirectUri = process.env.NODE_ENV === 'production' ? 'https://spotty-app.herokuapp.com' : 'http://localhost:3000';
+const authEndpoint = 'https://accounts.spotify.com/authorize';
+const clientId     = process.env.REACT_APP_CLIENT_ID;
+const redirectUri  = process.env.NODE_ENV === 'production' ? 'https://spotty-app.herokuapp.com' : 'http://localhost:3000';
+const scopes       = 'user-library-read user-read-email user-read-private';
 
 class App extends Component {
   constructor() {
@@ -53,72 +54,23 @@ class App extends Component {
     }
   }
 
-  pageFooter() {
-    return (
-      <Grid.Column>
-        {this.pageFooterRow()}
-      </Grid.Column>
-    );
-  }
-
-  pageFooterRow() {
-    return (
-      <Table compact striped style={{marginTop:0}}>
-        <Table.Header>
-          <Table.Row textAlign='center'>
-            <Table.HeaderCell>
-              <span style={{color:'grey', textAlign:'center'}}>
-                            &bull; Index data provided by <a href='https://www.alphavantage.co' target='_blank' rel='noopener noreferrer'>Alpha Vantage</a>
-                &emsp;&emsp;&bull; Market data provided by <a href='https://iextrading.com' target='_blank' rel='noopener noreferrer'>IEX</a>
-                &emsp;&emsp;&bull; Headline news powered by <a href='https://newsapi.org' target='_blank' rel='noopener noreferrer'>NewsAPI.org</a>
-                &emsp;&emsp;&bull; The prices shown may not be the correct prices or the latest prices.
-              </span>
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-      </Table>
-    );
-    // &emsp;&emsp;&bull; See the <HelpPage trigger={<Button content='Help->Usage Notes' className='link' inverted size='medium'/>}/> page for more information.
-  }
-
-  pageHeader() {
-    return (
-      <Grid.Column stretched>
-        <Image src='/images/logo.jpg'/>
-      </Grid.Column>
-    );
-  }
-
   pageMenu() {
     const {accessToken, refreshToken, tokenLoading} = this.state;
     return (
       <>
-      <Grid.Row>
-        <Grid.Column>
-          <Image src={logo} className='App-logo' alt='logo' />
-        </Grid.Column>
-      </Grid.Row>
+        <Grid.Row>
+            <Image src={logo} className='App-logo' alt='logo' />
+        </Grid.Row>
 
-      <Grid.Row>
-        <Grid.Column>
-          {!accessToken && <LoginPage />}
-          {accessToken && <CredentialsPage accessToken={accessToken} trigger={<Button content='Credentials' title='Display Spotify connection data' className='link' inverted size='medium' />}/>}
-        </Grid.Column>
-      </Grid.Row>
+        <Grid.Row>
+          {!accessToken && <Button as='a' href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=code&show_dialog=false`} content='Login' title='Connect to Spotify' inverted size='medium' />}
+        </Grid.Row>
 
-      <Grid.Row>
-        <Grid.Column>
-          <br/>
-          {accessToken && <CredentialsPage accessToken={accessToken} trigger={<Button content='Refresh Data' title='Reload playlist data' className='link' inverted size='medium' />}/>}
-        </Grid.Column>
-      </Grid.Row>
-
-      <Grid.Row>
-        <Grid.Column>
-          <br/>
-          {accessToken && <Button refreshtoken={refreshToken} caller={this} loading={tokenLoading} content='New Token' title='Get a new Spotify access token' className='link' inverted size='medium' onClick={this.refreshSpotifyToken}/>}
-        </Grid.Column>
-      </Grid.Row>
+        <Grid.Row>
+          {accessToken && <CredentialsPage accessToken={accessToken} trigger={<Button style={{marginBottom:'15px'}} content='Credentials'  title='Display Spotify connection data' inverted size='medium' />} />}
+          {accessToken && <Button style={{marginBottom:'15px'}} refreshtoken={refreshToken} caller={this} content='Refresh Data' title='Reload playlist data' inverted size='medium' onClick={this.refreshSpotifyToken} />}
+          {accessToken && <Button refreshtoken={refreshToken} caller={this} content='New Token' title='Get a new Spotify access token' inverted size='medium' onClick={this.refreshSpotifyToken} loading={tokenLoading} />}
+        </Grid.Row>
       </>
     );
   }
@@ -133,7 +85,9 @@ class App extends Component {
       <Router>
         <Grid padded stackable>
           <Grid.Row columns={1}>
-            {this.pageHeader()}
+            <Grid.Column stretched>
+              <Image src='/images/logo.jpg'/>
+            </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={2}>
             <Grid.Column className='App App-header' width={2}>
@@ -148,7 +102,5 @@ class App extends Component {
     );
   }
 }
-
-// {this.pageFooter()}
 
 export default App;

@@ -9,7 +9,7 @@ export const Credentials = (props) => {
     return (
       <Table.Body>
         <Table.Row>
-          <Table.Cell width={2} >Profile Image</Table.Cell>
+          <Table.Cell width={3} >Profile Image</Table.Cell>
           <Table.Cell><Image src={profile_data.images[0].url} size='small' /></Table.Cell>
         </Table.Row>
         <Table.Row>
