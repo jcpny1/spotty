@@ -19,12 +19,12 @@ export default class TokenRefreshPage extends Component {
 
   render() {
     const {data} = this.state;
-    const {trigger} = this.props;
+    const {accessToken, trigger} = this.props;
     if (data) {
       return (
         <Modal trigger={trigger} closeIcon='close'>
           <Modal.Header><Header content='Credentials' icon='info circle' size='small'/></Modal.Header>
-          <Modal.Content><Credentials profile_data={data}/></Modal.Content>
+          <Modal.Content><Credentials accessToken={accessToken} profile_data={data}/></Modal.Content>
           <Modal.Actions></Modal.Actions>
         </Modal>
       );

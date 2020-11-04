@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Credentials} from '../components/Credentials';
 import * as actions from '../actions/actions';
 
-export default class CredentialsPage extends Component {
+export default class TokenRefreshPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -24,7 +24,7 @@ export default class CredentialsPage extends Component {
       return (
         <Modal trigger={trigger} closeIcon='close'>
           <Modal.Header><Header content='Credentials' icon='info circle' size='small'/></Modal.Header>
-          <Modal.Content><Credentials profile_data={data}/></Modal.Content>
+          <Modal.Content><Credentials accessToken={accessToken} profile_data={data}/></Modal.Content>
           <Modal.Actions></Modal.Actions>
         </Modal>
       );
@@ -34,7 +34,7 @@ export default class CredentialsPage extends Component {
   }
 }
 
-CredentialsPage.propTypes = {
+TokenRefreshPage.propTypes = {
   accessToken: PropTypes.string.isRequired,
   trigger:     PropTypes.object.isRequired,
 }

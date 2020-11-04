@@ -3,13 +3,13 @@ import {Image, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 export const Credentials = (props) => {
-  const {profile_data} = props;
+  const {accessToken, profile_data} = props;
 
   function listCredentials(profile_data) {
     return (
       <Table.Body>
         <Table.Row>
-          <Table.Cell>Profile Image</Table.Cell>
+          <Table.Cell width={2} >Profile Image</Table.Cell>
           <Table.Cell><Image src={profile_data.images[0].url} size='small' /></Table.Cell>
         </Table.Row>
         <Table.Row>
@@ -36,6 +36,10 @@ export const Credentials = (props) => {
           <Table.Cell>Country</Table.Cell>
           <Table.Cell>{profile_data.country}</Table.Cell>
         </Table.Row>
+        <Table.Row>
+          <Table.Cell>Access Token</Table.Cell>
+          <Table.Cell>{accessToken}</Table.Cell>
+        </Table.Row>
       </Table.Body>
     );
   }
@@ -50,5 +54,6 @@ export const Credentials = (props) => {
 }
 
 Credentials.propTypes = {
+  accessToken:  PropTypes.string.isRequired,
   profile_data: PropTypes.object.isRequired,
 }
