@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Playlists} from '../components/Playlists';
+import {Button} from 'semantic-ui-react';
 import * as actions from '../actions/actions';
 
 export default class PlaylistsPage extends Component {
@@ -60,11 +61,21 @@ export default class PlaylistsPage extends Component {
     }
   }
 
+  refreshPlaylists(event, data) {
+    data.caller.setState({ activeIndex: null });
+    actions.getPlaylists(data.caller);
+  }
+
   render() {
     const {activeIndex, loading, playlists} = this.state;
     const {accessToken} = this.props;
     if (playlists) {
-      return <Playlists accessToken={accessToken} activeIndex={activeIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
+      return (
+        <>
+          <Button basic color='green' style={{marginBottom:'15px'}} caller={this} content='Refresh Data' title='Reload playlist data' size='small' onClick={this.refreshPlaylists} />
+          <Playlists accessToken={accessToken} activeIndex={activeIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
+        </>
+      );
     } else {
       return null;
     }

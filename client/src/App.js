@@ -68,7 +68,6 @@ class App extends Component {
 
         <Grid.Row>
           {accessToken && <CredentialsPage accessToken={accessToken} trigger={<Button style={{marginBottom:'15px'}} content='Credentials'  title='Display Spotify connection data' inverted size='medium' />} />}
-          {accessToken && <Button style={{marginBottom:'15px'}} refreshtoken={refreshToken} caller={this} content='Refresh Data' title='Reload playlist data' inverted size='medium' onClick={this.refreshSpotifyToken} />}
           {accessToken && <Button refreshtoken={refreshToken} caller={this} content='New Token' title='Get a new Spotify access token' inverted size='medium' onClick={this.refreshSpotifyToken} loading={tokenLoading} />}
         </Grid.Row>
       </>
