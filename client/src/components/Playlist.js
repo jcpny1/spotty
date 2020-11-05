@@ -6,7 +6,7 @@ import {TrackList} from './TrackList';
 export const Playlist = (props) => {
   const {active, index, loading, onClick, onSort, playlist} = props;
   const showPlaylistName = playlist.name === 'ALL TRACKS';
-  const tList = playlist.tracks.items;
+  const tracks = playlist.tracks;
 
   function listButtons() {
     return (
@@ -42,7 +42,7 @@ export const Playlist = (props) => {
           Owner: {playlist.owner.display_name}
         </Table.Cell>
         <Table.Cell width={12}>
-          Tracks: {tList && tList.length}
+          Tracks: {tracks.items && tracks.items.length}
         </Table.Cell>
       </Table.Row>
     );
@@ -68,7 +68,7 @@ export const Playlist = (props) => {
               {playlist.images[0] && listButtons()}
             </Table.Body>
           </Table>
-        <TrackList trackList={playlist.tracks} showPlaylistName={showPlaylistName} onSort={onSort} />
+        <TrackList tracks={tracks} showPlaylistName={showPlaylistName} onSort={onSort} />
         </Accordion.Content>
       );
     } else {
@@ -87,7 +87,7 @@ export const Playlist = (props) => {
 Playlist.propTypes = {
   active:   PropTypes.bool.isRequired,
   index:    PropTypes.number.isRequired,
-  loading:  PropTypes.bool,
+  loading:  PropTypes.bool.isRequired,
   onClick:  PropTypes.func.isRequired,
   onSort:   PropTypes.func.isRequired,
   playlist: PropTypes.object.isRequired,

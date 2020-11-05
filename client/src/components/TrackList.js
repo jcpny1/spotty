@@ -11,7 +11,7 @@ const LOCALE       = 'en-US';
 const DATE_FORMAT  = new Intl.DateTimeFormat(LOCALE, DATE_OPTIONS);
 
 export const TrackList = (props) => {
-  const {onSort, showPlaylistName, trackList} = props;
+  const {onSort, showPlaylistName, tracks} = props;
 
   // function menuItemAdmin(trackName) {
   //   return (
@@ -59,8 +59,8 @@ export const TrackList = (props) => {
     }
   }
 
-  function listTracks(trackList) {
-    return trackList.items.map((item, index) => {
+  function listTracks(tracks) {
+    return tracks.items.map((item, index) => {
       const addDate = DATE_FORMAT.format(new Date(item.added_at));  // const addDate = DATE_FORMAT.format(new Date(item.added_at)).replace(',', '');
       return (
         <Table.Row key={index} draggable='true'>
@@ -77,16 +77,13 @@ export const TrackList = (props) => {
       );
     });
   }
-  // <Table.Row>
-  //   <Table.Cell width={16}><iframe title='preview player' name={`iframe_${index}`} src='about:blank' height='50px' width='100%'></iframe></Table.Cell>
-  // </Table.Row>
 
-  if (trackList && trackList.items) {
+  if (tracks && tracks.items) {
     const isSortable = showPlaylistName ? 'sortable' : '';
     return (
       <Table compact='very' selectable className={isSortable} striped style={{marginTop:0}}>
         <Table.Header>{columnTitles()}</Table.Header>
-        <Table.Body>{listTracks(trackList)}</Table.Body>
+        <Table.Body>{listTracks(tracks)}</Table.Body>
         <Table.Footer></Table.Footer>
       </Table>
     );
@@ -96,7 +93,7 @@ export const TrackList = (props) => {
 }
 
 TrackList.propTypes = {
-  onSort:       PropTypes.func.isRequired,
-  playlistName: PropTypes.string.isRequired,
-  trackList:    PropTypes.object,
+  onSort:           PropTypes.func.isRequired,
+  showPlaylistName: PropTypes.bool.isRequired,
+  tracks:           PropTypes.object,
 }

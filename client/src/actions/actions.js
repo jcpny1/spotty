@@ -103,7 +103,6 @@ export function getTokens(caller, code, redirectUri) {
 }
 
 export function getTracklist(caller, href, name, index, listCombine, requestCount, sort=false) {
-  caller.setState({ loading: true });
   fetch(href, {
     method:  'GET',
     headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
@@ -119,7 +118,7 @@ export function getTracklist(caller, href, name, index, listCombine, requestCoun
       console.error(`getTracklist FAIL ${data.error.message}`);
       if (caller.state.fetchError === null) {
         alert(`Operation failed: ${data.error.message}`);
-        caller.setState({ activeIndex: -1, playlists: caller.state.playlists, fetchError: data.error, loadIndex: -1, loading: false });
+        caller.setState({ activeIndex: -1, playlists: caller.state.playlists, fetchError: data.error, loadIndex: -1 });
       }
     } else if (caller.state.loadIndex === index) {  // are we still servicing this request?
       for (let j = 0; j < data.items.length; ++j) {
@@ -140,7 +139,7 @@ export function getTracklist(caller, href, name, index, listCombine, requestCoun
           tracks.items = listCombine.items;
           tracks.sortColumnName = listCombine.sortColumnName;
           tracks.sortDirection  = listCombine.sortDirection;
-          caller.setState({ activeIndex: index, playlists: caller.state.playlists, loadIndex: -1, loading: false });
+          caller.setState({ activeIndex: index, playlists: caller.state.playlists, loadIndex: -1 });
         }
       }
     }
@@ -154,7 +153,7 @@ export function getTracklist(caller, href, name, index, listCombine, requestCoun
     console.error(`getTracklist FAIL ${error}`);
     if (caller.state.fetchError === null) {
       alert(error.message);
-      caller.setState({ activeIndex: -1, playlists: caller.state.playlists, fetchError: error, loadIndex: -1, loading: false });
+      caller.setState({ activeIndex: -1, playlists: caller.state.playlists, fetchError: error, loadIndex: -1 });
     }
   })
 }

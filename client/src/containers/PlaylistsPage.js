@@ -11,7 +11,6 @@ export default class PlaylistsPage extends Component {
       activeIndex:  null,   // index into playlists.items
       fetchError:   null,
       loadIndex:    null,
-      loading:      null,
       playlists:    null,
       requestCount: null,
     };
@@ -64,13 +63,13 @@ export default class PlaylistsPage extends Component {
   }
 
   render() {
-    const {activeIndex, loading, loadIndex, playlists} = this.state;
+    const {activeIndex, loadIndex, playlists} = this.state;
     const {accessToken} = this.props;
     if (playlists) {
       return (
         <>
           <Button basic color='green' style={{marginBottom:'15px'}} caller={this} content='Refresh Data' title='Reload playlist data' size='small' onClick={this.refreshPlaylists} />
-          <Playlists accessToken={accessToken} activeIndex={activeIndex} loadIndex={loadIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
+          <Playlists accessToken={accessToken} activeIndex={activeIndex} loadIndex={loadIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} />
         </>
       );
     } else {

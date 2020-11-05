@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Playlist} from './Playlist';
 
 export const Playlists = (props) => {
-  const {accessToken, activeIndex, loadIndex, loading, onClick, onSort, playlists} = props;
+  const {accessToken, activeIndex, loadIndex, onClick, onSort, playlists} = props;
 
   function listPlaylists(playlists) {
     return playlists.map((playlist, index) => {
@@ -29,7 +29,7 @@ export const Playlists = (props) => {
 Playlists.propTypes = {
   accessToken: PropTypes.string.isRequired,
   activeIndex: PropTypes.number,
-  loading:     PropTypes.bool,
+  loadIndex:   PropTypes.number,
   onClick:     PropTypes.func.isRequired,
   onSort:      PropTypes.func.isRequired,
   playlists:   PropTypes.array,
