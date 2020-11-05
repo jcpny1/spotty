@@ -1,8 +1,3 @@
-# Overview
-In production env, set NODE_ENV = 'production'.
-In dev, server: node bin/www, client: yarn start.
-
-
 # SPOTTY
 
 #[![GitHub version](https://badge.fury.io/gh/jcpny1%2Fportfolio-analyzer.svg)](https://badge.fury.io/gh/jcpny1%2Fportfolio-analyzer)
@@ -44,7 +39,7 @@ For a Heroku installation, create these two environment variables in the Heroku 
 ## Usage
 
 In development,
-* From the project home directory, type `node bin/www`.
+* From the project home directory, type `yarn start`.
 * From the client directory, type `yarn start`.
 
 ## Testing
