@@ -11,8 +11,7 @@ const LOCALE       = 'en-US';
 const DATE_FORMAT  = new Intl.DateTimeFormat(LOCALE, DATE_OPTIONS);
 
 export const TrackList = (props) => {
-  const {onSort, playlistName, trackList} = props;
-  const allTracks = playlistName === 'ALL TRACKS';
+  const {onSort, showPlaylistName, trackList} = props;
 
   // function menuItemAdmin(trackName) {
   //   return (
@@ -30,7 +29,7 @@ export const TrackList = (props) => {
   // }
 
   function columnTitles() {
-    if (allTracks) {
+    if (showPlaylistName) {
       return (
         <Table.Row>
           <Table.HeaderCell className='sticky' onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
@@ -68,7 +67,7 @@ export const TrackList = (props) => {
           <Table.Cell><TrackDetailsPage track={item.track} trigger={<Button content={item.track.name} title='Show track details' className='link' style={{background:'none', textAlign:'left'}} size='medium'/>}/></Table.Cell>
           <Table.Cell>{item.track.artists[0].name}</Table.Cell>
           <Table.Cell>{item.track.album.name}</Table.Cell>
-          {allTracks && <Table.Cell>{item.playlistName}</Table.Cell>}
+          {showPlaylistName && <Table.Cell>{item.playlistName}</Table.Cell>}
           <Table.Cell>{item.duplicate  && 'true'}</Table.Cell>
           <Table.Cell textAlign='center'>{actions.msToHMS(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
@@ -83,7 +82,7 @@ export const TrackList = (props) => {
   // </Table.Row>
 
   if (trackList && trackList.items) {
-    const isSortable = allTracks ? 'sortable' : '';
+    const isSortable = showPlaylistName ? 'sortable' : '';
     return (
       <Table compact='very' selectable className={isSortable} striped style={{marginTop:0}}>
         <Table.Header>{columnTitles()}</Table.Header>

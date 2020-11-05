@@ -22,14 +22,14 @@ export default class PlaylistsPage extends Component {
   }
 
   fetchTrackList(index) {
-    const playlistsItems=this.state.playlists.items;
+    const playlistsItems = this.state.playlists.items;
     const playlist = playlistsItems[index];
-    let listCombine  = {items: []};
-    let requestCount = {count: 1};
     this.setState({ fetchError: null, loadIndex: index });
     if (playlist.tracks.items !== null) {
       this.setState({ activeIndex: index, loadIndex: -1 });
     } else {
+      let   listCombine  = {items: []};
+      let   requestCount = {count: 1};
       if (index < (playlistsItems.length - 2)) {           // Specific playlist
         actions.getTracklist(this, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
       } else if (index === (playlistsItems.length - 2)) {  // LIKED TRACKS

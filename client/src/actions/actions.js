@@ -12,13 +12,13 @@ function flagDuplicates(tracklist) {
   }
 }
 
-export function getAllTracks(caller, playlistsItems, name, listCombine, requestCount) {
+export function getAllTracks(caller, playlistsItems, name, index, listCombine, requestCount) {
   // Load users playlists' tracks.
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
-    getTracklist(caller, playlist.tracks.href, playlist.name, playlistsItems.length - 1, listCombine, requestCount, true);
+    getTracklist(caller, playlist.tracks.href, playlist.name, index, listCombine, requestCount, true);
   }
-  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', playlistsItems.length - 1, listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
+  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
 }
 
 export function getCredentials(caller) {

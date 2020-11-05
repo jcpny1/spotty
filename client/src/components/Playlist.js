@@ -5,11 +5,12 @@ import {TrackList} from './TrackList';
 
 export const Playlist = (props) => {
   const {active, index, loading, onClick, onSort, playlist} = props;
+  const showPlaylistName = playlist.name === 'ALL TRACKS';
   const tList = playlist.tracks.items;
 
   function listButtons() {
     return (
-      <Table.Row key={index} draggable='true'>
+      <Table.Row key={index+3} draggable='true'>
         <Table.Cell width={1}>
           {playlist.images[0] && <Image src={playlist.images[0].url} size='small' />}
         </Table.Cell>
@@ -67,7 +68,7 @@ export const Playlist = (props) => {
               {playlist.images[0] && listButtons()}
             </Table.Body>
           </Table>
-        <TrackList trackList={playlist.tracks} playlistName={playlist.name} onSort={onSort} />
+        <TrackList trackList={playlist.tracks} showPlaylistName={showPlaylistName} onSort={onSort} />
         </Accordion.Content>
       );
     } else {
