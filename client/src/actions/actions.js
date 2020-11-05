@@ -195,10 +195,10 @@ export function sortTrackList(data, sortColumnName) {
 
   const columnData1 = _.get(data.items[0], data.sortColumnName);
 
-  if (typeof columnData1 === 'string') {
-    return sortTrackListString(data);
-  } else if (sortColumnName === 'track.preview_url') {
+  if (sortColumnName === 'track.preview_url') {
     return sortTrackListNull(data);
+  } else if (typeof columnData1 === 'string') {
+    return sortTrackListString(data);
   } else {
     return sortTrackListNumber(data);
   }
@@ -215,13 +215,13 @@ function sortTrackListNull(data, sortColumnName) {
       if (!columnData1) {
         return !columnData2 ? 0 : -1;
       } else {
-        return columnData2 ? 1 : 0;
+        return columnData2 ? 0 : 1
       }
     } else {
-      if (!columnData2) {
-        return !columnData1 ? 0 : -1;
+      if (!columnData1) {
+        return !columnData2 ? 0 : 1;
       } else {
-        return !columnData1 ? 1 : 0;
+        return columnData2 ? 0 : -1;
       }
     }
   });
@@ -237,13 +237,25 @@ function sortTrackListNumber(data, sortColumnName) {
     const columnData2 = _.get(item2, data.sortColumnName);
 
     if (data.sortDirection === 'a') {
-      if (columnData1 < columnData2) {return -1;}
-      if (columnData1 > columnData2) {return  1;}
-      return 0;
+      if (!columnData1) {
+        return !columnData2 ? 0 : -1;
+      } else if (!columnData2) {
+        return 1;
+      } else {
+        if (columnData1 < columnData2) {return -1;}
+        if (columnData1 > columnData2) {return  1;}
+        return 0;
+      }
     } else {
-      if (columnData1 < columnData2) {return  1;}
-      if (columnData1 > columnData2) {return -1;}
-      return 0;
+      if (!columnData1) {
+        return !columnData2 ? 0 : 1;
+      } else if (!columnData2) {
+        return -1;
+      } else {
+        if (columnData1 < columnData2) {return  1;}
+        if (columnData1 > columnData2) {return -1;}
+        return 0;
+      }
     }
   });
 
