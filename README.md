@@ -8,11 +8,14 @@
 
 ## Overview
 
-The Spotty App is a tool to manage your Spotify playlists. Currently it is display-only. It also assists in finding duplicate tracks amongst your various playlists.
+The Spotty App is a tool to manage your Spotify playlists. (Currently, it is display-only.)
+
+Spotty can identify duplicate tracks across playlists.
+
+Spotty was developed using Express 4.17.1, React 17.0.1, and semantic-ui-react 2.0.0.
 
 #![Portfolio Analyzer Positions Page](https://github.com/jcpny1/portfolio-analyzer/blob/master/Screenshot-2017-11-13%20PortfolioAnalyzer.png?raw=true "Portfolio Analyzer Positions Page")
 
-It uses an Express back end and a Node.js front end. It uses Semantic-UI-React for widgets and styling.
 
 ## History
 ```
@@ -22,18 +25,18 @@ It uses an Express back end and a Node.js front end. It uses Semantic-UI-React f
 
 ## Installation
 
-Spotty was developed using Express 4.17.1, React 17.0.1, and semantic-ui-react 2.0.0.
-
 ### Initialize the project
-* Clone the [Spotty](https://github.com/jcpny1/spotty).
+* Clone the [Spotty](https://github.com/jcpny1/spotty) repository.
 * `cd spotty`.
 * `npm install`
 * `cd client`
-* `npm install`  (the default responses are ok)
+* `npm install`
 
-### Setup the data provider keys
-To connect to the Spotify API service, you will need to setup a .env in the project home directory. This file is to contain Spotty's Spotify client id and client secret (in REACT_APP_CLIENT_ID and REACT_APP_CLIENT_SECRET, respectively).
-You will need to create the same .env in the client directory, containing only the REACT_APP_CLIENT_ID, not the secret.
+### Setup the Spotify keys
+To connect to the Spotify API service, you will need to setup a .env in the project home directory containing a Spotify client id and client secret (in REACT_APP_CLIENT_ID and REACT_APP_CLIENT_SECRET, respectively).
+
+You will need to create the same .env in the client directory, containing only the REACT_APP_CLIENT_ID, but not the client secret.
+
 For a Heroku installation, create these two environment variables in the Heroku dashboard. Do not commit the secret to a repository. Also, set NODE_ENV to production.
 
 ## Usage
@@ -59,4 +62,3 @@ This project is intended to be a safe, welcoming space for collaboration, and co
 ## License
 
 The application is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

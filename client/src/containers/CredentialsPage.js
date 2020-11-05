@@ -23,7 +23,7 @@ export default class CredentialsPage extends Component {
     if (data) {
       return (
         <Modal trigger={trigger} closeIcon='close'>
-          <Modal.Header><Header content='Credentials' icon='info circle' size='small'/></Modal.Header>
+          <Modal.Header><Header content='Credentials' icon='info circle' size='large'/></Modal.Header>
           <Modal.Content><Credentials accessToken={accessToken} profile_data={data}/></Modal.Content>
           <Modal.Actions></Modal.Actions>
         </Modal>
