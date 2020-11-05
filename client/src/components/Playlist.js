@@ -8,7 +8,6 @@ export const Playlist = (props) => {
   const tList = playlist.tracks.items;
 
   function listButtons() {
-// fixup index numbers, they're not unique.
     return (
       <Table.Row key={index} draggable='true'>
         <Table.Cell width={1}>
@@ -51,7 +50,7 @@ export const Playlist = (props) => {
   function listTitle(name) {
     return (
       <Accordion.Title active={active} index={index} onClick={onClick}>
-        <Loader active={loading && active} inline />
+        <Loader active={loading} inline />
         <Icon name='dropdown' />{name}
       </Accordion.Title>
     );

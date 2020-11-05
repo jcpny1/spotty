@@ -16,9 +16,9 @@ export function getAllTracks(caller, playlistsItems, name, listCombine, requestC
   // Load users playlists' tracks.
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
-    getTracklist(caller, playlist.tracks.href, playlist.name, listCombine, requestCount, true);
+    getTracklist(caller, playlist.tracks.href, playlist.name, playlistsItems.length - 1, listCombine, requestCount, true);
   }
-  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
+  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', playlistsItems.length - 1, listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
 }
 
 export function getCredentials(caller) {
@@ -102,7 +102,7 @@ export function getTokens(caller, code, redirectUri) {
   });
 }
 
-export function getTracklist(caller, href, name, listCombine, requestCount, sort=false) {
+export function getTracklist(caller, href, name, index, listCombine, requestCount, sort=false) {
   caller.setState({ loading: true });
   fetch(href, {
     method:  'GET',
@@ -119,16 +119,16 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
       console.error(`getTracklist FAIL ${data.error.message}`);
       if (caller.state.fetchError === null) {
         alert(`Operation failed: ${data.error.message}`);
-        caller.setState({ playlists: caller.state.playlists, fetchError: data.error, loading: false });
+        caller.setState({ activeIndex: -1, playlists: caller.state.playlists, fetchError: data.error, loadIndex: -1, loading: false });
       }
-    } else if (caller.state.loadIndex === caller.state.activeIndex) {  // are we still servicing this request?
+    } else if (caller.state.loadIndex === index) {  // are we still servicing this request?
       for (let j = 0; j < data.items.length; ++j) {
         data.items[j].playlistName = name; // add playlist name as property to each item.
         listCombine.items.push(data.items[j]);
       }
 
       if (data.next !== null) {
-        getTracklist(caller, data.next, name, listCombine, requestCount, sort);
+        getTracklist(caller, data.next, name, index, listCombine, requestCount, sort);
       } else {
         requestCount.count = requestCount.count - 1;
         if (requestCount.count === 0) {
@@ -140,7 +140,7 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
           tracks.items = listCombine.items;
           tracks.sortColumnName = listCombine.sortColumnName;
           tracks.sortDirection  = listCombine.sortDirection;
-          caller.setState({ playlists: caller.state.playlists, loading: false });
+          caller.setState({ activeIndex: index, playlists: caller.state.playlists, loadIndex: -1, loading: false });
         }
       }
     }
@@ -154,7 +154,7 @@ export function getTracklist(caller, href, name, listCombine, requestCount, sort
     console.error(`getTracklist FAIL ${error}`);
     if (caller.state.fetchError === null) {
       alert(error.message);
-      caller.setState({ playlists: caller.state.playlists, fetchError: error, loading: false });
+      caller.setState({ activeIndex: -1, playlists: caller.state.playlists, fetchError: error, loadIndex: -1, loading: false });
     }
   })
 }

@@ -27,20 +27,16 @@ export default class PlaylistsPage extends Component {
     let listCombine  = {items: []};
     let requestCount = {count: 1};
     this.setState({ fetchError: null, loadIndex: index });
-    if (index >= 0) {
+    if (playlist.tracks.items !== null) {
+      this.setState({ activeIndex: index, loadIndex: -1 });
+    } else {
       if (index < (playlistsItems.length - 2)) {           // Specific playlist
-        if (playlist.tracks.items === null) {
-          actions.getTracklist(this, playlist.tracks.href, playlist.name, listCombine, requestCount);
-        }
+        actions.getTracklist(this, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
       } else if (index === (playlistsItems.length - 2)) {  // LIKED TRACKS
-        if (playlist.tracks.items === null) {
-          actions.getTracklist(this, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', listCombine, requestCount);
-        }
+        actions.getTracklist(this, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount);
       } else if (index === (playlistsItems.length - 1)) {  // ALL TRACKS
-        if (playlist.tracks.items === null) {
-          requestCount.count = playlistsItems.length - 1;
-          actions.getAllTracks(this, playlistsItems, 'ALL TRACKS', listCombine, requestCount);
-        }
+        requestCount.count = playlistsItems.length - 1;
+        actions.getAllTracks(this, playlistsItems, 'ALL TRACKS', index, listCombine, requestCount);
       }
     }
   }
@@ -55,9 +51,10 @@ export default class PlaylistsPage extends Component {
   handleClick = (e, playlistProps) => {
     const {active, index} = playlistProps;
     const newIndex = active ? -1 : index;
-    this.setState({ activeIndex: newIndex });
     if (newIndex >= 0) {
       this.fetchTrackList(newIndex);
+    } else {
+      this.setState({ activeIndex: -1 });
     }
   }
 
@@ -67,13 +64,13 @@ export default class PlaylistsPage extends Component {
   }
 
   render() {
-    const {activeIndex, loading, playlists} = this.state;
+    const {activeIndex, loading, loadIndex, playlists} = this.state;
     const {accessToken} = this.props;
     if (playlists) {
       return (
         <>
           <Button basic color='green' style={{marginBottom:'15px'}} caller={this} content='Refresh Data' title='Reload playlist data' size='small' onClick={this.refreshPlaylists} />
-          <Playlists accessToken={accessToken} activeIndex={activeIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
+          <Playlists accessToken={accessToken} activeIndex={activeIndex} loadIndex={loadIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} loading={loading} />
         </>
       );
     } else {
