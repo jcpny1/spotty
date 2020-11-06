@@ -59,7 +59,7 @@ class App extends Component {
     return (
       <>
         <Grid.Row>
-            <Image src={logo} className='App-logo' alt='logo' />
+          <Image src={logo} className='App-logo' alt='logo' />
         </Grid.Row>
 
         <Grid.Row>
