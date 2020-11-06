@@ -2,7 +2,7 @@
 
 [![GitHub version](https://badge.fury.io/gh/jcpny1%2Fspotty.svg)](https://badge.fury.io/gh/jcpny1%2Fspotty)
 [![Build Status](https://travis-ci.org/jcpny1/spotty.svg?branch=master)](https://travis-ci.org/jcpny1/spotty)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/2cf719fe5cd39a8faf59/test_coverage)](https://codeclimate.com/github/jcpny1/spotty/test_coverage)
+[![Coverage Status](https://coveralls.io/repos/github/jcpny1/spotty/badge.svg?branch=master)](https://coveralls.io/github/jcpny1/spotty?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2cf719fe5cd39a8faf59/maintainability)](https://codeclimate.com/github/jcpny1/spotty/maintainability)
 [![Inline docs](http://inch-ci.org/github/jcpny1/spotty.svg)](http://inch-ci.org/github/jcpny1/spotty)
 

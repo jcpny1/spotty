@@ -9,6 +9,7 @@
 .pnp.js
 
 # testing
+.coveralls.yml
 /coverage
 /client/coverage
 
