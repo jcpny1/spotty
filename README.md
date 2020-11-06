@@ -2,9 +2,9 @@
 
 [![GitHub version](https://badge.fury.io/gh/jcpny1%2Fspotty.svg)](https://badge.fury.io/gh/jcpny1%2Fspotty)
 [![Build Status](https://travis-ci.org/jcpny1/spotty.svg?branch=master)](https://travis-ci.org/jcpny1/spotty)
-#[![Test Coverage](https://api.codeclimate.com/v1/badges/7ca3b07d0b24fbcd472b/test_coverage)](https://codeclimate.com/github/jcpny1/portfolio-analyzer/test_coverage)
-#[![Maintainability](https://api.codeclimate.com/v1/badges/7ca3b07d0b24fbcd472b/maintainability)](https://codeclimate.com/github/jcpny1/portfolio-analyzer/maintainability)
-#[![Inline docs](http://inch-ci.org/github/jcpny1/portfolio-analyzer.svg)](http://inch-ci.org/github/jcpny1/portfolio-analyzer)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/2cf719fe5cd39a8faf59/test_coverage)](https://codeclimate.com/github/jcpny1/spotty/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2cf719fe5cd39a8faf59/maintainability)](https://codeclimate.com/github/jcpny1/spotty/maintainability)
+[![Inline docs](http://inch-ci.org/github/jcpny1/spotty.svg)](http://inch-ci.org/github/jcpny1/spotty)
 
 ## Overview
 
