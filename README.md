@@ -14,8 +14,7 @@ Spotty can identify duplicate tracks across playlists.
 
 Spotty was developed using Express 4.17.1, React 17.0.1, and semantic-ui-react 2.0.0.
 
-#![Portfolio Analyzer Positions Page](https://github.com/jcpny1/portfolio-analyzer/blob/master/Screenshot-2017-11-13%20PortfolioAnalyzer.png?raw=true "Portfolio Analyzer Positions Page")
-
+#![Portfolio Analyzer Positions Page](https://github.com/jcpny1/spotty/blob/master/Screenshot-2020-11-06.png?raw=true "Spotty Home Page")
 
 ## History
 ```
