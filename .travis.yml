@@ -1,11 +1,14 @@
 env:
 global:
   - CC_TEST_REPORTER_ID=95325b4141034c059f27f080ce9f4bb9ac4837204fe4fd73bb289060ed0c5b2a
-  - MOZ_HEADLESS=1
 language:
   - node_js
 node_js:
   - 12
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 install:
   - nvm install stable
   - npm install
@@ -16,3 +19,5 @@ script:
   - cd client
   - npm test
   - cd ..
+after_script:
+ - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
