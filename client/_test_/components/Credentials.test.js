@@ -16,13 +16,39 @@ import {Credentials}   from '../../src/components/Credentials';
 //
 // Enzyme.configure({ adapter: new Adapter() });
 
-
-
 it('renders Credentials', () => {
   const renderer = new ShallowRenderer();
-  const accessToken = '1234567890';
-  const data = {images: [{url:'xyz'}], external_urls: 'xxx'};
-  renderer.render(<Credentials accessToken={accessToken} profile_data={data}/>);
+  const accessToken = 'BQDflSswgxzzG4jEtrAkGHMgcL77G_kgj7A-nbWyo8dNY8cEk4RazkH85Q_PnhVZfphIYHg6CfI4whnXnXnPTiDKvXzTiFdqKzXC10ynQkcbh16rNCJeB21ncpu9PNMn0QprIwh6oOmcHYl6slfWBpmO4UQWofAs0PA20ZQzzxzW_rHNDArkYE9_y4aVHA';
+  const profile_data = {
+    "country": "US",
+    "display_name": "John Pfingst",
+    "email": "john@liboatpages.com",
+    "explicit_content": {
+      "filter_enabled": false,
+      "filter_locked": false
+    },
+    "external_urls": {
+      "spotify": "https://open.spotify.com/user/22ktibc2flnvkjz3nhv2dlhji"
+    },
+    "followers": {
+      "href": null,
+      "total": 1
+    },
+    "href": "https://api.spotify.com/v1/users/22ktibc2flnvkjz3nhv2dlhji",
+    "id": "22ktibc2flnvkjz3nhv2dlhji",
+    "images": [
+      {
+        "height": null,
+        "url": "https://i.scdn.co/image/ab6775700000ee85285a573a5b37a80df8e4a06f",
+        "width": null
+      }
+    ],
+    "product": "premium",
+    "type": "user",
+    "uri": "spotify:user:22ktibc2flnvkjz3nhv2dlhji"
+  };
+
+  renderer.render(<Credentials accessToken={accessToken} profile_data={profile_data}/>);
   const result = renderer.getRenderOutput();
 });
 
