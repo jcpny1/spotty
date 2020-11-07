@@ -27,18 +27,9 @@ plugins:
   rubocop:
     enabled: true
 exclude_patterns:
-- "client/src/semantic-ui/"
-- "client/semantic/"
+- "client/__mocks__/"
 - "client/_test_/"
-- "config/"
-- "coverage/"
-- "db/"
-- "dist/"
-- "features/"
+- "client/build/"
+- "**/coverage/"
 - "**/node_modules/"
-- "script/"
-- "**/spec/"
-- "**/test/"
-- "**/tests/"
-- "**/vendor/"
-- "**/*.d.ts"
+- "**/public/"
