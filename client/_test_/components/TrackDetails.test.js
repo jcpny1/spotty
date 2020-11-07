@@ -1,7 +1,7 @@
 import React           from 'react';
 import ShallowRenderer from 'react-test-renderer/shallow';
 import { shallow, mount, render } from 'enzyme';
-import {Credentials}   from '../../src/components/Credentials';
+import {TrackDetails}   from '../../src/components/TrackDetails';
 
 // const myDispatch = jest.fn();
 // const myMock     = jest.fn();
