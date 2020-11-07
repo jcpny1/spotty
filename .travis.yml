@@ -20,7 +20,3 @@ script:
   - npm test
   - ../cc-test-reporter format-coverage --output ../coverage/codeclimate.jest.json
   - cd ..
-after_script:
- - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
- - ./cc-test-reporter sum-coverage coverage/codeclimate.*.json
- - ./cc-test-reporter upload-coverage
