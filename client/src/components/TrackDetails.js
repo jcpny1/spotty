@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import * as actions from '../actions/actions';
+import * as utils from '../actions/utils';
 
 export const TrackDetails = (props) => {
   const {track} = props;
@@ -42,7 +42,7 @@ export const TrackDetails = (props) => {
           </Table.Row>
           <Table.Row>
             <Table.Cell>Duration</Table.Cell>
-            <Table.Cell>{actions.msToHMS(track.duration_ms)}</Table.Cell>
+            <Table.Cell>{utils.msToHMS(track.duration_ms)}</Table.Cell>
           </Table.Row>
           <Table.Row>
             <Table.Cell>Explicit</Table.Cell>

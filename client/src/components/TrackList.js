@@ -3,7 +3,7 @@ import {Button, Icon, Table} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import TrackDetailsPage from '../containers/TrackDetailsPage';
 // import {TrackMenu} from './TrackMenu';
-import * as actions from '../actions/actions';
+import * as utils from '../actions/utils';
 
 // const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
 const DATE_OPTIONS = { year: '2-digit', month: '2-digit', day: '2-digit' };
@@ -69,7 +69,7 @@ export const TrackList = (props) => {
           <Table.Cell>{item.track.album.name}</Table.Cell>
           {showPlaylistName && <Table.Cell>{item.playlistName}</Table.Cell>}
           <Table.Cell>{item.duplicate  && 'true'}</Table.Cell>
-          <Table.Cell textAlign='center'>{actions.msToHMS(item.track.duration_ms)}</Table.Cell>
+          <Table.Cell textAlign='center'>{utils.msToHMS(item.track.duration_ms)}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.popularity}</Table.Cell>
           <Table.Cell textAlign='center'>{item.track.preview_url && <a href={item.track.preview_url} target='_blank' rel='noopener noreferrer'><Icon name='play' title='Play' /></a>}</Table.Cell>
           <Table.Cell textAlign='center'>{addDate}</Table.Cell>

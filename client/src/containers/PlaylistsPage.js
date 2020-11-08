@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Playlists} from '../components/Playlists';
 import {Button} from 'semantic-ui-react';
 import * as actions from '../actions/actions';
+import * as utils from '../actions/utils';
 
 export default class PlaylistsPage extends Component {
   constructor() {
@@ -43,7 +44,7 @@ export default class PlaylistsPage extends Component {
   // Sort ActiveTrackList in place.
   sortActiveTrackList = (columnName) => {
     const atl = this.state.playlists.items[this.state.activeIndex];
-    actions.sortTrackList(atl.tracks, columnName);
+    utils.sortTrackList(atl.tracks, columnName);
     this.setState({ playlists: this.state.playlists });
   }
 
