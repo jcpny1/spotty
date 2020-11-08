@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 // Mark tracklist duplicates.
 export function flagDuplicates(tracklist) {
   // Group tracks by track id.
@@ -41,73 +43,33 @@ export function sortTrackList(data, sortColumnName) {
 // clean this up a bit.
 function sortTrackListNull(data, sortColumnName) {
   data.items = data.items.sort(function (item1, item2) {
-    const columnData1 = _.get(item1, data.sortColumnName);
-    const columnData2 = _.get(item2, data.sortColumnName);
-
-    if (data.sortDirection === 'a') {
-      if (!columnData1) {
-        return !columnData2 ? 0 : -1;
-      } else {
-        return columnData2 ? 0 : 1
-      }
-    } else {
-      if (!columnData1) {
-        return !columnData2 ? 0 : 1;
-      } else {
-        return columnData2 ? 0 : -1;
-      }
-    }
+    const columnData1 = (data.sortDirection === 'a') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
+    const columnData2 = (data.sortDirection === 'a') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
+    if (!columnData1) {return !columnData2 ? 0 : -1;}
+    return columnData2 ? 0 : 1
   });
-
-  return;
 }
 
 // make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
 // clean this up a bit.
 function sortTrackListNumber(data, sortColumnName) {
   data.items = data.items.sort(function (item1, item2) {
-    const columnData1 = _.get(item1, data.sortColumnName);
-    const columnData2 = _.get(item2, data.sortColumnName);
-
-    if (data.sortDirection === 'a') {
-      if (!columnData1) {
-        return !columnData2 ? 0 : -1;
-      } else if (!columnData2) {
-        return 1;
-      } else {
-        if (columnData1 < columnData2) {return -1;}
-        if (columnData1 > columnData2) {return  1;}
-        return 0;
-      }
-    } else {
-      if (!columnData1) {
-        return !columnData2 ? 0 : 1;
-      } else if (!columnData2) {
-        return -1;
-      } else {
-        if (columnData1 < columnData2) {return  1;}
-        if (columnData1 > columnData2) {return -1;}
-        return 0;
-      }
-    }
+    const columnData1 = (data.sortDirection === 'a') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
+    const columnData2 = (data.sortDirection === 'a') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
+    if (!columnData1) {return !columnData2 ? 0 : -1;}
+    if (!columnData2) {return 1;}
+    if (columnData1 < columnData2) {return -1;}
+    if (columnData1 > columnData2) {return  1;}
+    return 0;
   });
-
-  return;
 }
 
 // make specific, because columnName could be same, but table could be different. OR maybe store data in table instead of state.
 // clean this up a bit.
 function sortTrackListString(data) {
   data.items = data.items.sort(function (item1, item2) {
-    const columnData1 = _.get(item1, data.sortColumnName);
-    const columnData2 = _.get(item2, data.sortColumnName);
-
-    if (data.sortDirection === 'a') {
-      return columnData1.localeCompare(columnData2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
-    } else {
-      return columnData2.localeCompare(columnData1, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
-    }
+    const columnData1 = (data.sortDirection === 'a') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
+    const columnData2 = (data.sortDirection === 'a') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
+    return columnData1.localeCompare(columnData2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
   });
-
-  return;
 }

@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import * as utils from './utils';
 
 export function getAllTracks(caller, playlistsItems, name, index, listCombine, requestCount) {
