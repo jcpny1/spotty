@@ -9,7 +9,6 @@ var logger        = require('morgan');
 var dotenv        = require('dotenv').config();
 
 var indexRouter   = require('./routes/index');
-var apiRouter     = require('./routes/api');
 
 var client_id     = process.env.REACT_APP_CLIENT_ID;
 var client_secret = process.env.REACT_APP_CLIENT_SECRET;
@@ -28,7 +27,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use('/',    indexRouter);
-app.use('/api', apiRouter);
 
 app.post('/get_tokens', function(req, res) {
   const code = req.body.code;
