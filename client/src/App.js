@@ -63,7 +63,7 @@ class App extends Component {
         </Grid.Row>
 
         <Grid.Row>
-          {!accessToken && <Button as='a' href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=code&show_dialog=false`} content='Login' title='Connect to Spotify' inverted size='medium' />}
+          {!accessToken && <Button as='a' href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=code&show_dialog=true`} content='Login' title='Connect to Spotify' inverted size='medium' />}
         </Grid.Row>
 
         <Grid.Row>
