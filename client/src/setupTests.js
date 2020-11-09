@@ -5,4 +5,6 @@
 
 // import '@testing-library/jest-dom';
 
-global.fetch = require('jest-fetch-mock')
+// global.fetch = require('jest-fetch-mock')
+
+require('jest-fetch-mock').enableMocks()

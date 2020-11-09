@@ -13,6 +13,10 @@ import * as actions from '../../src/actions/actions';
 //
 // Enzyme.configure({ adapter: new Adapter() });
 
+beforeEach(() => {
+  fetchMock.doMock()
+})
+
 it('fetches All Tracks', () => {
   const state = {
     activeIndex:  null,   // index into playlists.items
