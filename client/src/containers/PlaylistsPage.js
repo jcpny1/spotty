@@ -13,12 +13,11 @@ export default class PlaylistsPage extends Component {
       fetchError:   null,
       loadIndex:    null,
       playlists:    null,
-      requestCount: null,
     };
   }
 
   componentDidMount() {
-    actions.getPlaylists(this);
+    actions.getPlaylists(this, this.props.accessToken);
   }
 
   fetchTrackList(index) {
@@ -28,15 +27,16 @@ export default class PlaylistsPage extends Component {
     if (playlist.tracks.items !== null) {
       this.setState({ activeIndex: index, loadIndex: -1 });
     } else {
-      let   listCombine  = {items: []};
-      let   requestCount = {count: 1};
+      const listCombine   = {items: []};
+      const requestCount  = {count: 1};
+      const {accessToken} = this.props;
       if (index < (playlistsItems.length - 2)) {           // Specific playlist
-        actions.getTracklist(this, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
+        actions.getTracklist(this, accessToken, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
       } else if (index === (playlistsItems.length - 2)) {  // LIKED TRACKS
-        actions.getTracklist(this, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount);
+        actions.getTracklist(this, accessToken, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount);
       } else if (index === (playlistsItems.length - 1)) {  // ALL TRACKS
         requestCount.count = playlistsItems.length - 1;
-        actions.getAllTracks(this, playlistsItems, 'ALL TRACKS', index, listCombine, requestCount);
+        actions.getAllTracks(this, accessToken, playlistsItems, 'ALL TRACKS', index, listCombine, requestCount);
       }
     }
   }
@@ -60,7 +60,7 @@ export default class PlaylistsPage extends Component {
 
   refreshPlaylists(event, data) {
     data.caller.setState({ activeIndex: null });
-    actions.getPlaylists(data.caller);
+    actions.getPlaylists(data.caller, this.props.accessToken);
   }
 
   render() {

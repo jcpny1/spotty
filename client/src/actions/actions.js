@@ -1,18 +1,18 @@
 import * as utils from './utils';
 
-export function getAllTracks(caller, playlistsItems, name, index, listCombine, requestCount) {
+export function getAllTracks(caller, accessToken, playlistsItems, name, index, listCombine, requestCount) {
   // Load users playlists' tracks.
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
-    getTracklist(caller, playlist.tracks.href, playlist.name, index, listCombine, requestCount, true);
+    getTracklist(caller, accessToken, playlist.tracks.href, playlist.name, index, listCombine, requestCount, true);
   }
-  getTracklist(caller, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
+  getTracklist(caller, accessToken, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
 }
 
-export function getCredentials(caller) {
+export function getCredentials(caller, accessToken) {
   fetch('https://api.spotify.com/v1/me', {
     method:  'GET',
-    headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
+    headers: { 'Authorization': `Bearer ${accessToken}` }
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -26,10 +26,10 @@ export function getCredentials(caller) {
   });
 }
 
-export function getPlaylists(caller) {
+export function getPlaylists(caller, accessToken) {
   fetch('https://api.spotify.com/v1/me/playlists', {
     method:  'GET',
-    headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
+    headers: { 'Authorization': `Bearer ${accessToken}` }
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -86,10 +86,10 @@ export function getTokens(caller, code, redirectUri) {
   });
 }
 
-export function getTracklist(caller, href, name, index, listCombine, requestCount, sort=false) {
+export function getTracklist(caller, accessToken, href, name, index, listCombine, requestCount, sort=false) {
   fetch(href, {
     method:  'GET',
-    headers: { 'Authorization': `Bearer ${caller.props.accessToken}` }
+    headers: { 'Authorization': `Bearer ${accessToken}` }
   })
   .then(statusCheck)
   .then(response => response.json())
@@ -111,7 +111,7 @@ export function getTracklist(caller, href, name, index, listCombine, requestCoun
       }
 
       if (data.next !== null) {
-        getTracklist(caller, data.next, name, index, listCombine, requestCount, sort);
+        getTracklist(caller, accessToken, data.next, name, index, listCombine, requestCount, sort);
       } else {
         requestCount.count = requestCount.count - 1;
         if (requestCount.count === 0) {
