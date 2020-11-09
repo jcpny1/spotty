@@ -1,3 +1,5 @@
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
 import * as actions from '../../src/actions/actions';
 
 // const myDispatch = jest.fn();
@@ -14,10 +16,12 @@ import * as actions from '../../src/actions/actions';
 // Enzyme.configure({ adapter: new Adapter() });
 
 beforeEach(() => {
-  fetchMock.doMock()
+  fetchMock.resetMocks();
 })
 
 it('fetches All Tracks', () => {
+  fetch.mockResponse(JSON.stringify({data: '12345'}));
+
   const state = {
     activeIndex:  null,   // index into playlists.items
     fetchError:   null,
