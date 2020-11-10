@@ -621,7 +621,9 @@ it('fetches All Tracks', () => {
   };
 
   const playlistsItems = state.playlists.items;
-  const index = playlistsItems.length - 1;
+  // const index = playlistsItems.length - 1;
+  const index = 1;
+  const playlist = playlistsItems[index];
   const requestCount = {count: playlistsItems.length - 1};
   const listCombine  = {items: []};
 
@@ -630,5 +632,6 @@ it('fetches All Tracks', () => {
   };
 
 
-  actions.getAllTracks(this, props.accessToken, playlistsItems, 'ALL TRACKS', index, listCombine, requestCount);
+  actions.getTracklist(this, accessToken, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
+  // actions.getAllTracks(this, props.accessToken, playlistsItems, 'ALL TRACKS', index, listCombine, requestCount);
 });
