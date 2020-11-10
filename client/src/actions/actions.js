@@ -20,7 +20,6 @@ export function getCredentials(caller, accessToken) {
       caller.setState({data: data});
     })
   .catch(error => {
-    console.error(`getCredentials FAIL ${error}`);
     alert(error.message);
     caller.setState({ data: null, fetchError: error });
   });
@@ -56,7 +55,6 @@ export function getPlaylists(caller, accessToken) {
     caller.setState({ playlists: data });
   })
   .catch(error => {
-    console.error(`getPlaylists FAIL ${error}`);
     alert(error.message);
     caller.setState({ playlists: null, fetchError: error });
   });
@@ -80,7 +78,6 @@ export function getTokens(caller, code, redirectUri) {
     tokens && caller.setState({ accessToken: tokens.access_token, refreshToken: tokens.refresh_token, expiresIn: tokens.expires_in });
   })
   .catch(error => {
-    console.error(`getTokens FAIL ${error}`);
     alert(error.message);
     caller.setState({ accessToken: null, refreshToken: null, expiresIn: null, fetchError: error });
   });
@@ -136,7 +133,6 @@ export function getTracklist(caller, accessToken, state, href, name, index, list
     if (tracks.items && tracks.items.length === 0) {
       tracks.items = null;
     }
-    console.error(`getTracklist FAIL ${error}`);
     if (state.fetchError === null) {
       alert(error.message);
     }
@@ -156,7 +152,6 @@ export function refreshToken(caller, refresh_token) {
     alert('Token refreshed');
   })
   .catch(error => {
-    console.error(`refreshToken FAIL ${error}`);
     alert(error.message);
     caller.setState({ accessToken: null, fetchError: error, tokenLoading: false });
   });
