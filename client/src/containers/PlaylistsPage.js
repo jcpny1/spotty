@@ -31,12 +31,12 @@ export default class PlaylistsPage extends Component {
       const requestCount  = {count: 1};
       const {accessToken} = this.props;
       if (index < (playlistsItems.length - 2)) {           // Specific playlist
-        actions.getTracklist(this, accessToken, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
+        actions.getTracklist(this, accessToken, this.state, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
       } else if (index === (playlistsItems.length - 2)) {  // LIKED TRACKS
-        actions.getTracklist(this, accessToken, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount);
+        actions.getTracklist(this, accessToken, this.state, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount);
       } else if (index === (playlistsItems.length - 1)) {  // ALL TRACKS
         requestCount.count = playlistsItems.length - 1;
-        actions.getAllTracks(this, accessToken, playlistsItems, 'ALL TRACKS', index, listCombine, requestCount);
+        actions.getAllTracks(this, accessToken, this.state, playlistsItems, 'ALL TRACKS', index, listCombine, requestCount);
       }
     }
   }

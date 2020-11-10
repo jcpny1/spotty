@@ -626,12 +626,8 @@ it('fetches All Tracks', () => {
   const playlist = playlistsItems[index];
   const requestCount = {count: playlistsItems.length - 1};
   const listCombine  = {items: []};
+  const accessToken = 'BQDWwA5GKF6qRuc8LZY96zPN0HIbqxWKcrqgYwapA0kyq8QJ0xzCTrqjpDW23kSS3I7hLM7CVSsZvFbpRUggYl_Ra-Cgqq7oCN3UE4FIQAY6kxesPnBnsB2U5Sf1_FksCa5t81SGQyM8uAsxCj2a3lMGv1cwlcc_27Wpj12WDdkUQB2eg2UinUixZi4dag';
 
-  const props = {
-    accessToken: 'BQDWwA5GKF6qRuc8LZY96zPN0HIbqxWKcrqgYwapA0kyq8QJ0xzCTrqjpDW23kSS3I7hLM7CVSsZvFbpRUggYl_Ra-Cgqq7oCN3UE4FIQAY6kxesPnBnsB2U5Sf1_FksCa5t81SGQyM8uAsxCj2a3lMGv1cwlcc_27Wpj12WDdkUQB2eg2UinUixZi4dag',
-  };
-
-
-  actions.getTracklist(this, accessToken, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
+  actions.getTracklist(this, accessToken, state, playlist.tracks.href, playlist.name, index, listCombine, requestCount);
   // actions.getAllTracks(this, props.accessToken, playlistsItems, 'ALL TRACKS', index, listCombine, requestCount);
 });

@@ -4,9 +4,9 @@ export function getAllTracks(caller, accessToken, playlistsItems, name, index, l
   // Load users playlists' tracks.
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
-    getTracklist(caller, accessToken, playlist.tracks.href, playlist.name, index, listCombine, requestCount, true);
+    getTracklist(caller, accessToken, state, playlist.tracks.href, playlist.name, index, listCombine, requestCount, true);
   }
-  getTracklist(caller, accessToken, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
+  getTracklist(caller, accessToken, state, 'https://api.spotify.com/v1/me/tracks?limit=50', 'LIKED', index, listCombine, requestCount, true);  // Add liked list, which does't show up in user's playlists.
 }
 
 export function getCredentials(caller, accessToken) {
@@ -86,7 +86,7 @@ export function getTokens(caller, code, redirectUri) {
   });
 }
 
-export function getTracklist(caller, accessToken, href, name, index, listCombine, requestCount, sort=false) {
+export function getTracklist(caller, accessToken, state, href, name, index, listCombine, requestCount, sort=false) {
   fetch(href, {
     method:  'GET',
     headers: { 'Authorization': `Bearer ${accessToken}` }
@@ -95,23 +95,23 @@ export function getTracklist(caller, accessToken, href, name, index, listCombine
   .then(response => response.json())
   .then(data => {
     if (data.error) {
-      let tracks = caller.state.playlists.items[caller.state.loadIndex].tracks;
+      let tracks = state.playlists.items[state.loadIndex].tracks;
       if (tracks.items && tracks.items.length === 0) {
         tracks.items = null;
       }
       console.error(`getTracklist FAIL ${data.error.message}`);
-      if (caller.state.fetchError === null) {
+      if (state.fetchError === null) {
         alert(`Operation failed: ${data.error.message}`);
-        caller.setState({ activeIndex: -1, playlists: caller.state.playlists, fetchError: data.error, loadIndex: -1 });
+        caller.setState({ activeIndex: -1, playlists: state.playlists, fetchError: data.error, loadIndex: -1 });
       }
-    } else if (caller.state.loadIndex === index) {  // are we still servicing this request?
+    } else if (state.loadIndex === index) {  // are we still servicing this request?
       for (let j = 0; j < data.items.length; ++j) {
         data.items[j].playlistName = name; // add playlist name as property to each item.
         listCombine.items.push(data.items[j]);
       }
 
       if (data.next !== null) {
-        getTracklist(caller, accessToken, data.next, name, index, listCombine, requestCount, sort);
+        getTracklist(caller, accessToken, state, data.next, name, index, listCombine, requestCount, sort);
       } else {
         requestCount.count = requestCount.count - 1;
         if (requestCount.count === 0) {
@@ -119,25 +119,25 @@ export function getTracklist(caller, accessToken, href, name, index, listCombine
 
           sort && utils.sortTrackList(listCombine, 'track.name');
 
-          let tracks = caller.state.playlists.items[caller.state.loadIndex].tracks;
+          let tracks = state.playlists.items[state.loadIndex].tracks;
           tracks.items = listCombine.items;
           tracks.sortColumnName = listCombine.sortColumnName;
           tracks.sortDirection  = listCombine.sortDirection;
-          caller.setState({ activeIndex: index, playlists: caller.state.playlists, loadIndex: -1 });
+          caller.setState({ activeIndex: index, playlists: state.playlists, loadIndex: -1 });
         }
       }
     }
   })
   .catch(error => {
 // we zero out atl here, but what about other successfull calls?
-    let tracks = caller.state.playlists.items[caller.state.loadIndex].tracks;
+    let tracks = state.playlists.items[state.loadIndex].tracks;
     if (tracks.items && tracks.items.length === 0) {
       tracks.items = null;
     }
     console.error(`getTracklist FAIL ${error}`);
-    if (caller.state.fetchError === null) {
+    if (state.fetchError === null) {
       alert(error.message);
-      caller.setState({ activeIndex: -1, playlists: caller.state.playlists, fetchError: error, loadIndex: -1 });
+      caller.setState({ activeIndex: -1, playlists: state.playlists, fetchError: error, loadIndex: -1 });
     }
   })
 }
