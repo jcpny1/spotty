@@ -1,6 +1,6 @@
 import * as utils from './utils';
 
-export function getAllTracks(caller, accessToken, playlistsItems, name, index, listCombine, requestCount) {
+export function getAllTracks(caller, accessToken, state, playlistsItems, name, index, listCombine, requestCount) {
   // Load users playlists' tracks.
   for (let i = 0; i < (playlistsItems.length - 2); ++i) {
     const playlist = playlistsItems[i];
@@ -95,19 +95,21 @@ export function getTracklist(caller, accessToken, state, href, name, index, list
   .then(response => response.json())
   .then(data => {
     if (data.error) {
-      let tracks = state.playlists.items[state.loadIndex].tracks;
+      let tracks = state.playlists.items[index].tracks;
       if (tracks.items && tracks.items.length === 0) {
         tracks.items = null;
       }
       console.error(`getTracklist FAIL ${data.error.message}`);
       if (state.fetchError === null) {
         alert(`Operation failed: ${data.error.message}`);
-        caller.setState({ activeIndex: -1, playlists: state.playlists, fetchError: data.error, loadIndex: -1 });
+        caller.setState({ playlists: state.playlists, fetchError: data.error, loading: false });
       }
-    } else if (state.loadIndex === index) {  // are we still servicing this request?
-      for (let j = 0; j < data.items.length; ++j) {
-        data.items[j].playlistName = name; // add playlist name as property to each item.
-        listCombine.items.push(data.items[j]);
+    } else  {
+      if (data.items) {
+        for (let j = 0; j < data.items.length; ++j) {
+          data.items[j].playlistName = name;   // add playlist name as property to each item.
+          listCombine.items.push(data.items[j]);
+        }
       }
 
       if (data.next !== null) {
@@ -119,26 +121,26 @@ export function getTracklist(caller, accessToken, state, href, name, index, list
 
           sort && utils.sortTrackList(listCombine, 'track.name');
 
-          let tracks = state.playlists.items[state.loadIndex].tracks;
+          let tracks = state.playlists.items[index].tracks;
           tracks.items = listCombine.items;
           tracks.sortColumnName = listCombine.sortColumnName;
           tracks.sortDirection  = listCombine.sortDirection;
-          caller.setState({ activeIndex: index, playlists: state.playlists, loadIndex: -1 });
+          caller.setState({ playlists: state.playlists, loading: false });
         }
       }
     }
   })
   .catch(error => {
 // we zero out atl here, but what about other successfull calls?
-    let tracks = state.playlists.items[state.loadIndex].tracks;
+    let tracks = state.playlists.items[index].tracks;
     if (tracks.items && tracks.items.length === 0) {
       tracks.items = null;
     }
     console.error(`getTracklist FAIL ${error}`);
     if (state.fetchError === null) {
       alert(error.message);
-      caller.setState({ activeIndex: -1, playlists: state.playlists, fetchError: error, loadIndex: -1 });
     }
+    caller.setState({ playlists: state.playlists, fetchError: error, loading: false });
   })
 }
 

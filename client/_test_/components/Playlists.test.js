@@ -19,8 +19,8 @@ import {Playlists}     from '../../src/components/Playlists';
 it('renders Playlists', () => {
   const renderer = new ShallowRenderer();
   const accessToken = 'BQDWwA5GKF6qRuc8LZY96zPN0HIbqxWKcrqgYwapA0kyq8QJ0xzCTrqjpDW23kSS3I7hLM7CVSsZvFbpRUggYl_Ra-Cgqq7oCN3UE4FIQAY6kxesPnBnsB2U5Sf1_FksCa5t81SGQyM8uAsxCj2a3lMGv1cwlcc_27Wpj12WDdkUQB2eg2UinUixZi4dag';
-  const activeIndex = null;
-  const loadIndex   = null;
+  const activeIndex = -1;
+  const loading     = false;
   const handleClick = jest.fn();
   const sortActiveTrackList = jest.fn();
   const playlists = [
@@ -607,7 +607,7 @@ it('renders Playlists', () => {
   ];
 
   renderer.render(
-    <Playlists accessToken={accessToken} activeIndex={activeIndex} loadIndex={loadIndex} onClick={handleClick} onSort={sortActiveTrackList} playlists={playlists.items} />
+    <Playlists accessToken={accessToken} activeIndex={activeIndex} loading={loading} onClick={handleClick} onSort={sortActiveTrackList} playlists={playlists.items} />
   );
   const result = renderer.getRenderOutput();
 });

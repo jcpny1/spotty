@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 import {Playlist} from './Playlist';
 
 export const Playlists = (props) => {
-  const {accessToken, activeIndex, loadIndex, onClick, onSort, playlists} = props;
+  const {accessToken, activeIndex, loading, onClick, onSort, playlists} = props;
 
   function listPlaylists(playlists) {
     return playlists.map((playlist, index) => {
       const active = index === activeIndex;
-      const loading = index === loadIndex;
       return (
         <Playlist accessToken={accessToken} key={index} active={active} index={index} onClick={onClick} onSort={onSort} playlist={playlist} loading={loading} />
       );
@@ -29,7 +28,7 @@ export const Playlists = (props) => {
 Playlists.propTypes = {
   accessToken: PropTypes.string.isRequired,
   activeIndex: PropTypes.number,
-  loadIndex:   PropTypes.number,
+  loading:     PropTypes.bool.isRequired,
   onClick:     PropTypes.func.isRequired,
   onSort:      PropTypes.func.isRequired,
   playlists:   PropTypes.array,

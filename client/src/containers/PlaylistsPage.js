@@ -9,10 +9,10 @@ export default class PlaylistsPage extends Component {
   constructor() {
     super();
     this.state = {
-      activeIndex:  null,   // index into playlists.items
-      fetchError:   null,
-      loadIndex:    null,
-      playlists:    null,
+      activeIndex: -1,   // index into playlists.items
+      fetchError:  null,
+      loading:     false,
+      playlists:   null,
     };
   }
 
@@ -23,9 +23,9 @@ export default class PlaylistsPage extends Component {
   fetchTrackList(index) {
     const playlistsItems = this.state.playlists.items;
     const playlist = playlistsItems[index];
-    this.setState({ fetchError: null, loadIndex: index });
+    this.setState({ fetchError: null, loading: true });
     if (playlist.tracks.items !== null) {
-      this.setState({ activeIndex: index, loadIndex: -1 });
+      this.setState({ loading: false });
     } else {
       const listCombine   = {items: []};
       const requestCount  = {count: 1};
@@ -52,25 +52,26 @@ export default class PlaylistsPage extends Component {
     const {active, index} = playlistProps;
     const newIndex = active ? -1 : index;
     if (newIndex >= 0) {
+      this.setState({ activeIndex: newIndex, loading: true });
       this.fetchTrackList(newIndex);
     } else {
-      this.setState({ activeIndex: -1 });
+      this.setState({ activeIndex: -1, loading: false });
     }
   }
 
   refreshPlaylists(event, data) {
-    data.caller.setState({ activeIndex: null });
+    data.caller.setState({ activeIndex: -1 });
     actions.getPlaylists(data.caller, this.props.accessToken);
   }
 
   render() {
-    const {activeIndex, loadIndex, playlists} = this.state;
+    const {activeIndex, loading, playlists} = this.state;
     const {accessToken} = this.props;
     if (playlists) {
       return (
         <>
           <Button basic color='green' style={{marginBottom:'15px'}} caller={this} content='Refresh Data' title='Reload playlist data' size='small' onClick={this.refreshPlaylists} />
-          <Playlists accessToken={accessToken} activeIndex={activeIndex} loadIndex={loadIndex} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} />
+          <Playlists accessToken={accessToken} activeIndex={activeIndex} loading={loading} onClick={this.handleClick} onSort={this.sortActiveTrackList} playlists={playlists.items} />
         </>
       );
     } else {

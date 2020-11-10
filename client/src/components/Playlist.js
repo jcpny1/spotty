@@ -51,7 +51,7 @@ export const Playlist = (props) => {
   function listTitle(name) {
     return (
       <Accordion.Title active={active} index={index} onClick={onClick}>
-        <Loader active={loading} inline />
+        <Loader active={active && loading} inline />
         <Icon name='dropdown' />{name}
       </Accordion.Title>
     );
