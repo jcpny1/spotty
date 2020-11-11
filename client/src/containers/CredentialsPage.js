@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Header, Modal} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import {Credentials} from '../components/Credentials';
-import * as actions from '../actions/actions';
+import * as utils from '../actions/utils';
 
 export default class CredentialsPage extends Component {
   constructor() {
@@ -14,7 +14,23 @@ export default class CredentialsPage extends Component {
   }
 
   componentDidMount() {
-    actions.getCredentials(this, this.props.accessToken);
+    this.getCredentials(this, this.props.accessToken);
+  }
+
+  getCredentials = (caller, accessToken) => {
+    fetch('https://api.spotify.com/v1/me', {
+      method:  'GET',
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    })
+    .then(utils.statusCheck)
+    .then(response => response.json())
+    .then(data => {
+        caller.setState({data: data});
+      })
+    .catch(error => {
+      alert(error.message);
+      caller.setState({ data: null, fetchError: error });
+    });
   }
 
   render() {

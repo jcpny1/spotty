@@ -73,3 +73,18 @@ function sortTrackListString(data) {
     return columnData1.localeCompare(columnData2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
   });
 }
+
+// Check a fetch response status.
+export function statusCheck(response) {
+  if (response.status === 401) {
+    return response;
+  }
+  if (response.status < 200 || response.status >= 300) {
+    const error = new Error(`HTTP Error ${response.statusText}`);
+    error.status = response.status;
+    error.response = response;
+    console.error(error);
+    throw error;
+  }
+  return response;
+}
