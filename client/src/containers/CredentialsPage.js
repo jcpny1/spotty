@@ -14,22 +14,18 @@ export default class CredentialsPage extends Component {
   }
 
   componentDidMount() {
-    this.getCredentials(this, this.props.accessToken);
-  }
-
-  getCredentials = (caller, accessToken) => {
     fetch('https://api.spotify.com/v1/me', {
       method:  'GET',
-      headers: { 'Authorization': `Bearer ${accessToken}` }
+      headers: { 'Authorization': `Bearer ${this.props.accessToken}` }
     })
     .then(utils.statusCheck)
     .then(response => response.json())
     .then(data => {
-        caller.setState({data: data});
-      })
+      this.setState({data: data});
+    })
     .catch(error => {
       alert(error.message);
-      caller.setState({ data: null, fetchError: error });
+      this.setState({ data: null, fetchError: error });
     });
   }
 
