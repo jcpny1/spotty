@@ -10,8 +10,6 @@ import App from '../src/App';
 Enzyme.configure({ adapter: new Adapter() });
 
 it('renders Home page', () => {
-  const renderer = new ShallowRenderer();
-  renderer.render (
-    <App />
-  );
+  const wrapper = shallow(<App />);
+  wrapper.find('#login').simulate('click');
 });
