@@ -32,28 +32,28 @@ export const TrackList = (props) => {
     if (showPlaylistName) {
       return (
         <Table.Row>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('track.name')}>Title</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('track.artists[0].name')}>Artist</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('track.album.name')}>Album</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('playlistName')}>Playlist</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('duplicate')}>Duplicate</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' onClick={() => onSort('added_at')}          textAlign='center'>Added</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'track.name'            ? tracks.sortDirection : null} onClick={() => onSort('track.name')}                          >Title</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'track.artists[0].name' ? tracks.sortDirection : null} onClick={() => onSort('track.artists[0].name')}               >Artist</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'track.album.name'      ? tracks.sortDirection : null} onClick={() => onSort('track.album.name')}                    >Album</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'playlistName'          ? tracks.sortDirection : null} onClick={() => onSort('playlistName')}                        >Playlist</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'duplicate'             ? tracks.sortDirection : null} onClick={() => onSort('duplicate')}                           >Duplicate</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'track.duration_ms'     ? tracks.sortDirection : null} onClick={() => onSort('track.duration_ms')} textAlign='center'>Duration</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'track.popularity'      ? tracks.sortDirection : null} onClick={() => onSort('track.popularity')}  textAlign='center'>Popularity</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'track.preview_url'     ? tracks.sortDirection : null} onClick={() => onSort('track.preview_url')} textAlign='center'>Preview</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' sorted={tracks.sortColumnName === 'added_at'        ? tracks.sortDirection : null} onClick={() => onSort('added_at')}          textAlign='center'>Added</Table.HeaderCell>
         </Table.Row>
       );
     } else {
       return (
         <Table.Row>
-          <Table.HeaderCell className='sticky'>Title</Table.HeaderCell>
-          <Table.HeaderCell className='sticky'>Artist</Table.HeaderCell>
-          <Table.HeaderCell className='sticky'>Album</Table.HeaderCell>
-          <Table.HeaderCell className='sticky'>Duplicate</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' textAlign='center'>Duration</Table.HeaderCell>
+          <Table.HeaderCell className='sticky'                   >Title<     /Table.HeaderCell>
+          <Table.HeaderCell className='sticky'                   >Artist<    /Table.HeaderCell>
+          <Table.HeaderCell className='sticky'                   >Album<     /Table.HeaderCell>
+          <Table.HeaderCell className='sticky'                   >Duplicate< /Table.HeaderCell>
+          <Table.HeaderCell className='sticky' textAlign='center'>Duration<  /Table.HeaderCell>
           <Table.HeaderCell className='sticky' textAlign='center'>Popularity</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' textAlign='center'>Preview</Table.HeaderCell>
-          <Table.HeaderCell className='sticky' textAlign='center'>Added</Table.HeaderCell>
+          <Table.HeaderCell className='sticky' textAlign='center'>Preview<   /Table.HeaderCell>
+          <Table.HeaderCell className='sticky' textAlign='center'>Added<     /Table.HeaderCell>
         </Table.Row>
       );
     }

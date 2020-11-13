@@ -20,9 +20,9 @@ export function msToHMS(ms) {
 }
 
 export function sortTrackList(data, sortColumnName) {
-  let sortDirection = 'a';
-  if ((data.sortColumnName === sortColumnName) && (data.sortDirection === 'a')) {
-    sortDirection = 'd';
+  let sortDirection = 'ascending';
+  if ((data.sortColumnName === sortColumnName) && (data.sortDirection === 'ascending')) {
+    sortDirection = 'descending';
   }
 
   data.sortColumnName = sortColumnName;
@@ -43,8 +43,8 @@ export function sortTrackList(data, sortColumnName) {
 // clean this up a bit.
 function sortTrackListNull(data, sortColumnName) {
   data.items = data.items.sort(function (item1, item2) {
-    const columnData1 = (data.sortDirection === 'a') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
-    const columnData2 = (data.sortDirection === 'a') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
+    const columnData1 = (data.sortDirection === 'ascending') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
+    const columnData2 = (data.sortDirection === 'ascending') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
     if (!columnData1) {return !columnData2 ? 0 : -1;}
     return columnData2 ? 0 : 1
   });
@@ -54,8 +54,8 @@ function sortTrackListNull(data, sortColumnName) {
 // clean this up a bit.
 function sortTrackListNumber(data, sortColumnName) {
   data.items = data.items.sort(function (item1, item2) {
-    const columnData1 = (data.sortDirection === 'a') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
-    const columnData2 = (data.sortDirection === 'a') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
+    const columnData1 = (data.sortDirection === 'ascending') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
+    const columnData2 = (data.sortDirection === 'ascending') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
     if (!columnData1) {return !columnData2 ? 0 : -1;}
     if (!columnData2) {return 1;}
     if (columnData1 < columnData2) {return -1;}
@@ -68,8 +68,8 @@ function sortTrackListNumber(data, sortColumnName) {
 // clean this up a bit.
 function sortTrackListString(data) {
   data.items = data.items.sort(function (item1, item2) {
-    const columnData1 = (data.sortDirection === 'a') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
-    const columnData2 = (data.sortDirection === 'a') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
+    const columnData1 = (data.sortDirection === 'ascending') ? _.get(item1, data.sortColumnName) : _.get(item2, data.sortColumnName);
+    const columnData2 = (data.sortDirection === 'ascending') ? _.get(item2, data.sortColumnName) : _.get(item1, data.sortColumnName);
     return columnData1.localeCompare(columnData2, 'en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
   });
 }
