@@ -5,6 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/jcpny1/spotty/badge.svg?branch=master)](https://coveralls.io/github/jcpny1/spotty?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2cf719fe5cd39a8faf59/maintainability)](https://codeclimate.com/github/jcpny1/spotty/maintainability)
 [![Inline docs](http://inch-ci.org/github/jcpny1/spotty.svg)](http://inch-ci.org/github/jcpny1/spotty)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/00dbafbcb50c427693f4ec7126a011dc)](https://app.codacy.com/gh/jcpny1/spotty?utm_source=github.com&utm_medium=referral&utm_content=jcpny1/spotty&utm_campaign=Badge_Grade)
 
 ## Overview
 
