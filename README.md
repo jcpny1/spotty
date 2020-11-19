@@ -32,9 +32,9 @@ Spotty was developed using Express 4.17.1, React 17.0.1, and semantic-ui-react 2
 * `npm install`
 
 ### Setup the Spotify keys
-To connect to the Spotify API service, you will need to setup a .env in the project home directory containing a Spotify client id and client secret (in REACT_APP_CLIENT_ID and REACT_APP_CLIENT_SECRET, respectively).
+To connect to the Spotify API service, you will need to setup a .env in the project home directory containing a Spotify client id and client secret (REACT_APP_CLIENT_ID and REACT_APP_CLIENT_SECRET, respectively).
 
-You will need to create the same .env in the client directory, containing only the REACT_APP_CLIENT_ID, but not the client secret.
+You will need to create the same .env in the client directory, containing only the REACT_APP_CLIENT_ID (but not the client secret).
 
 For a Heroku installation, create these two environment variables in the Heroku dashboard. Do not commit the secret to a repository. Also, set NODE_ENV to production.
 
