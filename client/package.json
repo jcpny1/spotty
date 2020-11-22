@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "1.0.0",
+  "description": "Access your Spotify playlists.",
   "private": true,
   "proxy": "http://localhost:3001",
   "dependencies": {
@@ -12,9 +13,9 @@
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
-    "semantic-ui-react": "^2.0.0",
     "semantic-ui-css": "^2.4.1",
-    "web-vitals": "^0.2.4"
+    "semantic-ui-react": "^2.0.1",
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,12 +43,12 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.12.7",
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
     "@babel/plugin-transform-object-assign": "^7.12.1",
     "@babel/plugin-transform-react-jsx": "7.12.5",
-    "@babel/preset-env": "^7.12.1",
-    "@babel/preset-react": "^7.12.5",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
     "babel-jest": "^26.6.3",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
@@ -59,6 +60,6 @@
     "jshint": "^2.12.0",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^17.0.1",
-    "standard": "^16.0.1"
+    "standard": "^16.0.3"
   }
 }

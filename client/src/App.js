@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
-import {Button, Grid, Image} from 'semantic-ui-react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Button, Grid, Image } from 'semantic-ui-react';
 import CredentialsPage from './containers/CredentialsPage';
 import PlaylistsPage   from './containers/PlaylistsPage';
 import * as utils from './actions/utils';
@@ -64,9 +64,6 @@ class App extends Component {
 
         <Grid.Row>
           {!accessToken && <Button as='a' id='login' href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=code&show_dialog=true`} content='Login' title='Connect to Spotify' inverted size='medium' />}
-        </Grid.Row>
-
-        <Grid.Row>
           {accessToken && <CredentialsPage accessToken={accessToken} trigger={<Button id='credentials' style={{marginBottom:'15px'}} content='Credentials'  title='Display Spotify connection data' inverted size='medium' />} />}
           {accessToken && <Button id='refreshToken' refresh_token={refreshToken} caller={this} content='New Token' title='Get a new Spotify access token' inverted size='medium' onClick={this.refreshSpotifyToken} loading={tokenLoading} />}
         </Grid.Row>
