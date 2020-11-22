@@ -5,6 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/jcpny1/spotty/badge.svg?branch=master)](https://coveralls.io/github/jcpny1/spotty?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2cf719fe5cd39a8faf59/maintainability)](https://codeclimate.com/github/jcpny1/spotty/maintainability)
 [![Inline docs](http://inch-ci.org/github/jcpny1/spotty.svg)](http://inch-ci.org/github/jcpny1/spotty)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/00dbafbcb50c427693f4ec7126a011dc)](https://app.codacy.com/gh/jcpny1/spotty?utm_source=github.com&utm_medium=referral&utm_content=jcpny1/spotty&utm_campaign=Badge_Grade)
 
 ## Overview
 
@@ -33,9 +34,9 @@ Spotty was developed using Express 4.17.1, React 17.0.1, and semantic-ui-react 2
 * `npm install`
 
 ### Setup the Spotify keys
-To connect to the Spotify API service, you will need to setup a .env in the project home directory containing a Spotify client id and client secret (in REACT_APP_CLIENT_ID and REACT_APP_CLIENT_SECRET, respectively).
+To connect to the Spotify API service, you will need to setup a .env in the project home directory containing a Spotify client id and client secret (REACT_APP_CLIENT_ID and REACT_APP_CLIENT_SECRET, respectively).
 
-You will need to create the same .env in the client directory, containing only the REACT_APP_CLIENT_ID, but not the client secret.
+You will need to create the same .env in the client directory, containing only the REACT_APP_CLIENT_ID (but not the client secret).
 
 For a Heroku installation, create these two environment variables in the Heroku dashboard. Do not commit the secret to a repository. Also, set NODE_ENV to production.
 
