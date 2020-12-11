@@ -19,6 +19,7 @@ Spotty was developed using Express 4.17.1, React 17.0.1, and semantic-ui-react 2
 
 ## History
 ```
+10-Dec-20  1.0.1  Updated Heroku stack to 20.
 21-Nov-20  1.0.1  Updated a few packages.
 03-Nov-20  1.0.0  Initial release.
 15-Sep-20  0.0.1  Initial code upload.
