@@ -80,8 +80,8 @@ class App extends Component {
     .then(utils.statusCheck)
     .then(response => {
       // for some reason, if we refresh after a code has been obtained, we get back html, not tokens.
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.indexOf("application/json") !== -1) {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.indexOf('application/json') !== -1) {
         return response.json();
       }
     })
